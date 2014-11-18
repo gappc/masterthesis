@@ -1,0 +1,4 @@
+public interface TaskFuture<T> {
+	public T get() throws TaskException;
+	public boolean isDone();
+}

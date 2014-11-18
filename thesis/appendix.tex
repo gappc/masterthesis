@@ -1,0 +1,115 @@
+\appendix
+\addappheadtotoc
+
+\chapter{}
+
+\section{JSON Schema for Biohadoops configuration file}
+\lstinputlisting[caption=JSON Schema \cite{json-schema} for the Biohadoop configuration file,label=lst:json-schema]{../listings/appendix-configuration-schema.lst}
+
+\section{Example algorithm: Sum}
+\lstinputlisting[caption=Source code for the example \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-full]{../listings/appendix-sum-full.lst}
+
+\section{Example algorithm: Sum - AsyncComputable}
+\lstinputlisting[caption=Source code for the \texttt{AsyncSumComputation} part of the \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-async]{../listings/appendix-sum-async.lst}
+
+\section{Biohadoop quickstart}
+\label{chap:appendix:biohadoop-quickstart}
+The quickstart uses the pre-configured Hadoop environment, that can be found in appendix \ref{chap:appendix:biohadoop-docker}. This environment is installed during the following steps. In addition, some example algorithms are installed, that can be found at \cite{biohadoop-algorithms}. 
+
+The requirements for this quickstart are Docker $\geq 1.0$, Maven with MVN\_HOME set to the correct path and an installed gnome-terminal (provided by default in Ubuntu). The quickstart takes usage of some scripts, all of them are provided by the used sources.
+
+\subsection{Build and start the Hadoop environment}
+The first step is to build and start a Hadoop environment with one master and two slave nodes. The master node is started inside a red gnome-terminal window, at the end it prints the password for the root user:
+
+\begin{lstlisting}[language=bash]
+git clone https://github.com/gappc/docker-biohadoop.git
+sudo docker build -t="docker-biohadoop" ./docker-biohadoop
+chmod +x ./docker-biohadoop/scripts/*.sh
+./docker-biohadoop/scripts/docker-run-hadoop.sh 2
+\end{lstlisting}
+
+\subsection{Build Biohadoop and copy it to the Hadoop environment}
+The second step is to build and copy Biohadoop to the Hadoop environment:
+
+\begin{lstlisting}[language=bash]
+git clone https://github.com/gappc/biohadoop.git
+chmod +x ./biohadoop/scripts/*.sh
+./biohadoop/scripts/copy-files.sh
+\end{lstlisting}
+
+\subsection{Build example algorithms and copy them to the Hadoop environment}
+The third step is to build and copy the example algorithms to the Hadoop environment:
+
+\begin{lstlisting}[language=bash]
+git clone https://github.com/gappc/biohadoop-algorithms.git
+chmod +x ./biohadoop-algorithms/scripts/*.sh
+./biohadoop-algorithms/scripts/copy-algorithms.sh
+\end{lstlisting}
+
+\subsection{Run Biohadoop in the Hadoop environment}
+To run the Echo example in Hadoop , the following command must be issued in the red terminal - if there is no red terminal, please check \cite{biohadoop-docker}. This example assumes that the jar \texttt{biohadoop-0.3.0-SNAPSHOT.jar} is used:
+
+\begin{lstlisting}[language=bash]
+yarn jar /tmp/lib/biohadoop-0.3.0-SNAPSHOT.jar at.ac.uibk.dps.biohadoop.hadoop.BiohadoopClient /biohadoop/conf/biohadoop-echo.json
+\end{lstlisting}
+
+Other examples of Biohadoop programs can be found at \cite{biohadoop-algorithms}. You can use them to try out Biohadoop and as a template for your own experiments. Good luck and have fun :)
+
+\section{Pre-build Hadoop environment using Docker}
+\label{chap:appendix:biohadoop-docker}
+This section provides a way to run a pre-configured Haddop environment using Docker \cite{docker}. Docker uses its so called Dockerfiles for its configuration. The here presented solution installs Apache Hadoop 2.5.0, Apache Oozie 4.0.1 and Apache ZooKeeper 3.4.6 as a cluster environment. The solution is based on \texttt{sequenceiq/hadoop-docker} \cite{docker-sequenceiq}.
+
+\subsection{Build the Hadoop environment}
+The following commands are used to clone the repository to the current local directory and to build the Docker image. Be aware, that only during the cloning process about 400MB of data is transferred. This is due to Oozie, which is delivered in a compiled form.
+\begin{lstlisting}[language=bash]
+git clone https://github.com/gappc/docker-biohadoop.git
+cd docker-biohadoop
+sudo docker build -t="docker-biohadoop" .
+\end{lstlisting}
+
+The project docker-biohadoop provides two scripts, located in the scripts directory, that can be used to start and stop docker-biohadoop instances. Those scripts need to be executable:
+
+\begin{lstlisting}[language=bash]
+chmod +x scripts/*.sh
+\end{lstlisting}
+
+\subsection{Run Hadoop}
+After that, we are able to start Hadoop instances by using the first script: \texttt{docker-run-hadoop.sh}. This script starts a number of Hadoop instances. It takes the number of slaves (nr-of-slaves) as argument. The script starts one Docker container as Hadoop master and additional nr-of-slaves Docker containers as Hadoop slaves. For example, one Hadoop master instance and two slaves are started by the following command:
+
+\begin{lstlisting}[language=bash]
+scripts/docker-run-hadoop.sh 2
+\end{lstlisting}
+
+Note that also the master is used for computational purposes. Therefor, Hadoop has 3 machines for computation with the settings above.
+
+After invoking \texttt{docker-run-hadoop.sh}, a gnome-terminal is started for every Docker container. The master containers terminal has a red color, the slaves terminals are yellow. The master container starts the Hadoop environment, which may take some time (depending on the hardware and the number of slaves). After this initialization, the Hadoop cluster is ready for usage. Try to invoke the command \texttt{jps} on all running containers to look if Hadoop is running:
+
+\begin{lstlisting}[language=bash]
+jps
+\end{lstlisting}
+
+On the master node, it should output:
+\begin{itemize}
+  \item DataNode
+  \item JobHistoryServer
+  \item NodeManager
+  \item NameNode
+  \item QuorumPeerMain
+  \item ResourceManager
+  \item SecondaryNameNode
+\end{itemize}
+
+On the slave nodes it should output:
+\begin{itemize}
+  \item DataNode
+  \item NodeManager
+\end{itemize}
+
+\subsection{Stopping Hadoop}
+By using the following command, all running Docker containers are forcefully stopped and their interfaces are removed from the host. It is no problem to forcefully stop Docker containers, as they don't keep any state by default.
+\begin{lstlisting}[language=bash]
+scripts/docker-stop-all.sh
+\end{lstlisting}
+
+\subsection{SSH access}
+The master node is accessible with user root, a password is generated on each startup and printed on the terminal. Consider adding your SSH key to the Dockerfile if you are going to use docker-biohadoop often.

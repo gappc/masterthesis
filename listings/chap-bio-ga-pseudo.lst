@@ -1,0 +1,9 @@
+P <- generate initial population
+evaluate(P); //assign fitness to all the solutions
+while !(terminationCriteria()) do
+P' <- recombine(P);
+P'' <- mutate(P');
+evaluate(P'');
+P <- select(P,P'');
+end
+return best solution found so far

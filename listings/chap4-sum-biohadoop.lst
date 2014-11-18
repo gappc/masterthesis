@@ -1,0 +1,14 @@
+public class Example implements Algorithm {
+	public void compute(SolverId solverId, Map<String, String> properties) throws AlgorithmException {
+		int[] numbers = new int[]{0,2,3};
+		int sum = sum(numbers);
+	}
+
+	private int sum(int[] numbers) {
+		int sum = 0;
+		for (int number : numbers) {
+			sum += number;
+		}
+		return sum;
+	}
+}

@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="communication-flow.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path4143"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 596.99976,1093.3624 99.000232,1151.362"
+       id="path3886-5-02"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 596.99976,1093.3624 99.000232,1151.362"
+       id="path3886-5-08"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 596.99976,1093.3624 99.000232,1151.362"
+       id="path3886-5-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 99.000232,1193.3624 596.99976,1251.362"
+       id="path3886-4"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 99.000232,1193.3624 596.99976,1251.362"
+       id="path3886-8"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 99.000232,1193.3624 596.99976,1251.362"
+       id="path3886-8-6"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 99.000232,1193.3624 596.99976,1251.362"
+       id="path3886-8-8"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 596.99976,1093.3624 99.000232,1151.362"
+       id="path3886-5-08-1"
+       inkscape:connector-curvature="0" />
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4143-0"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6282"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6284"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.24748737"
+     inkscape:cx="63.63097"
+     inkscape:cy="-509.22407"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1213"
+     inkscape:window-height="672"
+     inkscape:window-x="275"
+     inkscape:window-y="141"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect6535"
+       width="1060.7421"
+       height="1148.0531"
+       x="-166.95168"
+       y="923.0675"
+       inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+    <g
+       id="g7924"
+       inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120">
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text2985"
+         y="982.7821"
+         x="98.525391"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="982.7821"
+           x="98.525391"
+           id="tspan2987"
+           sodipodi:role="line">Master</tspan><tspan
+           id="tspan2989"
+           y="1032.7821"
+           x="98.525391"
+           sodipodi:role="line">Endpoint</tspan></text>
+      <rect
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         y="942.82458"
+         x="0.9986676"
+         height="108.5389"
+         width="198.00267"
+         id="rect2995"
+         style="fill:#000000;stroke:#000000;stroke-width:1.99733519999999998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:0.01960784" />
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text2985-9"
+         y="1012.2743"
+         x="599.35547"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           id="tspan2989-2"
+           y="1012.2743"
+           x="599.35547"
+           sodipodi:role="line">Worker</tspan></text>
+      <rect
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         y="943.09406"
+         x="500.73187"
+         height="108.53624"
+         width="198.53624"
+         id="rect2995-7"
+         style="fill:#000000;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:0.01960784" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886"
+         d="M 99.000232,1193.3624 596.99976,1251.362"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886-5"
+         d="M 600.99976,1093.3624 103.00023,1151.362"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886-5-0"
+         d="M 600.99976,1293.3624 103.00023,1351.362"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886-7"
+         d="M 99.000232,1393.3624 596.99975,1451.362"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886-5-0-7"
+         d="M 600.99975,1493.3624 103.00023,1551.362"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886-7-2"
+         d="M 99.000232,1593.3624 596.99975,1651.362"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)" />
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="matrix(-1,0,0,-1,807.36278,2221.8816)"
+         sodipodi:linespacing="125%"
+         id="text3984"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           id="textPath3992"
+           xlink:href="#path3886-5"><tspan
+   id="tspan3986"
+   style="font-size:28px">registration request</tspan></textPath></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="matrix(-1,0,0,-1,828.20045,2419.1949)"
+         sodipodi:linespacing="125%"
+         id="text3984-8"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           id="textPath3992-8"
+           xlink:href="#path3886-5-02"><tspan
+   id="tspan3986-9"
+   style="font-size:28px">work init request</tspan></textPath></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="matrix(-1,0,0,-1,854.62728,2616.1171)"
+         sodipodi:linespacing="125%"
+         id="text3984-7"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           id="textPath3992-0"
+           xlink:href="#path3886-5-08"><tspan
+   id="tspan3986-8"
+   style="font-size:28px">work request</tspan></textPath></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="translate(99.655611,1.417816)"
+         sodipodi:linespacing="125%"
+         id="text3984-0"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           id="textPath4063"
+           xlink:href="#path3886"><tspan
+   id="tspan3986-2"
+   style="font-size:28px">registration response</tspan></textPath></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="translate(120.5146,203.5493)"
+         sodipodi:linespacing="125%"
+         id="text3984-0-5"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           id="textPath4063-5"
+           xlink:href="#path3886-4"><tspan
+   id="tspan3986-2-2"
+   style="font-size:28px">work init response</tspan></textPath></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="translate(146.94145,406.62712)"
+         sodipodi:linespacing="125%"
+         id="text3984-0-7"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           id="textPath4063-2"
+           xlink:href="#path3886-8"><tspan
+   id="tspan3986-2-0"
+   style="font-size:28px">work response</tspan></textPath></text>
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886-7-2-1"
+         d="m 99.000232,1892.6541 497.999518,57.9996"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:url(#Arrow1Lend)" />
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="translate(180.65658,712.09628)"
+         sodipodi:linespacing="125%"
+         id="text3984-0-7-7"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           style="font-size:28px"
+           id="textPath4063-2-1"
+           xlink:href="#path3886-8-6">shutdown</textPath></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6222"
+         y="1671.3823"
+         x="346.08386"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           y="1671.3823"
+           x="346.08386"
+           id="tspan6224"
+           sodipodi:role="line">.</tspan><tspan
+           style="font-size:28px"
+           id="tspan6226"
+           y="1706.3823"
+           x="346.08386"
+           sodipodi:role="line">.</tspan><tspan
+           style="font-size:28px"
+           id="tspan6228"
+           y="1741.3823"
+           x="346.08386"
+           sodipodi:role="line">.</tspan></text>
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6230"
+         d="m 100.00021,1053.3622 0,998"
+         style="fill:none;stroke:#000000;stroke-width:2.00000095;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6230-1"
+         d="m 600,1053.3622 0,998"
+         style="fill:none;stroke:#000000;stroke-width:2.00000095;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path3886-5-0-7-1"
+         d="m 600.99975,1792.6541 -497.99952,57.9996"
+         style="fill:none;stroke:#000000;stroke-width:2.00046468;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)" />
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         transform="matrix(-1,0,0,-1,854.62729,2915.4087)"
+         sodipodi:linespacing="125%"
+         id="text3984-7-2"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           id="textPath3992-0-2"
+           xlink:href="#path3886-5-08-1"><tspan
+   id="tspan3986-8-0"
+   style="font-size:28px">work request</tspan></textPath></text>
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6327"
+         d="m 600,1451.3622 22.85714,0 0,42.4366 -22.32145,0"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6327-7"
+         d="m 600.76253,1651.3743 21.33208,0 0,141.9879 -20.83213,0"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6365"
+         y="1479.4984"
+         x="648.45508"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           y="1479.4984"
+           x="648.45508"
+           id="tspan6367"
+           sodipodi:role="line">compute</tspan></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6365-4"
+         y="1729.2863"
+         x="648.45508"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           y="1729.2863"
+           x="648.45508"
+           id="tspan6367-4"
+           sodipodi:role="line">compute</tspan></text>
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6327-3"
+         d="m 600,1251.4296 22.85714,0 0,42.4366 -22.32145,0"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6365-9"
+         y="1283.0867"
+         x="762.88867"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           id="tspan6429"
+           y="1283.0867"
+           x="762.88867"
+           sodipodi:role="line">store initial data</tspan></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6365-9-5"
+         y="1180.0868"
+         x="-47.479633"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           id="tspan6429-7"
+           y="1180.0868"
+           x="-47.479633"
+           sodipodi:role="line">get initial data</tspan></text>
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6327-3-7"
+         d="m 99.857136,1151.1439 -22.857136,0 0,42.4366 22.321446,0"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6327-3-7-9"
+         d="m 99.857136,1351.3256 -22.857136,0 0,42.4366 22.321446,0"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6327-3-7-9-3"
+         d="m 99.857136,1551.2709 -22.857136,0 0,42.4366 22.321446,0"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6365-9-5-1"
+         y="1362.7686"
+         x="-42.885883"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           id="tspan6429-7-6"
+           y="1362.7686"
+           x="-42.885883"
+           sodipodi:role="line">get work data</tspan><tspan
+           style="font-size:28px"
+           id="tspan7838"
+           y="1397.7686"
+           x="-42.885883"
+           sodipodi:role="line">from queue</tspan></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6365-9-5-1-6"
+         y="1562.7139"
+         x="-42.885883"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           id="tspan6429-7-6-2"
+           y="1562.7139"
+           x="-42.885883"
+           sodipodi:role="line">get work data</tspan><tspan
+           style="font-size:28px"
+           id="tspan7838-7"
+           y="1597.7139"
+           x="-42.885883"
+           sodipodi:role="line">from queue</tspan></text>
+      <text
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         sodipodi:linespacing="125%"
+         id="text6365-9-5-1-6-4"
+         y="1864.5824"
+         x="-41.422993"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:28px"
+           id="tspan7838-7-1"
+           y="1864.5824"
+           x="-41.422993"
+           sodipodi:role="line">got shutdown</tspan><tspan
+           id="tspan7904"
+           style="font-size:28px"
+           y="1899.5824"
+           x="-41.422993"
+           sodipodi:role="line">event</tspan></text>
+      <path
+         inkscape:export-ydpi="120"
+         inkscape:export-xdpi="120"
+         inkscape:export-filename="/sdb/studium/master-thesis/latex/images/communication-flow.png"
+         inkscape:connector-curvature="0"
+         id="path6327-3-7-9-3-7"
+         d="m 99.857136,1850.4256 -22.857136,0 0,42.4366 22.321446,0"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+</svg>

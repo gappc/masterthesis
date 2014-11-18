@@ -1,0 +1,1 @@
+public static void save(SolverId solverId, Map<String, String> properties, SolverData<?> solverData) throws FileSaveException;

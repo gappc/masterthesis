@@ -1,0 +1,3 @@
+public static TaskQueueService getInstance();
+public TaskQueue getTaskQueue(String name);
+public void stopAllTaskQueues();

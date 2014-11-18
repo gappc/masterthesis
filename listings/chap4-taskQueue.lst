@@ -1,0 +1,8 @@
+TaskFuture<S> add(T data, String asyncComputableClassName, R initialData) throws InterruptedException
+List<TaskFuture<S>> addAll(List<T> datas, String asyncComputableClassName, R initialData) throws InterruptedException
+List<TaskFuture<S>> addAll(T[] datas, String asyncComputableClassName, R initialData) throws InterruptedException
+Task<T> getTask() throws InterruptedException
+R getInitialData(TaskId taskId) throws TaskException
+void storeResult(TaskId taskId, S data)
+void reschedule(TaskId taskId) throws InterruptedException, TaskException
+void stopQueue()

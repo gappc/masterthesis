@@ -1,0 +1,98 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"title": "Biohadoop configuration schema",
+	"type": "object",
+	"properties": {
+		"communicationConfiguration": {
+			"description": "Configuration for adapters and workers, that are started by Biohadoop",
+			"type": "object",
+			"properties": {
+				"dedicatedAdapters": {
+					"description": "A list of adapters of dedicated pipelelines, that should be started by Biohadoop. The adapters of the default pipeline are started automatically  (pre-configured)",
+					"type": "array",		
+					"items": {
+						"type": "object",
+						"properties": {
+							"adapter": {
+								"description": "Canonical name of a class that implements the interface at.ac.uibk.dps.biohadoop.tasksystem.adapter.Adapter",
+								"type": "string"
+							},
+							"pipelineName": {
+								"description": "The name of the dedicated pipeline, this adapter belongs to",
+								"type": "string"
+							}
+						},
+						"required": ["adapter", "pipelineName"]	
+					}
+				},
+				"workerConfigurations": {
+					"description": "A list of workers, that should be started by Biohadoop",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"worker": {
+								"description": "Canonical name of a class that implements the interface at.ac.uibk.dps.biohadoop.tasksystem.worker.Worker",
+								"type": "string"
+							},
+							"pipelineName": {
+								"description": "The name of the dedicated pipeline, this worker belongs to",
+								"type": "string"
+							},
+							"count": {
+								"description": "Number of worker instances that should be launched",
+								"type": "integer"
+							}
+						},
+						"required": ["worker", "pipelineName", "count"]
+					}
+				}
+			},
+			"required": ["dedicatedAdapters", "workerConfigurations"]
+		},
+		"globalProperties": {
+			"description": "A map with String as key and value. Contains properties that are global to Biohadoop",
+			"type": "object",
+			"patternProperties": {
+				".": {
+					"type": "string"
+				}
+			}
+		},
+		"includePaths": {
+			"description": "The library paths to include when running on a Hadoop cluster",
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"solverConfigurations": {
+			"description": "Configuration information for algorithms, that Biohadoop should run",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"algorithm": {
+						"description": "Canonical name of a class that implements the interface at.ac.uibk.dps.biohadoop.algorithm.Algorithm",
+						"type": "string"
+					},
+					"name": {
+						"description": "Identification for the algorithm. Can be found e.g. in the log files",
+						"type": "string"
+					},
+					"properties": {
+						"description": "A map with String as key and value. Contains properties specific to this algorithm. This properties are passed as arguments to the algorithm.",
+						"type": "object",
+						"patternProperties": {
+							".": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"required": ["algorithm", "name", "properties"]
+			}
+		}
+	},
+	"required": ["communicationConfiguration", "globalProperties", "includePaths", "solverConfigurations"]
+}

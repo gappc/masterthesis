@@ -1,0 +1,1 @@
+public static SolverData<?> load(SolverId solverId, Map<String, String> properties) throws FileLoadException;

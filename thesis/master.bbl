@@ -1,0 +1,63 @@
+\begin{thebibliography}{10}
+
+\bibitem{zookeeper}
+Zookeeper.
+\newblock \url{http://zookeeper.apache.org/}.
+\newblock last access: 05.09.2014.
+
+\bibitem{biohadoop-algorithms}
+Biohadoop example algorithms.
+\newblock \url{https://github.com/gappc/biohadoop-algorithms}.
+\newblock last access: 21.08.2014.
+
+\bibitem{blumofe1999scheduling}
+Robert~D Blumofe and Charles~E Leiserson.
+\newblock Scheduling multithreaded computations by work stealing.
+\newblock {\em Journal of the ACM (JACM)}, 46(5):720--748, 1999.
+
+\bibitem{shore2004fail}
+Jim Shore.
+\newblock Fail fast [software debugging].
+\newblock {\em Software, IEEE}, 21(5):21--25, 2004.
+
+\bibitem{bioworker-browser}
+Example worker for biohadoop, written in javascript.
+\newblock \url{https://github.com/gappc/bioworker-browser}.
+\newblock last access: 22.09.2014.
+
+\bibitem{bioworker-python}
+Example worker for biohadoop, written in python.
+\newblock \url{https://github.com/gappc/bioworker-python}.
+\newblock last access: 22.09.2014.
+
+\bibitem{kryo}
+Kryo.
+\newblock \url{https://github.com/EsotericSoftware/kryo}.
+\newblock last access: 04.08.2014.
+
+\bibitem{kryonet}
+Kryonet.
+\newblock \url{https://github.com/EsotericSoftware/kryonet}.
+\newblock last access: 04.08.2014.
+
+\bibitem{json-schema}
+Json schema.
+\newblock \url{http://json-schema.org/}.
+\newblock last access: 28.07.2014.
+
+\bibitem{biohadoop-docker}
+Hadoop environment using docker.
+\newblock \url{https://github.com/gappc/docker-biohadoop}.
+\newblock last access: 11.09.2014.
+
+\bibitem{docker}
+Docker.
+\newblock \url{https://www.docker.com/}.
+\newblock last access: 11.09.2014.
+
+\bibitem{docker-sequenceiq}
+Docker.
+\newblock \url{https://index.docker.io/u/sequenceiq/hadoop-docker/}.
+\newblock last access: 03.06.2014.
+
+\end{thebibliography}

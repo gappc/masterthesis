@@ -1,0 +1,207 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{pgfplots}
+
+\begin{document}
+The objective was to find optimal tile sizes for the matrix multiplication, the tile sizes for dimension x and y were allowed to be different.
+
+The matrix size is 128x128 and the number of workers range from 1 to 18. This time the multiplication C = A * B was performed with matrix A in row format and matrix B in column format (better cache utilization) - in contrast to the tests of the last week. SBX was used for the crossover, ``parameter based mutation'' was used as mutation operator.
+
+For each parameter setting, the test was repeated 50 times to get more confidence in the results.
+
+\section{Population 50}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[]
+    \begin{axis}[
+	title={Time for GA to complete (iterations=1000, population=50, matrix=128x128)},
+	xlabel={Number of containers},
+	ylabel={Time in seconds},
+	width=\linewidth,
+	enlargelimits=false,
+	nodes near coords=\rotatebox{90}{\pgfmathprintnumber[]\value},
+	visualization depends on=rawy \as \value,
+	xmin=0,
+	xmax=19,
+	ymin=0,
+	ymax=180
+      ]
+      \addplot[ybar, bar width=8pt, blue, fill, fill opacity=0.5]
+      coordinates{(1,142.41692) (2,73.3701) (3,50.7134) (4,39.47686) (5,32.40048) (6,28.43836) (7,25.45766) (8,23.5593) (9,22.08228) (10,20.12404) (11,19.44024) (12,19.02386) (13,19.59172) (14,19.61892) (15,19.79174) (16,20.17862) (17,20.25264) (18,20.12062)};
+%       \addplot [red, no markers] coordinates {(0,0) (12,38.4)};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Find an optimal tile size for the tiled matrix multiplication. The x-axis shows the number of containers (workers), the y-axis shows the time it took to finish. iterations=1000, population=50, matrix size=128x128}
+\label{plot:tiledmul_1000_50_128x128}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[]
+    \begin{semilogyaxis}[
+	title={Time for GA to complete (iterations=1000, population=50, matrix=128x128)},
+	xlabel={Number of containers},
+	ylabel={Time in seconds},
+	width=\linewidth,
+	enlargelimits=false,
+% 	nodes near coords,
+	log ticks with fixed point,
+	nodes near coords=\rotatebox{90}{\pgfmathprintnumber[]\value},
+	visualization depends on=rawy \as \value,
+	xmin=0,
+	xmax=19,
+	ymin=0,
+	ymax=251
+      ]
+      \addplot[ybar, bar width=8pt, blue, fill, fill opacity=0.5]
+      coordinates{(1,142.41692) (2,73.3701) (3,50.7134) (4,39.47686) (5,32.40048) (6,28.43836) (7,25.45766) (8,23.5593) (9,22.08228) (10,20.12404) (11,19.44024) (12,19.02386) (13,19.59172) (14,19.61892) (15,19.79174) (16,20.17862) (17,20.25264) (18,20.12062)};
+    \end{semilogyaxis}
+  \end{tikzpicture}
+  \caption{Find an optimal tile size for the tiled matrix multiplication. The x-axis shows the number of containers (workers), the y-axis shows the time it took to finish on a logarithmic scale. iterations=1000, population=50, matrix size=128x128}
+  \label{plot:tiledmul_1000_50_128x128_log}
+\end{figure}
+
+The following tile sizes were obtained (over all tests):
+min\_x = 69, max\_x = 128, mean\_x = 127
+min\_y = 6, max\_y = 122, mean\_y = 19
+
+
+\section{Population 100}
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[]
+    \begin{axis}[
+	title={Time for GA to complete (iterations=1000, population=100, matrix=128x128)},
+	xlabel={Number of containers},
+	ylabel={Time in seconds},
+	width=\linewidth,
+	enlargelimits=false,
+	nodes near coords=\rotatebox{90}{\pgfmathprintnumber[]\value},
+	visualization depends on=rawy \as \value,
+	xmin=0,
+	xmax=19,
+	ymin=0,
+	ymax=330
+      ]
+      \addplot[ybar, bar width=8pt, blue, fill, fill opacity=0.5]
+      coordinates{(1,281.384215686) (2,142.179519231) (3,97.2028039216) (4,74.45642) (5,60.91278) (6,52.49378) (7,46.03182) (8,41.16142) (9,38.10728) (10,35.62182) (11,33.12934) (12,31.4689) (13,32.2214) (14,32.73556) (15,33.13768) (16,33.1849) (17,32.80716) (18,32.72124)};
+%       \addplot [red, no markers] coordinates {(0,0) (12,38.4)};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Find an optimal tile size for the tiled matrix multiplication. The x-axis shows the number of containers (workers), the y-axis shows the time it took to finish. iterations=1000, population=100, matrix size=128x128}
+\label{plot:tiledmul_1000_100_128x128}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[]
+    \begin{semilogyaxis}[
+	title={Time for GA to complete (iterations=1000, population=100, matrix=128x128)},
+	xlabel={Number of containers},
+	ylabel={Time in seconds},
+	width=\linewidth,
+	enlargelimits=false,
+% 	nodes near coords,
+	log ticks with fixed point,
+	nodes near coords=\rotatebox{90}{\pgfmathprintnumber[]\value},
+	visualization depends on=rawy \as \value,
+	xmin=0,
+	xmax=19,
+	ymin=0,
+	ymax=400
+      ]
+      \addplot[ybar, bar width=8pt, blue, fill, fill opacity=0.5]
+      coordinates{(1,281.384215686) (2,142.179519231) (3,97.2028039216) (4,74.45642) (5,60.91278) (6,52.49378) (7,46.03182) (8,41.16142) (9,38.10728) (10,35.62182) (11,33.12934) (12,31.4689) (13,32.2214) (14,32.73556) (15,33.13768) (16,33.1849) (17,32.80716) (18,32.72124)};
+    \end{semilogyaxis}
+  \end{tikzpicture}
+  \caption{Find an optimal tile size for the tiled matrix multiplication. The x-axis shows the number of containers (workers), the y-axis shows the time it took to finish on a logarithmic scale. iterations=1000, population=100, matrix size=128x128}
+  \label{plot:tiledmul_1000_100_128x128_log}
+\end{figure}
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|r|r}
+    & x & y \\ \hline
+    min & 128 & 5 \\
+    max & 128 & 128 \\
+    mean & 128.0 & 19.4601769912 \\
+    var & 0.0 & 121.854608818 \\
+    stddev & 0.0 & 11.0387775056 \\
+  \end{tabular}
+  \caption{Results for tile sizes}
+  \label{table:tiledmul_1000_100_128x128}
+\end{table}
+
+\section{Population 200}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[]
+    \begin{axis}[
+	title={Time for GA to complete (iterations=1000, population=200, matrix=128x128)},
+	xlabel={Number of containers},
+	ylabel={Time in seconds},
+	width=\linewidth,
+	enlargelimits=false,
+	nodes near coords=\rotatebox{90}{\pgfmathprintnumber[]\value},
+	visualization depends on=rawy \as \value,
+	xmin=0,
+	xmax=19,
+	ymin=0,
+	ymax=650
+      ]
+      \addplot[ybar, bar width=8pt, blue, fill, fill opacity=0.5]
+      coordinates{(1,559.241803922) (2,284.478117647) (3,191.86994) (4,145.866961538) (5,117.99764) (6,99.62942) (7,87.68198) (8,77.97484) (9,70.50712) (10,64.87274) (11,60.23614) (12,56.29868) (13,56.88716) (14,57.1284) (15,57.29426) (16,57.4755490196) (17,57.4018) (18,57.08912)};
+%       \addplot [red, no markers] coordinates {(0,0) (12,38.4)};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Find an optimal tile size for the tiled matrix multiplication. The x-axis shows the number of containers (workers), the y-axis shows the time it took to finish. iterations=1000, population=200, matrix size=128x128}
+\label{plot:tiledmul_1000_200_128x128}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[]
+    \begin{semilogyaxis}[
+	title={Time for GA to complete (iterations=1000, population=200, matrix=128x128)},
+	xlabel={Number of containers},
+	ylabel={Time in seconds},
+	width=\linewidth,
+	enlargelimits=false,
+% 	nodes near coords,
+	log ticks with fixed point,
+	nodes near coords=\rotatebox{90}{\pgfmathprintnumber[]\value},
+	visualization depends on=rawy \as \value,
+	xmin=0,
+	xmax=19,
+	ymin=0,
+	ymax=800
+      ]
+      \addplot[ybar, bar width=8pt, blue, fill, fill opacity=0.5]
+      coordinates{(1,559.241803922) (2,284.478117647) (3,191.86994) (4,145.866961538) (5,117.99764) (6,99.62942) (7,87.68198) (8,77.97484) (9,70.50712) (10,64.87274) (11,60.23614) (12,56.29868) (13,56.88716) (14,57.1284) (15,57.29426) (16,57.4755490196) (17,57.4018) (18,57.08912)};
+    \end{semilogyaxis}
+  \end{tikzpicture}
+  \caption{Find an optimal tile size for the tiled matrix multiplication. The x-axis shows the number of containers (workers), the y-axis shows the time it took to finish on a logarithmic scale. iterations=1000, population=200, matrix size=128x128}
+  \label{plot:tiledmul_1000_200_128x128_log}
+\end{figure}
+
+The following tile sizes were obtained (over all tests):
+min\_x = 128, max\_x = 128, mean\_x = 128, var\_x = 0, stddev\_x = 0
+min\_y = 7, max\_y = 128, mean\_y = 19.0143646409, var\_y = 113.070511889, stddev\_y = 10.6334618958
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|r|r}
+    & x & y \\ \hline
+    min & 128 & 7 \\
+    max & 128 & 126 \\
+    mean & 128.0 & 19.0143646409 \\
+    var & 0.0 & 113.070511889 \\
+    stddev & 0.0 & 10.6334618958 \\
+  \end{tabular}
+  \caption{Results for tile sizes}
+  \label{table:tiledmul_1000_200_128x128}
+\end{table}
+  
+\end{document}

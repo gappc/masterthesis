@@ -1,0 +1,88 @@
+\documentclass[english]{dpsmthesis}
+%change the language to german if you want to write the master thesis in german!
+
+% place for more packages
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{pdfpages}
+\usepackage{subfigure}
+\usepackage{listing}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{appendix}
+
+% \setlength{\parskip}{2em}
+
+\graphicspath{{../images/}}
+
+% define listing options
+\lstset{language=java}
+\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, tabsize=2}
+\lstset{keywordstyle=\color{blue},stringstyle=\color{black}, showstringspaces=false}
+\lstset{basicstyle=\scriptsize,breaklines=true,commentstyle=\ttfamily\color[rgb]{0.5,0.5,0.5}}
+
+%% Define a new 'leo' style for the package that will use a smaller font. 
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\lstset{basicstyle=\small\ttfamily, backgroundcolor=\color[gray]{0.94}, frame=single, columns=fixed}
+% 
+\begin{document}
+
+% BEGIN: titlepage setup ---------------------------------------------
+\title{Bio-inspired optimization techniques using Apache Hadoop and Oozie}
+\plaintitle{Bio-inspired optimization techniques using Apache Hadoop and Oozie}
+\mailaddress{christian.gapp@student.uibk.ac.at}
+\matriculationnumber{0116330}
+\author{Christian Gapp}
+\plainauthor{Christian Gapp}
+\date{\today}
+\supervisor{Dr. Juan José Durillo}
+\institute{Institute of Computer Science}
+% END: titlepage setup -----------------------------------------------
+\maketitle
+
+\abstract{\input{abstract}}
+
+\tableofcontents
+
+\cleardoublepage
+\pagenumbering{arabic}
+% BEGIN: content -----------------------------------------------------
+% \include{introduction}
+% \include{bioalgorithms}
+% \include{hadoopoozie}
+\include{implementation}
+% \include{usage}
+% \include{results}
+% \include{conclusions}
+% END: content -------------------------------------------------------
+
+%%\input{literaturverzeichnis}
+%%\printglossary
+% BEGIN: appendix ----------------------------------------------------
+\include{appendix}
+% END: appendix ------------------------------------------------------
+
+
+
+
+\listoffigures
+
+\listoftables
+
+\lstlistoflistings
+
+% -+-+-+-+-+     .bib FILE MUST BE CALLED biblio.bib -+-+-+-+-+-+-+-
+\bibliographystyle{unsrt}
+\selectlanguage{english}
+\bibliography{biblio}
+
+\end{document}
+
+

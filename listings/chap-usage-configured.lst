@@ -1,0 +1,33 @@
+public class SumAlgorithm implements Algorithm {
+
+	public static final String CHUNKS = "CHUNKS";
+	public static final String CHUNK_SIZE = "CHUNK_SIZE";
+
+	@Override
+	public void compute(SolverId solverId, Map<String, String> properties)
+			throws AlgorithmException {
+		// Read properties from configuration file
+		int chunks = getPropertyAsInt(properties, CHUNKS);
+		int chunkSize = getPropertyAsInt(properties, CHUNK_SIZE);
+
+		// Prepare sample data
+		int[][] data = buildData(chunks, chunkSize);
+
+		// ... more to come in the next sections
+	}
+
+	// Convenience method to parse String to int
+	private int getPropertyAsInt(Map<String, String> properties, String key)
+			throws AlgorithmException {
+		String value = null;
+		try {
+			value = properties.get(key);
+			return Integer.parseInt(value);
+		} catch (Exception e) {
+			throw new AlgorithmException("Could not convert property " + key
+					+ " to long, value was " + value, e);
+		}
+	}
+	
+	// ... method for building data
+}

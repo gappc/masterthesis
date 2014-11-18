@@ -1,0 +1,434 @@
+@article{dagum1998openmp,
+  title={OpenMP: an industry standard API for shared-memory programming},
+  author={Dagum, Leonardo and Menon, Ramesh},
+  journal={Computational Science \& Engineering, IEEE},
+  volume={5},
+  number={1},
+  pages={46--55},
+  year={1998},
+  publisher={IEEE}
+}
+@book{chapman2008using,
+  title={Using OpenMP: portable shared memory parallel programming},
+  author={Chapman, Barbara and Jost, Gabriele and Van Der Pas, Ruud},
+  volume={10},
+  year={2008},
+  publisher={MIT press}
+}
+@misc{mpi,
+  title = {The Message Passing Interface (MPI) standard},
+  howpublished = {\url{http://www.mcs.anl.gov/research/projects/mpi/}},
+  note = {last access: 08.10.2014}
+}
+@inproceedings{nieplocha1994global,
+  title={Global Arrays: A portable shared-memory programming model for distributed memory computers},
+  author={Nieplocha, Jaroslaw and Harrison, Robert J and Littlefield, Richard J},
+  booktitle={Proceedings of the 1994 ACM/IEEE conference on Supercomputing},
+  pages={340--349},
+  year={1994},
+  organization={IEEE Computer Society Press}
+}
+@inproceedings{coarfa2005evaluation,
+  title={An evaluation of global address space languages: co-array fortran and unified parallel C},
+  author={Coarfa, Cristian and Dotsenko, Yuri and Mellor-Crummey, John and Cantonnet, Fran{\c{c}}ois and El-Ghazawi, Tarek and Mohanti, Ashrujit and Yao, Yiyi and Chavarr{\'\i}a-Miranda, Daniel},
+  booktitle={Proceedings of the tenth ACM SIGPLAN symposium on Principles and practice of parallel programming},
+  pages={36--47},
+  year={2005},
+  organization={ACM}
+}
+@misc{hadoop,
+  title = {Apache Hadoop},
+  howpublished = {\url{http://hadoop.apache.org/}},
+  note = {last access: 01.10.2014}
+}
+@article{dean2008mapreduce,
+  title={MapReduce: simplified data processing on large clusters},
+  author={Dean, Jeffrey and Ghemawat, Sanjay},
+  journal={Communications of the ACM},
+  volume={51},
+  number={1},
+  pages={107--113},
+  year={2008},
+  publisher={ACM}
+}
+@inproceedings{pavlo2009comparison,
+  title={A comparison of approaches to large-scale data analysis},
+  author={Pavlo, Andrew and Paulson, Erik and Rasin, Alexander and Abadi, Daniel J and DeWitt, David J and Madden, Samuel and Stonebraker, Michael},
+  booktitle={Proceedings of the 2009 ACM SIGMOD International Conference on Management of data},
+  pages={165--178},
+  year={2009},
+  organization={ACM}
+}
+@article{stonebraker2010mapreduce,
+  title={MapReduce and parallel DBMSs: friends or foes?},
+  author={Stonebraker, Michael and Abadi, Daniel and DeWitt, David J and Madden, Sam and Paulson, Erik and Pavlo, Andrew and Rasin, Alexander},
+  journal={Communications of the ACM},
+  volume={53},
+  number={1},
+  pages={64--71},
+  year={2010},
+  publisher={ACM}
+}
+@article{floratou2012can,
+  title={Can the elephants handle the NoSQL onslaught?},
+  author={Floratou, Avrilia and Teletia, Nikhil and DeWitt, David J and Patel, Jignesh M and Zhang, Donghui},
+  journal={Proceedings of the VLDB Endowment},
+  volume={5},
+  number={12},
+  pages={1712--1723},
+  year={2012},
+  publisher={VLDB Endowment}
+}
+@article{abouzeid2009hadoopdb,
+  title={HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads},
+  author={Abouzeid, Azza and Bajda-Pawlikowski, Kamil and Abadi, Daniel and Silberschatz, Avi and Rasin, Alexander},
+  journal={Proceedings of the VLDB Endowment},
+  volume={2},
+  number={1},
+  pages={922--933},
+  year={2009},
+  publisher={VLDB Endowment}
+}
+@inproceedings{su2012oracle,
+  title={Oracle in-database Hadoop: when MapReduce meets RDBMS},
+  author={Su, Xueyuan and Swart, Garret},
+  booktitle={Proceedings of the 2012 ACM SIGMOD International Conference on Management of Data},
+  pages={779--790},
+  year={2012},
+  organization={ACM}
+}
+@article{gates2009building,
+  title={Building a high-level dataflow system on top of Map-Reduce: the Pig experience},
+  author={Gates, Alan F and Natkovich, Olga and Chopra, Shubham and Kamath, Pradeep and Narayanamurthy, Shravan M and Olston, Christopher and Reed, Benjamin and Srinivasan, Santhosh and Srivastava, Utkarsh},
+  journal={Proceedings of the VLDB Endowment},
+  volume={2},
+  number={2},
+  pages={1414--1425},
+  year={2009},
+  publisher={VLDB Endowment}
+}
+@inproceedings{thusoo2010hive,
+  title={Hive-a petabyte scale data warehouse using hadoop},
+  author={Thusoo, Ashish and Sarma, Joydeep Sen and Jain, Namit and Shao, Zheng and Chakka, Prasad and Zhang, Ning and Antony, Suresh and Liu, Hao and Murthy, Raghotham},
+  booktitle={Data Engineering (ICDE), 2010 IEEE 26th International Conference on},
+  pages={996--1005},
+  year={2010},
+  organization={IEEE}
+}
+@inproceedings{vavilapalli2013apache,
+  title={Apache hadoop yarn: Yet another resource negotiator},
+  author={Vavilapalli, Vinod Kumar and Murthy, Arun C and Douglas, Chris and Agarwal, Sharad and Konar, Mahadev and Evans, Robert and Graves, Thomas and Lowe, Jason and Shah, Hitesh and Seth, Siddharth and others},
+  booktitle={Proceedings of the 4th annual Symposium on Cloud Computing},
+  pages={5},
+  year={2013},
+  organization={ACM}
+}
+@incollection{ekanayake2010high,
+  title={High performance parallel computing with clouds and cloud technologies},
+  author={Ekanayake, Jaliya and Fox, Geoffrey},
+  booktitle={Cloud Computing},
+  pages={20--38},
+  year={2010},
+  publisher={Springer}
+}
+@article{bu2010haloop,
+  title={HaLoop: Efficient iterative data processing on large clusters},
+  author={Bu, Yingyi and Howe, Bill and Balazinska, Magdalena and Ernst, Michael D},
+  journal={Proceedings of the VLDB Endowment},
+  volume={3},
+  number={1-2},
+  pages={285--296},
+  year={2010},
+  publisher={VLDB Endowment}
+}
+@article{rosen2013iterative,
+  title={Iterative MapReduce for large scale machine learning},
+  author={Rosen, Joshua and Polyzotis, Neoklis and Borkar, Vinayak and Bu, Yingyi and Carey, Michael J and Weimer, Markus and Condie, Tyson and Ramakrishnan, Raghu},
+  journal={arXiv preprint arXiv:1303.3517},
+  year={2013}
+}
+@inproceedings{ekanayake2008mapreduce,
+  title={Mapreduce for data intensive scientific analyses},
+  author={Ekanayake, Jaliya and Pallickara, Shrideep and Fox, Geoffrey},
+  booktitle={eScience, 2008. eScience'08. IEEE Fourth International Conference on},
+  pages={277--284},
+  year={2008},
+  organization={IEEE}
+}
+@inproceedings{ye2009stochastic,
+  title={Stochastic gradient boosted distributed decision trees},
+  author={Ye, Jerry and Chow, Jyh-Herng and Chen, Jiang and Zheng, Zhaohui},
+  booktitle={Proceedings of the 18th ACM conference on Information and knowledge management},
+  pages={2061--2064},
+  year={2009},
+  organization={ACM}
+}
+@misc{hadoop-2.2.0,
+  title = {Apache Hadoop 2.2.0},
+  howpublished = {\url{http://hadoop.apache.org/docs/r2.2.0/}},
+  note = {last access: 01.10.2014}
+}
+@inproceedings{malewicz2010pregel,
+  title={Pregel: a system for large-scale graph processing},
+  author={Malewicz, Grzegorz and Austern, Matthew H and Bik, Aart JC and Dehnert, James C and Horn, Ilan and Leiser, Naty and Czajkowski, Grzegorz},
+  booktitle={Proceedings of the 2010 ACM SIGMOD International Conference on Management of data},
+  pages={135--146},
+  year={2010},
+  organization={ACM}
+}
+@inproceedings{ekanayake2010twister,
+  title={Twister: a runtime for iterative mapreduce},
+  author={Ekanayake, Jaliya and Li, Hui and Zhang, Bingjing and Gunarathne, Thilina and Bae, Seung-Hee and Qiu, Judy and Fox, Geoffrey},
+  booktitle={Proceedings of the 19th ACM International Symposium on High Performance Distributed Computing},
+  pages={810--818},
+  year={2010},
+  organization={ACM}
+}
+@misc{storm,
+  title = {Apache Storm},
+  howpublished = {\url{https://storm.apache.org/}},
+  note = {last access: 01.10.2014}
+}
+@misc{tez,
+  title = {Apache Tez},
+  howpublished = {\url{https://tez.apache.org/}},
+  note = {last access: 08.10.2014}
+}
+@misc{samza,
+  title = {Apache Samza},
+  howpublished = {\url{https://samza.incubator.apache.org/}},
+  note = {last access: 08.10.2014}
+}
+@misc{storm-integration,
+  title = {Apache Storm - Integration},
+  howpublished = {\url{https://storm.apache.org/about/integrates.html}},
+  note = {last access: 01.10.2014}
+}
+@misc{spark,
+  title = {Apache Spark},
+  howpublished = {\url{https://spark.apache.org/}},
+  note = {last access: 01.10.2014}
+}
+@inproceedings{zaharia2012resilient,
+  title={Resilient distributed datasets: A fault-tolerant abstraction for in-memory cluster computing},
+  author={Zaharia, Matei and Chowdhury, Mosharaf and Das, Tathagata and Dave, Ankur and Ma, Justin and McCauley, Murphy and Franklin, Michael J and Shenker, Scott and Stoica, Ion},
+  booktitle={Proceedings of the 9th USENIX conference on Networked Systems Design and Implementation},
+  pages={2--2},
+  year={2012},
+  organization={USENIX Association}
+}
+@misc{mahout,
+  title = {Apache Mahout},
+  howpublished = {\url{http://mahout.apache.org/}},
+  note = {last access: 01.10.2014}
+}
+@misc{twill,
+  title = {Apache Twill},
+  howpublished = {\url{http://twill.incubator.apache.org/}},
+  note = {last access: 01.10.2014}
+}
+@misc{spring-hadoop,
+  title = {Spring for Apache Hadoop },
+  howpublished = {\url{http://projects.spring.io/spring-hadoop/}},
+  note = {last access: 01.10.2014}
+}
+@misc{foldingathome,
+  title = {Folding@home},
+  howpublished = {\url{http://folding.stanford.edu/home/}},
+  note = {last access: 01.10.2014}
+}
+@misc{setiathome,
+  title = {SETI@home},
+  howpublished = {\url{http://setiathome.ssl.berkeley.edu/}},
+  note = {last access: 01.10.2014}
+}
+@misc{oozie,
+  title = {Apache Oozie},
+  howpublished = {\url{http://oozie.apache.org/}},
+  note = {last access: 01.10.2014}
+}
+@inproceedings{islam2012oozie,
+  title={Oozie: towards a scalable workflow management system for hadoop},
+  author={Islam, Mohammad and Huang, Angelo K and Battisha, Mohamed and Chiang, Michelle and Srinivasan, Santhosh and Peters, Craig and Neumann, Andreas and Abdelnur, Alejandro},
+  booktitle={Proceedings of the 1st ACM SIGMOD Workshop on Scalable Workflow Execution Engines and Technologies},
+  pages={4},
+  year={2012},
+  organization={ACM}
+}
+% Bio-inspired optimization techniques
+@book{coello2002evolutionary,
+  title={Evolutionary algorithms for solving multi-objective problems},
+  author={Coello, Carlos A Coello and Van Veldhuizen, David A and Lamont, Gary B},
+  volume={242},
+  year={2002},
+  publisher={Springer}
+}
+@article{alexander2005history,
+  title={On the history of combinatorial optimization (till 1960)},
+  author={Alexander, S},
+  journal={Handbooks in Operations Research and Management Science: Discrete Optimization},
+  volume={12},
+  pages={1},
+  year={2005},
+  publisher={Elsevier}
+}
+@book{ehrgott2005multicriteria,
+  title={Multicriteria optimization},
+  author={Ehrgott, Matthias},
+  volume={2},
+  year={2005},
+  publisher={Springer}
+}
+@book{yang2010nature,
+  title={Nature-inspired metaheuristic algorithms},
+  author={Yang, Xin-She},
+  year={2010},
+  publisher={Luniver press}
+}
+@book{sivanandam2008genetic,
+  title={Genetic Algorithm Optimization Problems},
+  author={Sivanandam, SN and Deepa, SN},
+  year={2008},
+  publisher={Springer}
+}
+@incollection{kennedy2010particle,
+  title={Particle swarm optimization},
+  author={Kennedy, James},
+  booktitle={Encyclopedia of Machine Learning},
+  pages={760--766},
+  year={2010},
+  publisher={Springer}
+}
+@incollection{dorigo2010ant,
+  title={Ant colony optimization},
+  author={Dorigo, Marco and Birattari, Mauro},
+  booktitle={Encyclopedia of Machine Learning},
+  pages={36--39},
+  year={2010},
+  publisher={Springer}
+}
+@inproceedings{durillo2008study,
+  title={A study of master-slave approaches to parallelize NSGA-II},
+  author={Durillo, Juan Jos{\'e} and Nebro, Antonio J and Luna, Francisco and Alba, Enrique},
+  booktitle={Parallel and Distributed Processing, 2008. IPDPS 2008. IEEE International Symposium on},
+  pages={1--8},
+  year={2008},
+  organization={IEEE}
+}
+@article{deb2002fast,
+  title={A fast and elitist multiobjective genetic algorithm: NSGA-II},
+  author={Deb, Kalyanmoy and Pratap, Amrit and Agarwal, Sameer and Meyarivan, TAMT},
+  journal={Evolutionary Computation, IEEE Transactions on},
+  volume={6},
+  number={2},
+  pages={182--197},
+  year={2002},
+  publisher={IEEE}
+}
+% Hadoop
+@inproceedings{ghemawat2003google,
+  title={The Google file system},
+  author={Ghemawat, Sanjay and Gobioff, Howard and Leung, Shun-Tak},
+  booktitle={ACM SIGOPS Operating Systems Review},
+  volume={37},
+  number={5},
+  pages={29--43},
+  year={2003},
+  organization={ACM}
+}
+@article{dean2008mapreduce,
+  title={MapReduce: simplified data processing on large clusters},
+  author={Dean, Jeffrey and Ghemawat, Sanjay},
+  journal={Communications of the ACM},
+  volume={51},
+  number={1},
+  pages={107--113},
+  year={2008},
+  publisher={ACM}
+}
+% Biohadoop
+@misc{json-schema,
+  title = {JSON Schema},
+  howpublished = {\url{http://json-schema.org/}},
+  note = {last access: 28.07.2014}
+}
+@misc{biohadoop,
+  title = {Biohadoop},
+  howpublished = {\url{https://github.com/gappc/biohadoop}},
+  note = {last access: 11.09.2014}
+}
+@misc{biohadoop-algorithms,
+  title = {Biohadoop example algorithms},
+  howpublished = {\url{https://github.com/gappc/biohadoop-algorithms}},
+  note = {last access: 21.08.2014}
+}
+@misc{biohadoop-docker,
+  title = {Hadoop environment using Docker},
+  howpublished = {\url{https://github.com/gappc/docker-biohadoop}},
+  note = {last access: 11.09.2014}
+}
+@misc{bioworker-python,
+  title = {Example worker for Biohadoop, written in Python},
+  howpublished = {\url{https://github.com/gappc/bioworker-python}},
+  note = {last access: 22.09.2014}
+}
+@misc{bioworker-browser,
+  title = {Example worker for Biohadoop, written in JavaScript},
+  howpublished = {\url{https://github.com/gappc/bioworker-browser}},
+  note = {last access: 22.09.2014}
+}
+@misc{json-parser,
+  title = {JSON parser},
+  howpublished = {\url{http://wiki.fasterxml.com/JacksonHome}},
+  note = {last access: 28.07.2014}
+}
+@misc{kryo,
+  title = {Kryo},
+  howpublished = {\url{https://github.com/EsotericSoftware/kryo}},
+  note = {last access: 04.08.2014}
+}
+@misc{kryonet,
+  title = {KryoNet},
+  howpublished = {\url{https://github.com/EsotericSoftware/kryonet}},
+  note = {last access: 04.08.2014}
+}
+@misc{zookeeper,
+  title = {ZooKeeper},
+  howpublished = {\url{http://zookeeper.apache.org/}},
+  note = {last access: 05.09.2014}
+}
+@article{shore2004fail,
+  title={Fail fast [software debugging]},
+  author={Shore, Jim},
+  journal={Software, IEEE},
+  volume={21},
+  number={5},
+  pages={21--25},
+  year={2004},
+  publisher={IEEE}
+}
+@article{blumofe1999scheduling,
+  title={Scheduling multithreaded computations by work stealing},
+  author={Blumofe, Robert D and Leiserson, Charles E},
+  journal={Journal of the ACM (JACM)},
+  volume={46},
+  number={5},
+  pages={720--748},
+  year={1999},
+  publisher={ACM}
+}
+@misc{maven,
+  title = {Maven},
+  howpublished = {\url{http://maven.apache.org/}},
+  note = {last access: 11.09.2014}
+}
+@misc{docker,
+  title = {Docker},
+  howpublished = {\url{https://www.docker.com/}},
+  note = {last access: 11.09.2014}
+}
+@misc{docker-sequenceiq,
+  title = {Docker},
+  howpublished = {\url{https://index.docker.io/u/sequenceiq/hadoop-docker/}},
+  note = {last access: 03.06.2014}
+}

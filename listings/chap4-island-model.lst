@@ -1,0 +1,2 @@
+static void initialize(SolverId solverId) throws IslandModelException
+static Object merge(SolverId solverId, Map<String, String> properties, SolverData<?> solverData) throws IslandModelException

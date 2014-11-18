@@ -1,0 +1,5 @@
+public SimpleTaskSubmitter(Class<? extends AsyncComputable<R, T, S>> asyncComputableClass);
+
+public SimpleTaskSubmitter(Class<? extends AsyncComputable<R, T, S>> asyncComputableClass, R initialData);
+
+public SimpleTaskSubmitter(Class<? extends AsyncComputable<R, T, S>> asyncComputableClass, String pipelineName, R initialData);

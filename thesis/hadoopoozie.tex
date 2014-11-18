@@ -42,6 +42,7 @@ Figure \ref{fig:hadoop-hdfs} shows how HDFS organizes the data. In this example,
 HDFS provides rack awareness, which allows applications to consider the physical location of a machine when data has to be stored or moved. Rack awareness allows a variety of advanced features. For example, in the case of computations it is best to move the computation to the nodes that already contain the necessary data, instead of moving the data to the computation. This minimizes possibly slow data traffic. Another example is HDFS itself, that uses its rack awareness for its performant replication process, while considering the physical location of the replicas.
 
 \section{YARN}
+\label{chap:hadoop:yarn}
 YARN is the resource manager of Hadoop. It schedules and satisfies resource requests of applications, and monitors running applications. Resources are granted in form of resource Containers, that consist of CPU, RAM, storage etc.
 
 The functionality of YARN is provided by one ResourceManager and several NodeManagers (similar to HDFS). This architecture offers the needed scalability. Like in HDFS, the ResourceManager is a single point of failure, but solutions for high availability exist here, too \cite{yarn-ha}.

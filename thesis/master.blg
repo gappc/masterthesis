@@ -1,48 +1,60 @@
 This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: master.aux
+A level-1 auxiliary file: introduction.aux
+A level-1 auxiliary file: bioalgorithms.aux
+A level-1 auxiliary file: hadoopoozie.aux
 A level-1 auxiliary file: implementation.aux
+A level-1 auxiliary file: usage.aux
+A level-1 auxiliary file: results.aux
+A level-1 auxiliary file: conclusions.aux
 A level-1 auxiliary file: appendix.aux
 The style file: unsrt.bst
 Database file #1: biblio.bib
-You've used 12 entries,
+Repeated entry---line 339 of file biblio.bib
+ : @article{dean2008mapreduce
+ :                           ,
+I'm skipping whatever remains of this entry
+Warning--can't use both volume and number fields in ghemawat2003google
+You've used 51 entries,
             1791 wiz_defined-function locations,
-            500 strings with 4704 characters,
-and the built_in function-call counts, 1556 in all, are:
-= -- 145
-> -- 22
-< -- 0
-+ -- 15
-- -- 3
-* -- 36
-:= -- 190
-add.period$ -- 36
-call.type$ -- 12
-change.case$ -- 12
+            683 strings with 11871 characters,
+and the built_in function-call counts, 11742 in all, are:
+= -- 1066
+> -- 503
+< -- 19
++ -- 193
+- -- 142
+* -- 645
+:= -- 1645
+add.period$ -- 169
+call.type$ -- 51
+change.case$ -- 47
 chr.to.int$ -- 0
-cite$ -- 12
-duplicate$ -- 68
-empty$ -- 227
-format.name$ -- 3
-if$ -- 387
+cite$ -- 52
+duplicate$ -- 548
+empty$ -- 1247
+format.name$ -- 142
+if$ -- 2805
 int.to.chr$ -- 0
-int.to.str$ -- 12
-missing$ -- 2
-newline$ -- 63
-num.names$ -- 2
-pop$ -- 82
+int.to.str$ -- 51
+missing$ -- 34
+newline$ -- 258
+num.names$ -- 30
+pop$ -- 302
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 36
+skip$ -- 294
 stack$ -- 0
-substring$ -- 44
-swap$ -- 12
-text.length$ -- 0
+substring$ -- 610
+swap$ -- 189
+text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 6
-width$ -- 14
-write$ -- 114
+warning$ -- 1
+while$ -- 91
+width$ -- 53
+write$ -- 535
+(There was 1 error message)

@@ -1,138 +1,40 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Implementation}{1}{chapter.1}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{23}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{chap:impl}{{1}{1}{Implementation}{chapter.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}System architecture}{1}{section.1.1}}
-\newlabel{chap:impl:system-architecture}{{1.1}{1}{System architecture}{section.1.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Biohadoop system architecture}}{2}{figure.1.1}}
-\newlabel{fig:architecture}{{1.1}{2}{Biohadoop system architecture}{figure.1.1}{}}
-\citation{zookeeper}
-\citation{biohadoop-algorithms}
-\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Example values for \texttt  {Sum} algorithm}}{4}{table.1.1}}
-\newlabel{table:sum-algorithm}{{1.1}{4}{Example values for \texttt {Sum} algorithm}{table.1.1}{}}
-\newlabel{listing:sum}{{1.1}{4}{Algorithm for integer summation}{lstlisting.1.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.1}Algorithm for integer summation}{4}{lstlisting.1.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Algorithm}{5}{section.1.2}}
-\newlabel{chap:impl:algorithm}{{1.2}{5}{Algorithm}{section.1.2}{}}
-\newlabel{listing:algorithm-interface}{{1.2}{5}{Algorithm interface}{lstlisting.1.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.2}Algorithm interface}{5}{lstlisting.1.2}}
-\newlabel{listing:sum-biohadoop}{{1.3}{6}{\texttt {Sum} algorithm for integer summation on Biohadoop}{lstlisting.1.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.3}\texttt  {Sum} algorithm for integer summation on Biohadoop}{6}{lstlisting.1.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Task system}{6}{section.1.3}}
-\newlabel{chap:impl:task-system}{{1.3}{6}{Task system}{section.1.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}Task pipeline}{7}{subsection.1.3.1}}
-\newlabel{chap:impl:task-pipeline}{{1.3.1}{7}{Task pipeline}{subsection.1.3.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Task system with one task pipeline. The pipeline in this figure consists of one task submitter, one task queue, one adapter and one worker}}{7}{figure.1.2}}
-\newlabel{fig:single-pipeline}{{1.2}{7}{Task system with one task pipeline. The pipeline in this figure consists of one task submitter, one task queue, one adapter and one worker}{figure.1.2}{}}
-\citation{blumofe1999scheduling}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces Several different named task pipelines may exist at the same time, consisting of submitters, queues, adapters and workers}}{8}{figure.1.3}}
-\newlabel{fig:pipelines}{{1.3}{8}{Several different named task pipelines may exist at the same time, consisting of submitters, queues, adapters and workers}{figure.1.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Task Submitter}{9}{subsection.1.3.2}}
-\newlabel{chap:impl:task-submitter}{{1.3.2}{9}{Task Submitter}{subsection.1.3.2}{}}
-\newlabel{listing:taskSubmitter-interface}{{1.4}{9}{TaskSubmitter interface}{lstlisting.1.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.4}TaskSubmitter interface}{9}{lstlisting.1.4}}
-\newlabel{listing:taskFuture-interface}{{1.5}{10}{TaskFuture interface}{lstlisting.1.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.5}TaskFuture interface}{10}{lstlisting.1.5}}
-\newlabel{listing:simpleTaskSubmitter}{{1.6}{10}{SimpleTaskSubmitter}{lstlisting.1.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.6}SimpleTaskSubmitter}{10}{lstlisting.1.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.3}Task Queue}{12}{subsection.1.3.3}}
-\newlabel{listing:taskQueueService}{{1.7}{13}{TaskQueueService}{lstlisting.1.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.7}TaskQueueService}{13}{lstlisting.1.7}}
-\newlabel{listing:taskQueue}{{1.8}{14}{TaskQueue}{lstlisting.1.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.8}TaskQueue}{14}{lstlisting.1.8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.4}Adapter}{15}{subsection.1.3.4}}
-\newlabel{chap:impl:adapter}{{1.3.4}{15}{Adapter}{subsection.1.3.4}{}}
-\citation{shore2004fail}
-\newlabel{listing:adapter-interface}{{1.9}{16}{Adapter interface}{lstlisting.1.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.9}Adapter interface}{16}{lstlisting.1.9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces Life cycle of an adapter}}{17}{figure.1.4}}
-\newlabel{fig:flow-adapter}{{1.4}{17}{Life cycle of an adapter}{figure.1.4}{}}
-\citation{bioworker-browser}
-\citation{bioworker-python}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.5}Worker}{18}{subsection.1.3.5}}
-\newlabel{chap:impl:worker}{{1.3.5}{18}{Worker}{subsection.1.3.5}{}}
-\newlabel{listing:worker-interface}{{1.10}{19}{Worker interface}{lstlisting.1.10}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.10}Worker interface}{19}{lstlisting.1.10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.5}{\ignorespaces Life cycle of a worker}}{20}{figure.1.5}}
-\newlabel{fig:flow-worker}{{1.5}{20}{Life cycle of a worker}{figure.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.6}AsyncComputable}{21}{subsection.1.3.6}}
-\newlabel{chap:impl:async-computable}{{1.3.6}{21}{AsyncComputable}{subsection.1.3.6}{}}
-\newlabel{listing:asyncComputable-interface}{{1.11}{21}{Classes that implement the AsyncComputable interface can be executed by workers}{lstlisting.1.11}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.11}Classes that implement the AsyncComputable interface can be executed by workers}{21}{lstlisting.1.11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.6}{\ignorespaces Lifecycle of a task, computed by a worker using an AsyncComputable}}{22}{figure.1.6}}
-\newlabel{fig:async-computable}{{1.6}{22}{Lifecycle of a task, computed by a worker using an AsyncComputable}{figure.1.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Communication}{23}{section.1.4}}
-\newlabel{chap:impl:communication}{{1.4}{23}{Communication}{section.1.4}{}}
-\citation{kryo}
-\citation{kryonet}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Protocols}{24}{subsection.1.4.1}}
-\newlabel{chap:impl:protocols}{{1.4.1}{24}{Protocols}{subsection.1.4.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline HTTP}{24}{section*.3}}
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Kryo and KryoNet}{24}{section*.4}}
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Socket}{25}{section*.5}}
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline WebSocket}{26}{section*.6}}
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Local}{27}{section*.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.2}Communication flow}{27}{subsection.1.4.2}}
-\newlabel{chap:impl:communication-flow}{{1.4.2}{27}{Communication flow}{subsection.1.4.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.7}{\ignorespaces Communication flow}}{28}{figure.1.7}}
-\newlabel{fig:communication-flow}{{1.7}{28}{Communication flow}{figure.1.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.5}Enhancements}{29}{section.1.5}}
-\newlabel{chap:impl:enhancements}{{1.5}{29}{Enhancements}{section.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Persistence}{29}{subsection.1.5.1}}
-\newlabel{chap:impl:persistence}{{1.5.1}{29}{Persistence}{subsection.1.5.1}{}}
-\newlabel{listing:chap4-persistence-save}{{1.12}{30}{Save method exposed by \texttt {FileSaver}}{lstlisting.1.12}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.12}Save method exposed by \texttt  {FileSaver}}{30}{lstlisting.1.12}}
-\newlabel{listing:chap4-persistence-load}{{1.13}{31}{Load method exposed by \texttt {FileLoader}}{lstlisting.1.13}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.13}Load method exposed by \texttt  {FileLoader}}{31}{lstlisting.1.13}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}The island model}{32}{subsection.1.5.2}}
-\newlabel{chap:impl:island-model}{{1.5.2}{32}{The island model}{subsection.1.5.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline API}{32}{section*.8}}
-\newlabel{chap:impl:island-model-api}{{1.5.2}{32}{API}{section*.8}{}}
-\newlabel{listing:chap4-island-model}{{1.14}{32}{Methods exposed by the \texttt {IslandModel} class. The class can be used to exchange data between the islands and therefor to construct an island model}{lstlisting.1.14}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.14}Methods exposed by the \texttt  {IslandModel} class. The class can be used to exchange data between the islands and therefor to construct an island model}{32}{lstlisting.1.14}}
-\citation{zookeeper}
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline ZooKeeper}{34}{section*.9}}
-\newlabel{chap:impl:island-model-zookeeper}{{1.5.2}{34}{ZooKeeper}{section*.9}{}}
-\newlabel{listing:chap4-zookeeper-registration-data}{{1.15}{35}{Example for ZooKeeper registration data}{lstlisting.1.15}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.15}Example for ZooKeeper registration data}{35}{lstlisting.1.15}}
-\citation{json-schema}
-\citation{json-schema}
-\@writefile{toc}{\contentsline {section}{\numberline {1.6}Configuration}{36}{section.1.6}}
-\newlabel{chap:impl:configuration}{{1.6}{36}{Configuration}{section.1.6}{}}
-\citation{biohadoop-algorithms}
-\newlabel{lst:sum-configuration}{{1.16}{38}{Simple configuration file for the \texttt {Sum} algorithm\, introduced in section \ref {chap:impl:system-architecture}}{lstlisting.1.16}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.16}Simple configuration file for the \texttt  {Sum} algorithm\tmspace  +\thinmuskip {.1667em} introduced in section \ref  {chap:impl:system-architecture}}{38}{lstlisting.1.16}}
-\newlabel{lst:sum-configuration-builder}{{1.17}{40}{Example on how to produce a configuration file for the \texttt {Sum} algorithm\, using the provided builders. The output of this program can be found in listing \ref {lst:sum-configuration}}{lstlisting.1.17}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.17}Example on how to produce a configuration file for the \texttt  {Sum} algorithm\tmspace  +\thinmuskip {.1667em} using the provided builders. The output of this program can be found in listing \ref  {lst:sum-configuration}}{40}{lstlisting.1.17}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.7}BioOozie}{42}{section.1.7}}
-\newlabel{chap:impl:oozie}{{1.7}{42}{BioOozie}{section.1.7}{}}
+\newlabel{chap:impl}{{4}{23}{Implementation}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}System architecture}{23}{section.4.1}}
+\newlabel{chap:impl:system-architecture}{{4.1}{23}{System architecture}{section.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Biohadoop system architecture}}{24}{figure.4.1}}
+\newlabel{fig:architecture}{{4.1}{24}{Biohadoop system architecture}{figure.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Biohadoop UML Diagram}}{25}{figure.4.2}}
+\newlabel{fig:uml}{{4.2}{25}{Biohadoop UML Diagram}{figure.4.2}{}}
 \@setckpt{implementation}{
-\setcounter{page}{43}
+\setcounter{page}{26}
 \setcounter{equation}{0}
-\setcounter{enumi}{3}
+\setcounter{enumi}{5}
 \setcounter{enumii}{0}
 \setcounter{enumiii}{0}
 \setcounter{enumiv}{0}
 \setcounter{footnote}{0}
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
-\setcounter{chapter}{1}
-\setcounter{section}{7}
+\setcounter{chapter}{4}
+\setcounter{section}{1}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{7}
-\setcounter{table}{1}
+\setcounter{figure}{2}
+\setcounter{table}{0}
 \setcounter{AM@survey}{0}
-\setcounter{lstnumber}{67}
-\setcounter{Item}{3}
+\setcounter{lstnumber}{1}
+\setcounter{Item}{5}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{18}
+\setcounter{bookmark@seq@number}{15}
 \setcounter{subfigure}{0}
 \setcounter{lofdepth}{1}
 \setcounter{subtable}{0}
@@ -140,8 +42,8 @@
 \setcounter{listing}{0}
 \setcounter{parentequation}{0}
 \setcounter{float@type}{16}
-\setcounter{algorithm}{0}
-\setcounter{ALG@line}{0}
+\setcounter{algorithm}{1}
+\setcounter{ALG@line}{8}
 \setcounter{ALG@rem}{0}
 \setcounter{ALG@nested}{0}
 \setcounter{ALG@Lnr}{2}
@@ -151,6 +53,6 @@
 \setcounter{@pps}{0}
 \setcounter{@ppsavesec}{0}
 \setcounter{@ppsaveapp}{0}
-\setcounter{lstlisting}{17}
+\setcounter{lstlisting}{0}
 \setcounter{section@level}{1}
 }

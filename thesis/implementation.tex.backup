@@ -3,19 +3,52 @@
 
 \section{System architecture}
 \label{chap:impl:system-architecture}
-  Biohadoop is a framework that provides the capabilities to perform asynchronous parallel computations on Apache Hadoop. It leverages the algorithm implementors from the burden of writing a Hadoop Yarn program (see chapter \ref{chap:hadoop}) and provides services that can be used to offload compute intensive work to local threads and remote machines using a simple interface. In addition, Biohadoop provides facilities to load or save snapshots of the current state to disk and to build a high level parallelization between different instances of the same algorithm, called island model (see chapter!!!ISLAND MODEL!!!!). Figure \ref{fig:architecture} gives a high level overview of the system architecture, that shows how the Biohadoop architecture maps to Yarn:
+  Biohadoop is a framework for running parallel algorithms on Apache Hadoop. It works according to the master - worker principle, where one master commands several workers. The master typically implements an algorithm, whose compute intense parts are executed by the workers in parallel.
+  
+  The framework relies on YARN (chapter \ref{chap:hadoop:yarn}) and provides features, that otherwise need to be implemented manually, such as:
   
   \begin{enumerate}
-    \item The Yarn client. In Biohadoop it is implemented through the class \path{at.ac.uibk.dps.biohadoop.hadoop.BiohadoopClient}. It is the main entrance point to run Biohadoop in a Hadoop environment and responsible to start the application master under the control of Hadoop.
-    \item The Yarn application master. In Biohadoop it is implemented through the class \path{at.ac.uibk.dps.biohadoop.hadoop.BiohadoopApplicationMaster}. It is the first class that is started in a managed Hadoop container. In a local (development) environment, it is also the main entrance point to run Biohadoop (more on how to run Biohadoop can be found in \ref{chap:usage:run}). Beside of starting the algorithm, it is responsible to launch the task system.
-    \item The Yarn containers are launched by the application master. Each container runs exactly one worker, that can be used for computation.
+    \item support for running several algorithms in a single Biohadoop instance. This has the advantage that workers, and therefor resources, can be shared by the algorithms
+    \item asynchronous communication between master and workers using a simple task system (section \ref{chap:impl:task-system})
+    \item storage and load of arbitrary data to a file system (section \ref{chap:impl:persistence})
+    \item support for the island model, a high level parallelization that can be used to improve the optimization performance of bio-inspired optimization techniques (section \ref{chap:impl:island-model})
+    \item support by Apache Oozie through a custom action (section \ref{chap:impl:oozie}). This custom action can be used to start Biohadoop as a single instance, or to start several instances in parallel
   \end{enumerate}
+  
+  Every YARN application needs a client that submits the application to YARN. In Biohadoop, the client is implemented in the class \texttt{BiohadoopClient}. It is the main entrance point to run Biohadoop in a Hadoop environment and responsible to start the ApplicationMaster under the control of Hadoop.
+  
+  The ApplicationMaster's main class is \texttt{BiohadoopApplicationMaster}. In a local (development) environment, it acts as the main entrance point to run Biohadoop (more on how to run Biohadoop can be found in \ref{chap:usage:run}). The ApplicationMaster if responsible for the start of the configured workers in additional YARN containers, and as it is the master in the master - worker scheme, it executes the configured algorithms and communicates with the workers.
+  
+  The communication between the master and its workers is hidden from the algorithm (and therefor the user) by the task system. It provides a simple interface through the \texttt{TaskSubmitter} class. This interface can be used to submit work items, the so called tasks, to the task system, along with details of how the computation should be performed. The tasks are stored in a queue, the \texttt{TaskQueue}, until their result is known. Endpoints take the tasks and their configurations out of the queue and send them to waiting workers. The workers execute the configured computations on the tasks and return the results to the endpoints, that promote the results back to the \texttt{TaskQueue} and from there to the algorithms.
+  
+%   The task system uses internally the \texttt{TaskQueue} to store tasks that are not finished. 
+  
+%   where the main algorithm runs at the Master, and the computationally intense parts are performed on the Workers
+%   
+%   
+%   
+%   and provides simple abstractions that can be used to offload compute intensive work to remote machines. 
+%   
+%   . Figure \ref{fig:architecture} gives a overview of the system architecture:
+%   
+%   \begin{enumerate}
+%     \item The YARN client. In Biohadoop it is implemented through the class \path{at.ac.uibk.dps.biohadoop.hadoop.BiohadoopClient}. It is the main entrance point to run Biohadoop in a Hadoop environment and responsible to start the ApplicationMaster under the control of Hadoop.
+%     \item The YARN application master. In Biohadoop it is implemented through the class \path{at.ac.uibk.dps.biohadoop.hadoop.BiohadoopApplicationMaster}. It is the first class that is started in a managed Hadoop container. In a local (development) environment, it is also the main entrance point to run Biohadoop (more on how to run Biohadoop can be found in \ref{chap:usage:run}).
+%     \item The additional YARN Containers are launched by the ApplicationMaster. Each container runs exactly one worker, that can be used for computation.
+%   \end{enumerate}
   
   \begin{figure}[ht!]
     \centering
     \includegraphics[width=130mm]{architecture.png}
     \caption{Biohadoop system architecture}
     \label{fig:architecture}
+  \end{figure}
+  
+    \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=130mm]{uml.png}
+    \caption{Biohadoop UML Diagram}
+    \label{fig:uml}
   \end{figure}
   
   In addition, Figure \ref{fig:architecture} shows the architecture for offloading data from the main algorithm to local or remote workers. This is done by submitting chunks of data and a description of how to compute the results for this data chunks from the algorithm to the task system. In this architecture, the algorithm (section \ref{chap:impl:algorithm}) defines the problem that should be solved, e.g. an optimization problem. The data chunks, from here on called tasks, are smaller parts of this problem (e.g. compute the square root for a number), that can be submitted in an asynchronous fashion to the task system.
@@ -238,7 +271,7 @@
   \lstinputlisting[caption=Worker interface,label=listing:worker-interface]{../listings/chap4-worker-interface.lst}
   
   \begin{itemize}
-    \item \texttt{String buildLaunchArguments(WorkerConfiguration\newline workerConfiguration) throws WorkerLaunchException}: this method is called by Biohadoop before the startup of the worker. The return value is a String, that contains needed configuration options for the worker to start. This string is provided to the worker at its startup. The reason for this method to exist is, that it is called inside the Biohadoop process, which opens the possibility to make use of Biohadoop internal configuration options and variables. After an embedded worker is started by Biohadoop (using the Hadoop Yarn capabilities) it runs in a separated process on perhaps a different machine, and has no easy way to access the internal Biohadoop state. The method may throw a \texttt{WorkerLaunchException}, after which the whole Biohadoop system shuts down, in order to adhere to the fail fast principle. Every other uncatched exception also leads to the complete shutdown of Biohadoop.
+    \item \texttt{String buildLaunchArguments(WorkerConfiguration\newline workerConfiguration) throws WorkerLaunchException}: this method is called by Biohadoop before the startup of the worker. The return value is a String, that contains needed configuration options for the worker to start. This string is provided to the worker at its startup. The reason for this method to exist is, that it is called inside the Biohadoop process, which opens the possibility to make use of Biohadoop internal configuration options and variables. After an embedded worker is started by Biohadoop (using the Hadoop YARN capabilities) it runs in a separated process on perhaps a different machine, and has no easy way to access the internal Biohadoop state. The method may throw a \texttt{WorkerLaunchException}, after which the whole Biohadoop system shuts down, in order to adhere to the fail fast principle. Every other uncatched exception also leads to the complete shutdown of Biohadoop.
     \item \texttt{void configure(String[] args) throws WorkerException}: this method is called, after the embedded worker is instantiated i.e. when it is already running as a separate process on perhaps a different machine. The method takes an array of Strings as input parameters, which is exactly the array of Strings used to instantiate the worker process, or in other words, these are the parameters provided to the static \texttt{main(String args[])} method of the worker at startup. The arguments contain, beside the arguments of the \path{buildLaunchArguments(WorkerConfiguration)}, additional values, that may be useful, e.g. the path to Biohadoops config file. The method may throw a WorkerException, after which this worker is terminated and an error code of 1 is returned to Biohadoop.
     \item \texttt{void start() throws WorkerException,\newline ConnectionRefusedException}: this method starts the main loop of the worker, where it begins to request tasks from the corresponding adapters. Usually, the adapter notifies the worker when to shutdown, which leads the worker to exit this method and to terminate its process with an exit code of 0. The method may throw a WorkerException after which this worker is terminated and an error code of 1 is returned to Biohadoop. It may throw a ConnectionRefusedException if it is unable to connect to its adapter. In this case, the worker shuts down, and an error code of 2 is returned to Biohadoop. Every other uncatched exception also shuts the worker down and returns an error code of 1 to Biohadoop.
   \end{itemize}
@@ -250,7 +283,7 @@
     \label{fig:flow-worker}
   \end{figure}
   
-  The typical life cycle of a worker is depicted in figure \ref{fig:flow-worker}. It begins at the Biohadoop instance, where the \texttt{buildLaunchArguments(\newline WorkerConfiguration)} method is called to get the necessary parameters. After that, Biohadoop launches for every worker instance a Yarn container and starts the \texttt{at.ac.uibk.dps.biohadoop.tasksystem.worker.WorkerStarter} inside it. The \texttt{WorkerStarter} is responsible to call the \texttt{configure(String[] args)} and \texttt{start()} method of the worker. If an exception occurs, it is the responsibility of the \texttt{WorkerStarter} to terminate the work and return a corresponding exit value to Biohadoop. Please note, that figure \ref{fig:flow-worker} lacks information about the steps that are necessary to instrument the adapters. Information about those steps can be found in section \ref{chap:impl:adapter}.
+  The typical life cycle of a worker is depicted in figure \ref{fig:flow-worker}. It begins at the Biohadoop instance, where the \texttt{buildLaunchArguments(\newline WorkerConfiguration)} method is called to get the necessary parameters. After that, Biohadoop launches for every worker instance a YARN container and starts the \texttt{at.ac.uibk.dps.biohadoop.tasksystem.worker.WorkerStarter} inside it. The \texttt{WorkerStarter} is responsible to call the \texttt{configure(String[] args)} and \texttt{start()} method of the worker. If an exception occurs, it is the responsibility of the \texttt{WorkerStarter} to terminate the work and return a corresponding exit value to Biohadoop. Please note, that figure \ref{fig:flow-worker} lacks information about the steps that are necessary to instrument the adapters. Information about those steps can be found in section \ref{chap:impl:adapter}.
   
   Inside the workers \texttt{start()} method, there is a main loop, where the worker asks for new tasks and submits the results of the computation to the adapters, which return them to the algorithm. The workers then wait for new tasks or for a shut down information from the adapters, which leads to its termination.
 
@@ -421,70 +454,76 @@
   \end{itemize}
   
   \subsection{The island model}
+  \label{chap:impl:island-model}
   The island model is a high level parallelization model, that is sometimes used in optimization problems. In the island model, there are several optimization algorithms running in parallel, trying to compute the result to the same problem. Those optimizers are called the islands. Each of these optimizers is independent of the others, and each one may have a different solution at a given point of time. By exchanging their data after some intervals, islands may get interesting solutions from other islands, that can be integrated in their own computation to enhance their solution.
   
   The island model greatly enhances the exploration behavior of optimizers, which often results in better overall solutions. As the data exchange is only done at certain points of time, the optimizers have the chance to exploit their own solution. When they get stuck in a local optima, they get the chance to escape this optima by getting another solution from another island.
   
-  Biohadoop provides an API that can be used to build an island model. This API is exposed through the class \path{at.ac.uibk.dps.biohadoop.islandmodel.IslandModel} as seen in listing  \ref{listing:chap4-island-model}.
-  
-  \lstinputlisting[caption=Methods exposed by the \texttt{IslandModel} class. The class can be used to exchange data between the islands and therefor to construct an island model,label=listing:chap4-island-model]{../listings/chap4-island-model.lst}  
-  
-  \begin{itemize}
-    \item \texttt{static void initialize(SolverId solverId) throws\newline IslandModelException}: This method must be called by an algorithm to register it at the ZooKeeper service (see below for more information about ZooKeeper). It takes the \texttt{solutionId} as its only argument, which is the unique identifier for the algorithm.
+    \subsubsection{API}
+    \label{chap:impl:island-model-api}
+    Biohadoop provides an API that can be used to build an island model. This API is exposed through the class \path{at.ac.uibk.dps.biohadoop.islandmodel.IslandModel} as seen in listing  \ref{listing:chap4-island-model}.
     
-    The method throws a \texttt{IslandModelException} if the host or port of ZooKeeper is not specified in the global properties of the configuration file. The host is specified through the \texttt{ZOOKEEPER\_HOSTNAME} property, the port through the \texttt{ZOOKEEPER_PORT} property.
-    \item \texttt{static Object merge(SolverId solverId, Map<String, String>\newline properties, SolverData<?> solverData) throws IslandModelException}: This method should be called, when the data merging should be done. The \texttt{solverId} identifies the algorithm, the \texttt{solverData} contains the current solution.
+    \lstinputlisting[caption=Methods exposed by the \texttt{IslandModel} class. The class can be used to exchange data between the islands and therefor to construct an island model,label=listing:chap4-island-model]{../listings/chap4-island-model.lst}  
     
-    The properties object is the map configured in the private property part of the algorithm. It uses strings for the keys and the values and must contain the following properties:
     \begin{itemize}
-      \item \texttt{ISLAND_DATA_REMOTE_RESULT_GETTER}: This property specifies a class that implements the interface \path{at.ac.uibk.dps.biohadoop.islandmodel.RemoteResultGetter} with the method \texttt{Object getBestRemoteResult(List<NodeData> nodesData) throws IslandModelException}. It has the job to get an appropriate remote result from a remote island. To perform this job, a list of \texttt{NodeData} elements is provided, that represents all currently known islands. From this list, a suitable solution should be chosen and returned.
-      \item \texttt{ISLAND_DATA_MERGER}: This property specifies a class that implements the merging of the local and a remote solution. This class must implement the generic \path{at.ac.uibk.dps.biohadoop.islandmodel.DataMerger} interface with the method \texttt{T merge(T o1, T o2)}, where T is the generic type. The job of this method is to merge the data of the solutions given as \texttt{o1} and \texttt{o2} into a new solution.
+      \item \texttt{static void initialize(SolverId solverId) throws\newline IslandModelException}: This method must be called by an algorithm to register it at the ZooKeeper service (see below for more information about ZooKeeper). It takes the \texttt{solutionId} as its only argument, which is the unique identifier for the algorithm.
+      
+      The method throws a \texttt{IslandModelException} if the host or port of ZooKeeper is not specified in the global properties of the configuration file. The host is specified through the \texttt{ZOOKEEPER\_HOSTNAME} property, the port through the \texttt{ZOOKEEPER\_PORT} property.
+      \item \texttt{static Object merge(SolverId solverId, Map<String, String>\newline properties, SolverData<?> solverData) throws\newline IslandModelException}: This method should be called, when the data merging should be done. The \texttt{solverId} identifies the algorithm, the \texttt{solverData} contains the current solution.
+      
+      The properties object is the map configured in the private property part of the algorithm. It uses strings for the keys and the values and must contain the following properties:
+      \begin{itemize}
+	\item \texttt{ISLAND\_DATA\_REMOTE\_RESULT\_GETTER}: This property specifies a class that implements the interface \path{at.ac.uibk.dps.biohadoop.islandmodel.RemoteResultGetter} with the following method:
+	\begin{lstlisting}
+Object getBestRemoteResult(List<NodeData> nodesData) throws IslandModelException
+	\end{lstlisting}
+	It has the job to get an appropriate remote result from a remote island. To perform this job, a list of \texttt{NodeData} elements is provided, that represents all currently known islands. From this list, a suitable solution should be chosen and returned.
+	\item \texttt{ISLAND\_DATA\_MERGER}: This property specifies a class that implements the merging of the local and a remote solution. This class must implement the generic \path{at.ac.uibk.dps.biohadoop.islandmodel.DataMerger} interface with the following method, where T is the generic type:
+	\begin{lstlisting}
+T merge(T o1, T o2)
+	\end{lstlisting}      
+	The job of this method is to merge the data of the solutions given as \texttt{o1} and \texttt{o2} into a new solution.
+      \end{itemize}
+      
+      The \texttt{merge(SolverId, Map<String, String>, SolverData<?>)} method throws an \texttt{IslandModelException} at the same conditions as the \texttt{initialize(SolverId)} method mentioned above. In addition, it throws the \texttt{IslandModelException} if the \texttt{RemoteResultGetter} or the \texttt{DataMerger} classes are not defined or can not be instantiated. Also, the \texttt{RemoteResultGetter} or the \texttt{DataMerger} may throw this exception, if there is something wrong during the data merging. It is the responsibility of the algorithm author, to act appropriately to such an exception.
     \end{itemize}
     
-    The \texttt{merge(SolverId, Map<String, String>, SolverData<?>)} method throws an \texttt{IslandModelException} at the same conditions as the \texttt{initialize(SolverId)} method mentioned above. In addition, it throws the \texttt{IslandModelException} if the \texttt{RemoteResultGetter} or the \texttt{DataMerger} classes are not defined or can not be instantiated. Also, the \texttt{RemoteResultGetter} or the \texttt{DataMerger} may throw this exception, if there is something wrong during the data merging. It is the responsibility of the algorithm author, to act appropriately to such an exception.
-  \end{itemize}
-  
-  To make its own solution available to other islands, the data must be explicitly set by the algorithm author. This is done by using the \texttt{static <T> void setData(SolverId solverId, Option<T> option, T data)} method of the \path{at.ac.uibk.dps.biohadoop.datastore.DataClient} object. It takes as arguments the \texttt{solverId}, the second argument in this case must be \path{DataOptions.SOLVER_DATA}, and the third argument should be the data, wrapped in a \path{at.ac.uibk.dps.biohadoop.solver.SolverData} object.
+    To make its own solution available to other islands, the data must be explicitly set by the algorithm author. This is done by using the following method of the \path{at.ac.uibk.dps.biohadoop.datastore.DataClient} object:
+    \begin{lstlisting}
+static <T> void setData(SolverId solverId, Option<T> option, T data)
+    \end{lstlisting}   
+    
+    It takes as arguments the \texttt{solverId}, the second argument in this case must be \path{DataOptions.SOLVER_DATA}, and the third argument should be the data, wrapped in a \path{at.ac.uibk.dps.biohadoop.solver.SolverData} object.
 
-  As mentioned above, Biohadoops island model API takes usage of ZooKeeper \cite{zookeeper}, which is a Server that provides distributed configuration and synchronization services, and a naming registry. Therefor, a running ZooKeeper instance must be accessible by Biohadoop.
-  
-  When using the island model, the algorithms first have to register to ZooKeeper by using the \texttt{initialize(SolverId)} method of the \texttt{IslandModel}. The registration adds an entry to ZooKeeper, that is visible to all other algorithms that use the island model API. The path to the registration is defined by the fixed string \path{/biohadoop/solvers}, followed the simple class name of the algorithm and the \texttt{solverId} as subpath. For example lets assume that the full class name of our algorithm is \path{org.example.Sum} and that its \texttt{solverId} is \texttt{08b1bc4c-e6d9-44ec-ba5d-24801f6c2339}. Then the path, at which the algorithm registers itself to ZoooKeeper is
-  \begin{lstlisting}
+    \subsubsection{ZooKeeper}
+    \label{chap:impl:island-model-zookeeper}
+    As mentioned above, Biohadoops island model API takes usage of ZooKeeper \cite{zookeeper}, which is a Server that provides distributed configuration and synchronization services, and a naming registry. Therefor, a running ZooKeeper instance must be accessible by Biohadoop.
+    
+    When using the island model, the algorithms first have to register to ZooKeeper by using the \texttt{initialize(SolverId)} method of the \texttt{IslandModel}. The registration adds an entry to ZooKeeper, that is visible to all other algorithms that use the island model API. The path to the registration is defined by the fixed string \path{/biohadoop/solvers}, followed by the simple class name of the algorithm and the \texttt{solverId} as subpath. For example lets assume that the full class name of our algorithm is \path{org.example.Sum} and that its \texttt{solverId} is \texttt{08b1bc4c-e6d9-44ec-ba5d-24801f6c2339}. Then the path, at which the algorithm registers itself to ZooKeeper is
+    \begin{lstlisting}
 /biohadoop/solvers/Sum/08b1bc4c-e6d9-44ec-ba5d-24801f6c2339
-  \end{lstlisting}
-  
-  The registration data consists, again, of the \texttt{solverId} and a URL, where the current solution for the algorithm can be found, both serialized using the JSON format. An example for this data can be found in listing \ref{chap4-zookeeper-registration-data}, where the relevant information is in line 1.
-  
-  \lstinputlisting[caption=Example for ZooKeeper registration data,label=listing:chap4-zookeeper-registration-data]{../listings/chap4-zookeeper-registration-data.lst}
+    \end{lstlisting}
     
-  When the data merging between islands should be done, the defined \texttt{RemoteResultGetter} gets a list of all the algorithms that are registered at ZooKeeper, along with their registration data. With this information, that contains also the URL where the current solution for the islands can be found, the \texttt{RemoteResultGetter} chooses which remote solution should be used for the subsequent merge.
-  
-  The remote solutions are made available as HTTP resources at the URL that is part of the registration information, where the complete URL consists of the URL from the ZooKeeper registration with the \texttt{solverId} appended, for example:
-  
-  \begin{lstlisting}
+    The registration data consists, again, of the \texttt{solverId} and a URL, where the current solution for the algorithm can be found, both serialized using the JSON format. An example for this data can be found in listing \ref{listing:chap4-zookeeper-registration-data}, where the relevant information is on line 1.
+    
+    \lstinputlisting[caption=Example for ZooKeeper registration data,label=listing:chap4-zookeeper-registration-data]{../listings/chap4-zookeeper-registration-data.lst}
+      
+    When the data merging between islands should be done, the defined \texttt{RemoteResultGetter} gets a list of all the algorithms that are registered at ZooKeeper, along with their registration data. With this information, that contains also the URL where the current solution for the islands can be found, the \texttt{RemoteResultGetter} chooses which remote solution should be used for the subsequent merge.
+    
+    The remote solutions are made available as HTTP resources at the URL that is part of the registration information, where the complete URL consists of the URL from the ZooKeeper registration with the \texttt{solverId} appended, for example:
+    
+    \begin{lstlisting}
 http://example.org:30000/rs/islandmodel/08b1bc4c-e6d9-44ec-ba5d-24801f6c2339
-  \end{lstlisting}  
-  
-  In the end, the whole process of registration to ZooKeeper, retrieval of this information from ZooKeeper and publishing the result of the computation at a defined URL is done by the island model API behind the curtains, so an algorithm author doesn't have to bother with it. The only things an algorithm author has to do is to
-  \begin{itemize}
-    \item provide its data using the \texttt{DataClient.setData(SolverId, Option<T>, T)} method
-    \item use the provided methods of the \texttt{IslandModel} object when a merging should be done
-    \item provide an implementation of \texttt{RemoteResultGetter} and \texttt{DataMerger} to define which data should be merged and how the merging should be done
-  \end{itemize}
-
-  By using ZooKeeper as central registry for the island model, it doesn't matter if the algorithms run in the same Biohadoop instance (which is possible by defining several instances in Biohadoops configuration file), or if the algorithm runs in an another Biohadoop instance. The only advantage of running several algorithms in the same Biohadoop instance
-  
-  \label{chap:impl:island-model}
+    \end{lstlisting}  
+    
+    In the end, the whole process of registration to ZooKeeper, retrieval of this information from ZooKeeper and publishing the result of the computation at a defined URL is done by the island model API behind the curtains, so an algorithm author doesn't have to bother with it. The only things an algorithm author has to do is to
     \begin{itemize}
-      \item distribution using island model (reference to island model)
-      \item explain problems faced on how to find other running instances / strategy
-      \item zookeeper
-      \item data exchange with algorithm running in same process/different process
-      \item when / how is data exchanged (handler + configuration)
-      \item merge process
-      \item extension possibilities?
-      \item configuration
+      \item provide its data using the \texttt{DataClient.setData(SolverId, Option<T>, T)} method
+      \item use the provided methods of the \texttt{IslandModel} object when the merging should be done
+      \item provide an implementation of \texttt{RemoteResultGetter} and \texttt{DataMerger} to define which data should be merged and how the merging should be done
     \end{itemize}
+
+    By using ZooKeeper as central registry for the island model, and by exchanging the data between the islands through HTTP, it doesn't matter if the algorithms run in the same Biohadoop instance (which is possible by defining several instances in Biohadoops configuration file), or if the algorithms run in different Biohadoop instances. The only advantage of running several algorithms in the same Biohadoop instance is, that it guarantees that they all run at the same time. When running several Biohadoop instances on Hadoop, it isn't guaranteed that they also run at the same time, as Hadoop decides when to launch a program. If the algorithms don't run at the same time, then there is no data exchange possible between them, so the island model is reduced to one single island, which means that it makes no difference to running the algorithm without the island model.
   
 \section{Configuration}
 \label{chap:impl:configuration}
@@ -541,7 +580,7 @@ http://example.org:30000/rs/islandmodel/08b1bc4c-e6d9-44ec-ba5d-24801f6c2339
   \lstinputlisting[caption=Example on how to produce a configuration file for the \texttt{Sum} algorithm\, using the provided builders. The output of this program can be found in listing \ref{lst:sum-configuration},label=lst:sum-configuration-builder]{../listings/chap4-sum-configuration-builder.lst}
   
 \section{BioOozie}
-\label{chap:impl:sec:oozie}
+\label{chap:impl:oozie}
   \begin{itemize}
     \item where fits oozie in the picture?
     \item advantage of using oozie / problems with oozie (not guaranteed that oozie starts parallel task in parallel)

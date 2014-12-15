@@ -73,6 +73,7 @@ YARN runs applications at the same time, as long as there are enough cluster res
 \end{figure}
 
 \section{Oozie}
+\label{chap:hadoop:oozie}
 Apache Oozie is a workflow tool, that runs on Hadoop. The workflow jobs are Directed Acyclic Graphs (DAGs) of actions, written in XML. Each action has two possible outcomes: ``ok'' if the action completed without an error, and ``error'' in the case of an error. The action outcome influences the next transition in the DAG. 
 
 An Oozie workflow consists of two types of nodes, the control flow nodes and the action nodes. Control flow nodes define the sequence of actions in a workflow (start, end, failure, decision, fork, join). Action nodes are used to execute a program or computation.

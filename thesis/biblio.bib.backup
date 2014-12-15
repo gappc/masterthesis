@@ -336,15 +336,20 @@
   year={2003},
   organization={ACM}
 }
-@article{dean2008mapreduce,
-  title={MapReduce: simplified data processing on large clusters},
-  author={Dean, Jeffrey and Ghemawat, Sanjay},
-  journal={Communications of the ACM},
-  volume={51},
-  number={1},
-  pages={107--113},
-  year={2008},
-  publisher={ACM}
+@misc{hdfs-ha-qjm,
+  title = {HDFS high availability using the Quorum Journal Manager},
+  howpublished = {\url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html}},
+  note = {last access: 12.11.2014}
+}
+@misc{hdfs-ha-nfs,
+  title = {HDFS high availability using NFS},
+  howpublished = {\url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithNFS.html}},
+  note = {last access: 12.11.2014}
+}
+@misc{yarn-ha,
+  title = {YARN high availability},
+  howpublished = {\url{http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/ResourceManagerHA.html}},
+  note = {last access: 13.11.2014}
 }
 % Biohadoop
 @misc{json-schema,
@@ -355,7 +360,7 @@
 @misc{biohadoop,
   title = {Biohadoop},
   howpublished = {\url{https://github.com/gappc/biohadoop}},
-  note = {last access: 11.09.2014}
+  note = {last access: 15.12.2014}
 }
 @misc{biohadoop-algorithms,
   title = {Biohadoop example algorithms},
@@ -397,6 +402,16 @@
   howpublished = {\url{http://zookeeper.apache.org/}},
   note = {last access: 05.09.2014}
 }
+@misc{netty,
+  title = {Netty},
+  howpublished = {\url{http://netty.io/}},
+  note = {last access: 19.11.2014}
+}
+@misc{jvm-serializers,
+  title = {Comparison of JVM serializers},
+  howpublished = {\url{https://github.com/eishay/jvm-serializers/wiki}},
+  note = {last access: 27.11.2014}
+}
 @article{shore2004fail,
   title={Fail fast [software debugging]},
   author={Shore, Jim},
@@ -431,4 +446,45 @@
   title = {Docker},
   howpublished = {\url{https://index.docker.io/u/sequenceiq/hadoop-docker/}},
   note = {last access: 03.06.2014}
+}
+@article{zitzler2000comparison,
+  title={Comparison of multiobjective evolutionary algorithms: Empirical results},
+  author={Zitzler, Eckart and Deb, Kalyanmoy and Thiele, Lothar},
+  journal={Evolutionary computation},
+  volume={8},
+  number={2},
+  pages={173--195},
+  year={2000},
+  publisher={MIT Press}
+}
+@article{deb2000efficient,
+  title={An efficient constraint handling method for genetic algorithms},
+  author={Deb, Kalyanmoy},
+  journal={Computer methods in applied mechanics and engineering},
+  volume={186},
+  number={2},
+  pages={311--338},
+  year={2000},
+  publisher={Elsevier}
+}
+@inproceedings{wolfe1989more,
+  title={More iteration space tiling},
+  author={Wolfe, Michael},
+  booktitle={Proceedings of the 1989 ACM/IEEE conference on Supercomputing},
+  pages={655--664},
+  year={1989},
+  organization={ACM}
+}
+@inproceedings{amdahl1967validity,
+  title={Validity of the single processor approach to achieving large scale computing capabilities},
+  author={Amdahl, Gene M},
+  booktitle={Proceedings of the April 18-20, 1967, spring joint computer conference},
+  pages={483--485},
+  year={1967},
+  organization={ACM}
+}
+@misc{iftop,
+  title = {iftop},
+  howpublished = {\url{http://www.ex-parrot.com/pdw/iftop/}},
+  note = {last access: 08.12.2014}
 }

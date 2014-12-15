@@ -1,301 +1,149 @@
 \begin{thebibliography}{10}
 
-\bibitem{dagum1998openmp}
-Leonardo Dagum and Ramesh Menon.
-\newblock Openmp: an industry standard api for shared-memory programming.
-\newblock {\em Computational Science \& Engineering, IEEE}, 5(1):46--55, 1998.
-
-\bibitem{chapman2008using}
-Barbara Chapman, Gabriele Jost, and Ruud Van Der~Pas.
-\newblock {\em Using OpenMP: portable shared memory parallel programming},
-  volume~10.
-\newblock MIT press, 2008.
-
-\bibitem{mpi}
-The message passing interface (mpi) standard.
-\newblock \url{http://www.mcs.anl.gov/research/projects/mpi/}.
-\newblock last access: 08.10.2014.
-
-\bibitem{nieplocha1994global}
-Jaroslaw Nieplocha, Robert~J Harrison, and Richard~J Littlefield.
-\newblock Global arrays: A portable shared-memory programming model for
-  distributed memory computers.
-\newblock In {\em Proceedings of the 1994 ACM/IEEE conference on
-  Supercomputing}, pages 340--349. IEEE Computer Society Press, 1994.
-
-\bibitem{coarfa2005evaluation}
-Cristian Coarfa, Yuri Dotsenko, John Mellor-Crummey, Fran{\c{c}}ois Cantonnet,
-  Tarek El-Ghazawi, Ashrujit Mohanti, Yiyi Yao, and Daniel
-  Chavarr{\'\i}a-Miranda.
-\newblock An evaluation of global address space languages: co-array fortran and
-  unified parallel c.
-\newblock In {\em Proceedings of the tenth ACM SIGPLAN symposium on Principles
-  and practice of parallel programming}, pages 36--47. ACM, 2005.
-
-\bibitem{hadoop}
-Apache hadoop.
-\newblock \url{http://hadoop.apache.org/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{dean2008mapreduce}
-Jeffrey Dean and Sanjay Ghemawat.
-\newblock Mapreduce: simplified data processing on large clusters.
-\newblock {\em Communications of the ACM}, 51(1):107--113, 2008.
-
-\bibitem{pavlo2009comparison}
-Andrew Pavlo, Erik Paulson, Alexander Rasin, Daniel~J Abadi, David~J DeWitt,
-  Samuel Madden, and Michael Stonebraker.
-\newblock A comparison of approaches to large-scale data analysis.
-\newblock In {\em Proceedings of the 2009 ACM SIGMOD International Conference
-  on Management of data}, pages 165--178. ACM, 2009.
-
-\bibitem{stonebraker2010mapreduce}
-Michael Stonebraker, Daniel Abadi, David~J DeWitt, Sam Madden, Erik Paulson,
-  Andrew Pavlo, and Alexander Rasin.
-\newblock Mapreduce and parallel dbmss: friends or foes?
-\newblock {\em Communications of the ACM}, 53(1):64--71, 2010.
-
-\bibitem{floratou2012can}
-Avrilia Floratou, Nikhil Teletia, David~J DeWitt, Jignesh~M Patel, and Donghui
-  Zhang.
-\newblock Can the elephants handle the nosql onslaught?
-\newblock {\em Proceedings of the VLDB Endowment}, 5(12):1712--1723, 2012.
-
-\bibitem{abouzeid2009hadoopdb}
-Azza Abouzeid, Kamil Bajda-Pawlikowski, Daniel Abadi, Avi Silberschatz, and
-  Alexander Rasin.
-\newblock Hadoopdb: an architectural hybrid of mapreduce and dbms technologies
-  for analytical workloads.
-\newblock {\em Proceedings of the VLDB Endowment}, 2(1):922--933, 2009.
-
-\bibitem{su2012oracle}
-Xueyuan Su and Garret Swart.
-\newblock Oracle in-database hadoop: when mapreduce meets rdbms.
-\newblock In {\em Proceedings of the 2012 ACM SIGMOD International Conference
-  on Management of Data}, pages 779--790. ACM, 2012.
-
-\bibitem{gates2009building}
-Alan~F Gates, Olga Natkovich, Shubham Chopra, Pradeep Kamath, Shravan~M
-  Narayanamurthy, Christopher Olston, Benjamin Reed, Santhosh Srinivasan, and
-  Utkarsh Srivastava.
-\newblock Building a high-level dataflow system on top of map-reduce: the pig
-  experience.
-\newblock {\em Proceedings of the VLDB Endowment}, 2(2):1414--1425, 2009.
-
-\bibitem{thusoo2010hive}
-Ashish Thusoo, Joydeep~Sen Sarma, Namit Jain, Zheng Shao, Prasad Chakka, Ning
-  Zhang, Suresh Antony, Hao Liu, and Raghotham Murthy.
-\newblock Hive-a petabyte scale data warehouse using hadoop.
-\newblock In {\em Data Engineering (ICDE), 2010 IEEE 26th International
-  Conference on}, pages 996--1005. IEEE, 2010.
-
-\bibitem{ekanayake2008mapreduce}
-Jaliya Ekanayake, Shrideep Pallickara, and Geoffrey Fox.
-\newblock Mapreduce for data intensive scientific analyses.
-\newblock In {\em eScience, 2008. eScience'08. IEEE Fourth International
-  Conference on}, pages 277--284. IEEE, 2008.
-
-\bibitem{bu2010haloop}
-Yingyi Bu, Bill Howe, Magdalena Balazinska, and Michael~D Ernst.
-\newblock Haloop: Efficient iterative data processing on large clusters.
-\newblock {\em Proceedings of the VLDB Endowment}, 3(1-2):285--296, 2010.
-
-\bibitem{rosen2013iterative}
-Joshua Rosen, Neoklis Polyzotis, Vinayak Borkar, Yingyi Bu, Michael~J Carey,
-  Markus Weimer, Tyson Condie, and Raghu Ramakrishnan.
-\newblock Iterative mapreduce for large scale machine learning.
-\newblock {\em arXiv preprint arXiv:1303.3517}, 2013.
-
-\bibitem{ye2009stochastic}
-Jerry Ye, Jyh-Herng Chow, Jiang Chen, and Zhaohui Zheng.
-\newblock Stochastic gradient boosted distributed decision trees.
-\newblock In {\em Proceedings of the 18th ACM conference on Information and
-  knowledge management}, pages 2061--2064. ACM, 2009.
-
-\bibitem{malewicz2010pregel}
-Grzegorz Malewicz, Matthew~H Austern, Aart~JC Bik, James~C Dehnert, Ilan Horn,
-  Naty Leiser, and Grzegorz Czajkowski.
-\newblock Pregel: a system for large-scale graph processing.
-\newblock In {\em Proceedings of the 2010 ACM SIGMOD International Conference
-  on Management of data}, pages 135--146. ACM, 2010.
-
-\bibitem{ekanayake2010twister}
-Jaliya Ekanayake, Hui Li, Bingjing Zhang, Thilina Gunarathne, Seung-Hee Bae,
-  Judy Qiu, and Geoffrey Fox.
-\newblock Twister: a runtime for iterative mapreduce.
-\newblock In {\em Proceedings of the 19th ACM International Symposium on High
-  Performance Distributed Computing}, pages 810--818. ACM, 2010.
-
-\bibitem{vavilapalli2013apache}
-Vinod~Kumar Vavilapalli, Arun~C Murthy, Chris Douglas, Sharad Agarwal, Mahadev
-  Konar, Robert Evans, Thomas Graves, Jason Lowe, Hitesh Shah, Siddharth Seth,
-  et~al.
-\newblock Apache hadoop yarn: Yet another resource negotiator.
-\newblock In {\em Proceedings of the 4th annual Symposium on Cloud Computing},
-  page~5. ACM, 2013.
-
-\bibitem{hadoop-2.2.0}
-Apache hadoop 2.2.0.
-\newblock \url{http://hadoop.apache.org/docs/r2.2.0/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{spark}
-Apache spark.
-\newblock \url{https://spark.apache.org/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{zaharia2012resilient}
-Matei Zaharia, Mosharaf Chowdhury, Tathagata Das, Ankur Dave, Justin Ma, Murphy
-  McCauley, Michael~J Franklin, Scott Shenker, and Ion Stoica.
-\newblock Resilient distributed datasets: A fault-tolerant abstraction for
-  in-memory cluster computing.
-\newblock In {\em Proceedings of the 9th USENIX conference on Networked Systems
-  Design and Implementation}, pages 2--2. USENIX Association, 2012.
-
-\bibitem{mahout}
-Apache mahout.
-\newblock \url{http://mahout.apache.org/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{storm}
-Apache storm.
-\newblock \url{https://storm.apache.org/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{tez}
-Apache tez.
-\newblock \url{https://tez.apache.org/}.
-\newblock last access: 08.10.2014.
-
-\bibitem{samza}
-Apache samza.
-\newblock \url{https://samza.incubator.apache.org/}.
-\newblock last access: 08.10.2014.
-
-\bibitem{foldingathome}
-Folding@home.
-\newblock \url{http://folding.stanford.edu/home/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{setiathome}
-Seti@home.
-\newblock \url{http://setiathome.ssl.berkeley.edu/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{islam2012oozie}
-Mohammad Islam, Angelo~K Huang, Mohamed Battisha, Michelle Chiang, Santhosh
-  Srinivasan, Craig Peters, Andreas Neumann, and Alejandro Abdelnur.
-\newblock Oozie: towards a scalable workflow management system for hadoop.
-\newblock In {\em Proceedings of the 1st ACM SIGMOD Workshop on Scalable
-  Workflow Execution Engines and Technologies}, page~4. ACM, 2012.
-
-\bibitem{oozie}
-Apache oozie.
-\newblock \url{http://oozie.apache.org/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{alexander2005history}
-S~Alexander.
-\newblock On the history of combinatorial optimization (till 1960).
-\newblock {\em Handbooks in Operations Research and Management Science:
-  Discrete Optimization}, 12:1, 2005.
-
-\bibitem{ehrgott2005multicriteria}
-Matthias Ehrgott.
-\newblock {\em Multicriteria optimization}, volume~2.
-\newblock Springer, 2005.
-
-\bibitem{yang2010nature}
-Xin-She Yang.
-\newblock {\em Nature-inspired metaheuristic algorithms}.
-\newblock Luniver press, 2010.
-
 \bibitem{sivanandam2008genetic}
-SN~Sivanandam and SN~Deepa.
-\newblock {\em Genetic Algorithm Optimization Problems}.
+S.~Sivanandam and S.~Deepa, {\em Genetic Algorithm Optimization Problems}.
 \newblock Springer, 2008.
 
 \bibitem{kennedy2010particle}
-James Kennedy.
-\newblock Particle swarm optimization.
-\newblock In {\em Encyclopedia of Machine Learning}, pages 760--766. Springer,
-  2010.
+J.~Kennedy, ``Particle swarm optimization,'' in {\em Encyclopedia of Machine
+  Learning}, pp.~760--766, Springer, 2010.
+
+\bibitem{hadoop}
+``Apache hadoop.'' \url{http://hadoop.apache.org/}.
+\newblock last access: 01.10.2014.
+
+\bibitem{dean2008mapreduce}
+J.~Dean and S.~Ghemawat, ``Mapreduce: simplified data processing on large
+  clusters,'' {\em Communications of the ACM}, vol.~51, no.~1, pp.~107--113,
+  2008.
+
+\bibitem{vavilapalli2013apache}
+V.~K. Vavilapalli, A.~C. Murthy, C.~Douglas, S.~Agarwal, M.~Konar, R.~Evans,
+  T.~Graves, J.~Lowe, H.~Shah, S.~Seth, {\em et~al.}, ``Apache hadoop yarn: Yet
+  another resource negotiator,'' in {\em Proceedings of the 4th annual
+  Symposium on Cloud Computing}, p.~5, ACM, 2013.
+
+\bibitem{storm}
+``Apache storm.'' \url{https://storm.apache.org/}.
+\newblock last access: 01.10.2014.
+
+\bibitem{spark}
+``Apache spark.'' \url{https://spark.apache.org/}.
+\newblock last access: 01.10.2014.
+
+\bibitem{zaharia2012resilient}
+M.~Zaharia, M.~Chowdhury, T.~Das, A.~Dave, J.~Ma, M.~McCauley, M.~J. Franklin,
+  S.~Shenker, and I.~Stoica, ``Resilient distributed datasets: A fault-tolerant
+  abstraction for in-memory cluster computing,'' in {\em Proceedings of the 9th
+  USENIX conference on Networked Systems Design and Implementation}, pp.~2--2,
+  USENIX Association, 2012.
+
+\bibitem{biohadoop}
+``Biohadoop.'' \url{https://github.com/gappc/biohadoop}.
+\newblock last access: 15.12.2014.
+
+\bibitem{oozie}
+``Apache oozie.'' \url{http://oozie.apache.org/}.
+\newblock last access: 01.10.2014.
+
+\bibitem{alexander2005history}
+S.~Alexander, ``On the history of combinatorial optimization (till 1960),''
+  {\em Handbooks in Operations Research and Management Science: Discrete
+  Optimization}, vol.~12, p.~1, 2005.
+
+\bibitem{ehrgott2005multicriteria}
+M.~Ehrgott, {\em Multicriteria optimization}, vol.~2.
+\newblock Springer, 2005.
+
+\bibitem{yang2010nature}
+X.-S. Yang, {\em Nature-inspired metaheuristic algorithms}.
+\newblock Luniver press, 2010.
 
 \bibitem{dorigo2010ant}
-Marco Dorigo and Mauro Birattari.
-\newblock Ant colony optimization.
-\newblock In {\em Encyclopedia of Machine Learning}, pages 36--39. Springer,
-  2010.
+M.~Dorigo and M.~Birattari, ``Ant colony optimization,'' in {\em Encyclopedia
+  of Machine Learning}, pp.~36--39, Springer, 2010.
 
 \bibitem{durillo2008study}
-Juan~Jos{\'e} Durillo, Antonio~J Nebro, Francisco Luna, and Enrique Alba.
-\newblock A study of master-slave approaches to parallelize nsga-ii.
-\newblock In {\em Parallel and Distributed Processing, 2008. IPDPS 2008. IEEE
-  International Symposium on}, pages 1--8. IEEE, 2008.
+J.~J. Durillo, A.~J. Nebro, F.~Luna, and E.~Alba, ``A study of master-slave
+  approaches to parallelize nsga-ii,'' in {\em Parallel and Distributed
+  Processing, 2008. IPDPS 2008. IEEE International Symposium on}, pp.~1--8,
+  IEEE, 2008.
 
 \bibitem{deb2002fast}
-Kalyanmoy Deb, Amrit Pratap, Sameer Agarwal, and TAMT Meyarivan.
-\newblock A fast and elitist multiobjective genetic algorithm: Nsga-ii.
-\newblock {\em Evolutionary Computation, IEEE Transactions on}, 6(2):182--197,
-  2002.
+K.~Deb, A.~Pratap, S.~Agarwal, and T.~Meyarivan, ``A fast and elitist
+  multiobjective genetic algorithm: Nsga-ii,'' {\em Evolutionary Computation,
+  IEEE Transactions on}, vol.~6, no.~2, pp.~182--197, 2002.
 
 \bibitem{ghemawat2003google}
-Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung.
-\newblock The google file system.
-\newblock In {\em ACM SIGOPS Operating Systems Review}, volume~37, pages
-  29--43. ACM, 2003.
+S.~Ghemawat, H.~Gobioff, and S.-T. Leung, ``The google file system,'' in {\em
+  ACM SIGOPS Operating Systems Review}, vol.~37, pp.~29--43, ACM, 2003.
 
 \bibitem{hdfs-ha-qjm}
-Hdfs high availability using the quorum journal manager.
-\newblock
+``Hdfs high availability using the quorum journal manager.''
   \url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html}.
 \newblock last access: 12.11.2014.
 
 \bibitem{hdfs-ha-nfs}
-Hdfs high availability using nfs.
-\newblock
+``Hdfs high availability using nfs.''
   \url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithNFS.html}.
 \newblock last access: 12.11.2014.
 
 \bibitem{yarn-ha}
-Yarn high availability.
-\newblock
+``Yarn high availability.''
   \url{http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/ResourceManagerHA.html}.
 \newblock last access: 13.11.2014.
 
-\bibitem{biohadoop-algorithms}
-Biohadoop example algorithms.
-\newblock \url{https://github.com/gappc/biohadoop-algorithms}.
-\newblock last access: 21.08.2014.
+\bibitem{zookeeper}
+``Zookeeper.'' \url{http://zookeeper.apache.org/}.
+\newblock last access: 05.09.2014.
+
+\bibitem{bioworker-browser}
+``Example worker for biohadoop, written in javascript.''
+  \url{https://github.com/gappc/bioworker-browser}.
+\newblock last access: 22.09.2014.
+
+\bibitem{bioworker-python}
+``Example worker for biohadoop, written in python.''
+  \url{https://github.com/gappc/bioworker-python}.
+\newblock last access: 22.09.2014.
+
+\bibitem{netty}
+``Netty.'' \url{http://netty.io/}.
+\newblock last access: 19.11.2014.
+
+\bibitem{kryo}
+``Kryo.'' \url{https://github.com/EsotericSoftware/kryo}.
+\newblock last access: 04.08.2014.
+
+\bibitem{jvm-serializers}
+``Comparison of jvm serializers.''
+  \url{https://github.com/eishay/jvm-serializers/wiki}.
+\newblock last access: 27.11.2014.
 
 \bibitem{maven}
-Maven.
-\newblock \url{http://maven.apache.org/}.
-\newblock last access: 11.09.2014.
-
-\bibitem{biohadoop}
-Biohadoop.
-\newblock \url{https://github.com/gappc/biohadoop}.
+``Maven.'' \url{http://maven.apache.org/}.
 \newblock last access: 11.09.2014.
 
 \bibitem{docker}
-Docker.
-\newblock \url{https://www.docker.com/}.
+``Docker.'' \url{https://www.docker.com/}.
 \newblock last access: 11.09.2014.
 
-\bibitem{json-schema}
-Json schema.
-\newblock \url{http://json-schema.org/}.
-\newblock last access: 28.07.2014.
+\bibitem{zitzler2000comparison}
+E.~Zitzler, K.~Deb, and L.~Thiele, ``Comparison of multiobjective evolutionary
+  algorithms: Empirical results,'' {\em Evolutionary computation}, vol.~8,
+  no.~2, pp.~173--195, 2000.
 
-\bibitem{biohadoop-docker}
-Hadoop environment using docker.
-\newblock \url{https://github.com/gappc/docker-biohadoop}.
-\newblock last access: 11.09.2014.
+\bibitem{deb2000efficient}
+K.~Deb, ``An efficient constraint handling method for genetic algorithms,''
+  {\em Computer methods in applied mechanics and engineering}, vol.~186, no.~2,
+  pp.~311--338, 2000.
 
-\bibitem{docker-sequenceiq}
-Docker.
-\newblock \url{https://index.docker.io/u/sequenceiq/hadoop-docker/}.
-\newblock last access: 03.06.2014.
+\bibitem{wolfe1989more}
+M.~Wolfe, ``More iteration space tiling,'' in {\em Proceedings of the 1989
+  ACM/IEEE conference on Supercomputing}, pp.~655--664, ACM, 1989.
+
+\bibitem{iftop}
+``iftop.'' \url{http://www.ex-parrot.com/pdw/iftop/}.
+\newblock last access: 08.12.2014.
 
 \end{thebibliography}

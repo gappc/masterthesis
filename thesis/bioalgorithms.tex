@@ -31,7 +31,7 @@ It's not obvious how to compare two solutions in MOP. Figure \ref{fig:dominance}
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=100mm]{bioinsp-dominance.png}
-  \caption{(a) a is better than b, (b) b is better than a, (c) none is better - a and b are non-dominated}
+  \caption{Comparing solutions: (a) a is better than b, (b) b is better than a, (c) none is better - a and b are non-dominated}
   \label{fig:dominance}
 \end{figure}
 
@@ -40,7 +40,7 @@ The Pareto Optimality theory defines the concept of Pareto Dominance, that can b
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=110mm]{bioinsp-dominance2.png}
-  \caption{(a) A dominates B and C, (b) all points are non-dominated}
+  \caption{Pareto Dominance: (a) A dominates B and C, (b) all points are non-dominated}
   \label{fig:dominance2}
 \end{figure}
 
@@ -78,7 +78,7 @@ Figure \ref{fig:conv-div} gives an example for convergence and diversity of the 
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=130mm]{bioinsp-conv-div.png}
-  \caption{(a) Pareto Front with bad convergence, (b) Pareto Front with bad divergence, (c) ideal case, where the Pareto Front matches the optimal Pareto Front}
+  \caption{Example Pareto Fronts: (a) Pareto Front with bad convergence, (b) Pareto Front with bad divergence, (c) ideal case, where the Pareto Front matches the optimal Pareto Front}
   \label{fig:conv-div}
 \end{figure}
 
@@ -99,6 +99,7 @@ Bio-inspired optimization techniques (BIO) are a sub family of the metaheuristic
 Bio-inspired optimization techniques are used today in many areas, like mechanical and electrical engineering, image processing, machine learning, network optimization, data mining etc. \cite{sivanandam2008genetic}.
 
 \subsection{Genetic algorithm}
+\label{chap:bioalgorithms:ga}
 Genetic algorithms (GA) are a population-based optimization strategy. The population consists of $n$ individuals, each one representing a solution of the optimization problem. Every individual gets assigned a fitness value, that is computed according to the optimization objective.
 
 The idea behind genetic algorithms (GA) is to iteratively evolve the population towards an optimal solution, by applying selection, recombination (crossover) and mutation to it.
@@ -139,7 +140,7 @@ Picture (b) of figure \ref{fig:rank-crowdingdist} gives a graphical representati
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=110mm]{bioinsp-rank-crowdingdist.png}
-  \caption{(a) A has rank 0, B and C rank 1, (b) crowding distance of solution B}
+  \caption{Ranking and crowding distance: (a) A has rank 0, B and C rank 1, (b) crowding distance of solution B}
   \label{fig:rank-crowdingdist}
 \end{figure}
 

@@ -1,0 +1,318 @@
+\chapter{Evaluation}
+\label{chap:evaluation}
+Biohadoops purpose is to facilitate the implementation of parallel algorithms on Hadoop. It is expected that the execution time of an algorithm reduces if it is parallelized (assuming the algorithm is suitable for parallelization). As this cannot be guaranteed without proper measurement, this chapter is devoted to the study of Biohadoops speedup characteristics.
+
+Two bio-inspired optimization algorithms are used as benchmarks. Both use Biohadoop and its task system to solve a test problem. The algorithms and test problems are described in section \ref{chap:evaluation:testproblems}.
+
+The algorithms are executed on a Hadoop cluster to study how their execution times change when their problem sizes and the number of workers change. The benchmark details can be found in section \ref{chap:evaluation:benchmarks}, the results are presented in section \ref{chap:evaluation:benchmarks}.
+
+\section{Test problems}
+\label{chap:evaluation:testproblems}
+Both implemented algorithms are part of the GA family. They differ in the number of objectives that they can handle. While NSGA-II is used to solve the MOP in section \ref{chap:evaluation:zdt3}, a simple GA is used to solve the SOP in section \ref{chap:evaluation:tiledmul}.
+
+\subsection{ZDT-3}
+\label{chap:evaluation:zdt3}
+The first implemented optimization algorithm is NSGA-II that is used to find optimal solutions for the Zitzler–Deb–Thiele's function nr. 3 \cite{zitzler2000comparison}. ZDT-3 is a well known MOP and therefore suited as a test problem. The task is to find an approximation to the optimal Pareto Front, given in figure \ref{fig:zdt3}.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=110mm]{zdt3.png}
+  \caption{Optimal Pareto Front for ZDT-3}
+  \label{fig:zdt3}
+\end{figure}
+
+The implementation uses Biohadoop workers to create and evaluate the offsprings. Simulated Binary Crossover (SBX) and Parameter based mutation \cite{deb2000efficient} are used for the offspring creation. The fitness is computed using the ZDT-3 function. The selection of the fittest individuals for the next population is based on ranking and crowding distance and is performed on the master.
+
+\subsection{Tiled matrix multiplication}
+\label{chap:evaluation:tiledmul}
+The second benchmark implements a GA to solve the SOP of finding optimal tile sizes for the tiled matrix multiplication. The objective is to minimize the execution time for a matrix multiplication.
+
+A matrix multiplication can be performed in different ways. The most obvious one is the standard algorithm:
+\begin{lstlisting}
+for i = 1 to n
+  for j = 1 to m
+    for k = 1 to l
+      C(i,j) = C(i,j) + A(i,k) * B(k,j)
+\end{lstlisting}
+
+The matrix multiplication can be improved by loop tiling \cite{wolfe1989more}. The computation is performed on smaller blocks (tiles) of the matrices:
+\begin{lstlisting}
+for i0 = 1 to n, step blocksize_i
+  for j0 = 1 to m, step blocksize_j
+    for k0 = 1 to l, step blocksize_k
+      for i = i0 to min(i0 + blocksize_i, n)
+        for j = j0 to min(j0 + blocksize_j, m)
+          for k = k0 to min(k0 + blocksize_k, l)
+            C(i,j) = C(i,j) + A(i,k) * B(k,j)
+\end{lstlisting}
+
+If the blocks are small enough they fit into the L1 CPU cache which results in a speedup. For example, the average of five consequent test multiplications for two matrices of size 1024x1024 took 18.245 seconds for the simple matrix multiplication and 2.048 seconds for the tiled multiplication with tile sizes $i=16$, $j=16$ and $k=16$. This numbers show that it is appropriate to use the tiled approach for the matrix multiplication. But the speed of the tiled matrix multiplication depends heavily on the tile sizes, the same tiled multiplication as above with tile sizes of $i=1$, $j=1$ and $k=1$ took 22.690 seconds to finish, an increase of more than 10 times compared to a good tile size. Because of the number of possible tile size combinations and the time it takes to execute a matrix multiplication (e.g. matrix size=1024, 2 seconds for a matrix multiplication: $1024^3 * 2 = 2e9 $ seconds), it is not feasible to do an exhaustive search for the optimal tile sizes.
+
+An optimization algorithm can be used to find the (near) optimal tile sizes for the different loops. In this case, the optimization is done using a GA. The implementation uses Biohadoops workers to create and evaluate an offspring. For the offspring creation, Simulated Binary Crossover (SBX) and Parameter based mutation are used. The fitness is computed as the time it takes to multiply two matrices using a given tile size. The selection of the fittest individuals for the next population is performed on the master.
+
+\section{Benchmarks}
+\label{chap:evaluation:benchmarks}
+The task of the benchmarks is to find the speedup characteristics of Biohadoop. The assumption is that the execution time of an algorithm depends on the problem size and the number of workers. To evaluate this assumption, the algorithms presented in section \ref{chap:evaluation:testproblems} are executed with different problem sizes and different numbers of workers. The execution times are measured and used to calculate the speedup using the formula $S = T_S / T_P$, where $S$ is the speedup, $T_S$ is the time for a serial execution and $T_P$ is the time for parallel execution. The results are discussed in section \ref{chap:evaluation:result}.
+
+%  Amdahl's law \cite{amdahl1967validity}
+
+A benchmark is defined by a given algorithm (e.g. NSGA-II) and its settings (e.g. number of workers, number of iterations, etc.). All performed benchmarks have the following settings in common:
+\begin{itemize}
+  \item the number of iterations is set to 250
+  \item the population size is set to 100
+  \item the distribution index $n_c$ for the SBX crossover is set to 20
+  \item the distribution index $n_m$ for the mutation is set to 20
+  \item the mutation probability for each offspring value is set to $1/n$, i.e. on average one offspring value is mutated
+\end{itemize}
+
+The test problems have also exclusive settings that only apply to them.
+
+For ZDT-3 this is the genome size. The genome size corresponds to the number of values of an individual and the dimension of the solution space. Each individual is represented by its genome. ZDT-3 can handle any genome size, changing this number influences two properties of the ZDT-3 benchmark. First, increasing the number of genomes also increases the computation effort for the workers that generate new offsprings and compute their fitness. This results from the fact that the workers generate new individuals using the parent genomes and that the ZDT-3 algorithm, used for the fitness computation, loops over all genomes. Second, the genome size influences the amount of data that has to be transferred between the master and the workers. Each worker repeatedly receives two parent individuals and returns an offspring and its computed fitness. The amount of data send between master and workers is therefore related to the gnome size of each individual.
+
+The exclusive setting of the tiled matrix multiplication is the matrix size. It influences the number of computations that need to be performed for a full matrix multiplication and therefore the execution time. In contrast to the first problem, the matrix size has no influence on the amount of data that has to be transferred between the master and the workers. The matrices are part of the ``initial data'' (see chapter \ref{chap:impl:worker}) and therefore transferred exactly once to every worker. The task data consists of two parent individuals that are transferred from the master to the workers to create a new offspring and compute its fitness. The data transferred from a worker to the master contains the offspring and its computed fitness value. Each individual consists of its tile sizes for $i$, $j$ and $k$.
+
+The genome size for different ZDT-3 benchmarks is set to 10, 100, 1000 and 10000. The matrix size for the tiled matrix multiplication is set to 128x128 and 256x256. The execution time for each setting is measured for a number of workers that range from 1 to 15. Each of this benchmarks is repeated five times to improve the reliability of the results, making it 300 benchmark runs for ZDT-3 (4 genome sizes * 15 worker setting * 5 repetitions) and 150 benchmark runs for the tiled matrix multiplication (2 tile sizes * 15 worker settings * 5 repetitions).
+
+All experiments were performed on a Hadoop cluster with 6 identical machines. Each machine has the following specifications:
+
+\begin{itemize}
+  \item Intel Core2 Duo CPU E8200 @ 2.66GHz (2x2,66Ghz, no hyperthreading)
+  \item 6MB shared L2 cache, 32KB L1 data cache, 32KB L1 instruction cache
+  \item 4GB (2x2GB) DDR2 RAM @ 667MHz
+\end{itemize}
+
+The machines are directly connected to the same Switch through a 1Gb (Gigabit) Ethernet network.
+
+\section{Results}
+\label{chap:evaluation:result}
+The time a Biohadoop application takes to execute is composed of the time Biohadoop needs to start up and the algorithm execution time. The start up begins with Biohadoops submission to Hadoop and ends when the algorithms \texttt{run} method is invoked. The algorithm execution time starts with the invocation of the algorithms \texttt{run} method and ends when this method returns.
+
+The distinction between start up time and algorithm execution time is made because the main part of the start up time is spent between the application submission to YARN and the beginning of its execution. It is not possible to predict when an application is executed by Hadoop, it depends on different factors like the available cluster resources. To minimize the impact of this uncertainty, the following measurements are based on the algorithm execution time, without the application start up time. The start up time over all benchmarks range from 2.378s to 6.147s, with a median of 3.864s, a 25\% quartile of 3.145s and a 75\% quartile of 4.258s. The mean was 3.781s. This start up times are close to each other, because the used cluster was completely dedicated to the benchmarks. The start up may take longer when the cluster usage is higher.
+
+Table \ref{table:theoretical_speedup} gives an impression how well the benchmark problems are suited to parallelization by showing the maximum theoretical speedup. The theoretical speedup was calculated using the formula $S = T / (T - t_p)$, where $S$ is the speedup, $T$ the algorithm execution time and $t_p$ is the time spent in code parts that are parallelized using Biohadoops task system. $T$ and $t_p$ were taken from the average benchmark times with one worker.
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{l|r}
+    Test problem & Theoretical speedup \\ \hline
+    NSGA-II, 10 genomes & 7.028 \\
+    NSGA-II, 100 genomes & 7.600 \\
+    NSGA-II, 1000 genomes & 12.008 \\
+    NSGA-II, 10000 genomes & 11.124 \\
+    128x128 tiled mul & 81.359 \\
+    256x256 tiled mul & 212.169 \\
+  \end{tabular}
+  \caption{Theoretical speedups}
+  \label{table:theoretical_speedup}
+\end{table}
+
+% One can see from the theoretical speedups that ZDT-3 is not well suited for parallelization. This is due to the fact that the fitness evaluation is not compute intense. Its time consuming part is a sum over the genomes of an individual, implemented as loop. For example, in the case of 10 genomes per individual this loop would be repeated 10 times. Bigger genome sizes mitigate this effect but have the drawback that the communication time between the master and the workers increases, which negatively affects the speedup. The tiled matrix multiplications on the other side show a big potential for parallelization.
+
+The algorithm execution time results for the benchmarks can be found in the boxplots in figures \ref{fig:nsga_250_100_10}, \ref{fig:nsga_250_100_100}, \ref{fig:nsga_250_100_1000} and \ref{fig:nsga_250_100_10000} for the ZDT-3 benchmarks and figures \ref{fig:tiledmul_250_100_128x128} and \ref{fig:tiledmul_250_100_256x256} for the tiled matrix multiplication. The number of workers is plotted on the x-axis, the algorithm execution time is plotted on the y-axis.
+
+\subsection{Influence of YARN container placement}
+The first thing to note when looking at the figures is that the five benchmark times for a given setting (e.g. NSGA-II, 10 genomes) and one worker are very different. The explanation for this effect can be found in the YARN container placement. If a worker container is executed on the same machine as the master container, they communicate without using the physical network. The result is a huge performance gain, as can be seen for example in figure \ref{fig:nsga_250_100_100}. In the single worker benchmarks, 4 out of 5 benchmarks executed with both the master and worker container running on the same machine, resulting in a 50\% better performance (9,761s average) compared to the fifth benchmark (14.164s) where the master and worker were executed on different machines.
+
+% This explanation also applies to the single worker ZDT-3 benchmarks with 1000 (figure \ref{fig:nsga_250_100_1000}) and 10000 (figure \ref{fig:nsga_250_100_10000}) genomes and the single worker tiled matrix multiplication with 256 elements (figure \ref{fig:tiledmul_250_100_256x256}). The tiled matrix multiplication for one worker and 128 elements (figure \ref{fig:tiledmul_250_100_128x128}) shows the results when the containers of all of the five benchmarks run on different machines. The explanation for ZDT-3 with one worker and 10 genomes (figure \ref{fig:nsga_250_100_10}) is a little bit different. The containers on all five benchmarks run on different machines, nonetheless Hadoop delayed the start of the worker container for two benchmarks by about 2s. The underlying reasons are unknown.
+
+The number of worker containers running on the same machine as the master can also have a negative effect on the execution times. This is especially true if the master is already at the limit of the machines resources and must share them with the workers. An example for this can be found in figure \ref{fig:nsga_250_100_10} for 8 workers. Two worker containers were executed on the same machine as the master during 2 out of 5 benchmarks. The execution time results were 87.977s and 88.014s. In the remaining 3 benchmarks, only one worker container was executed on the same machine as the master, leaving more resources to the master. This results in execution times of 68.423s on average, a difference of more than 20\%.
+
+So it depends on the available resources of a machine if the execution of worker containers on the same machine as the master container provides benefits or drawbacks. If a resource like CPU or network is already at its limit, additional worker containers slow the whole Biohadoop execution down. If there are enough resources available, the execution of worker containers on the same machine as the master provides benefits, as the communication between the master and the workers can be performed without network usage.
+
+The location of the YARN containers can currently not be influenced, but discussions by the YARN developers suggest that future versions of YARN will support this feature.
+
+% Figure \ref{fig:nsga_250_100_100} is used as example: for the setting with one worker, 4 out of 5 benchmarks executed with both the master and worker container running on the same machine, resulting in a 50\% better performance. A worker that is located on the same machine as the master can communicate to the master without using a physical network, which reduces the communication time. During the fifth benchmark, the master and worker were executed on different containers. The 4 benchmarks with master and worker on the same machine took 9,761s on average, the benchmark where master and worker were located on different machines took 14.164s to execute. This explanation also applies to the single worker ZDT-3 benchmark with 1000 and 10000 genomes and the single worker tiled matrix multiplication with 256 elements. The tiled matrix multiplication for one worker and 128 elements shows how the result looks like if the containers always run on different machines. The explanation for ZDT-3 with one worker and 10 genomes is a little bit different: the start of the worker containers is delayed by about 2s, only after this time the algorithm can make progress. Hadoop is responsible for this delay, the underlying reasons are unknown.
+
+\subsection{ZDT-3}
+\label{chap:evaluation:result:zdt3}
+The next thing to notice are the speedups for the ZDT-3 benchmarks. ZDT-3 is not well suited for parallelization as can be seen from the theoretical speedups in table \ref{table:theoretical_speedup}, but the results are even worse than expected, with maximum speedups of 1.619 for 10 genomes, 1.513 for 100 genomes, 2.498 for 1000 and 2.479 for 10000 genomes. Figure \ref{fig:speedup} shows the speedup results of the ZDT-3 benchmarks together with the speedups for the tiled matrix multiplication.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=100mm]{nsgaii_250_100_10.png}
+  \caption{ZDT-3 execution times for a genome size of 10}
+  \label{fig:nsga_250_100_10}
+\end{figure}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=100mm]{nsgaii_250_100_100.png}
+  \caption{ZDT-3 execution times for a genome size of 100}
+  \label{fig:nsga_250_100_100}
+\end{figure}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=100mm]{nsgaii_250_100_1000.png}
+  \caption{ZDT-3 execution times for a genome size of 1000}
+  \label{fig:nsga_250_100_1000}
+\end{figure}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=100mm]{nsgaii_250_100_10000.png}
+  \caption{ZDT-3 execution times for a genome size of 10000}
+  \label{fig:nsga_250_100_10000}
+\end{figure}
+
+The ZDT-3 benchmarks seem to suffer from the lack of one or more resources (bound by the resources), which prohibits further speedup increases. The investigations show that the ZDT-3 benchmarks are not bound by memory, i.e. memory issues don't slow the execution down. All benchmarks start with 256MB of Java heap memory, which is enough for the containers to execute without causing excessive garbage collections. This was established by using the tool jvisualvm (delivered with Java) for the ZDT-3 benchmark with 10000 genomes. The memory usage for the master container is at about 100MB to 150MB, the GC activity, a good indicator for memory problems, ranges from 3\% to 5.5\% of the CPU time, with an average of 3.8\%. The memory usage for a worker is even lower and lies in the range of 5MB to 30MB. This numbers show no significant memory problems.
+
+% So it must be clarified if the ZDT-3 benchmarks are network or CPU bound. Figures \ref{fig:nsgaii-workertime} and \ref{fig:nsgaii-tasktime} provide some helpful data. Figure \ref{fig:nsgaii-workertime} depicts the mean time spent by the workers in the \texttt{compute} method for a single task. The figure shows that the worker times scale with the number of workers. The maximum scale factor is 4.235 for 10 genomes, 8.571 for 100 genomes, 10.744 for 1000 genomes and 11.923 for 10000 genomes.
+% 
+% Unfortunately no provable explanation was found why small genome sizes scale worse on the workers, compared to bigger genome sizes. A possible reason is Javas JIT (just in time) compiler that compiles interpreted Java code to machine code, thus providing better performance for the future executions. JIT is applied to code parts that are invoked more than 10000 times. This limit is reached late for small genome sizes. For example, the code of the ZDT-3 loop is compiled only after 1000 tasks in the 10 genome benchmarks. In contrast, the loop compilation is performed already after the first task for a genome size of 10000.
+% 
+% Increasing the number of workers worsens the problem as it decreases the amount of work performed by each worker, but as already mentioned, this explanation could not be no proved.
+% 
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=100mm]{nsgaii-workertime.png}
+%   \caption{ZDT-3 mean execution times spent on the workers \texttt{compute} method}
+%   \label{fig:nsgaii-workertime}
+% \end{figure}
+% 
+% The bad worker speedups for small genome sizes don't explain the bad algorithm speedups for bigger genome sizes, as the worker speedups for big genome sizes scale almost linearly. Figure \ref{fig:nsgaii-tasktime} helps to find a better suited explanation. It shows the mean time for the execution of a single task without the time spent in the workers \texttt{compute} method.
+% 
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=100mm]{nsgaii-tasktime.png}
+%   \caption{ZDT-3 mean execution times for a single task, without the time spent on the workers \texttt{compute} method}
+%   \label{fig:nsgaii-tasktime}
+% \end{figure}
+% 
+% One can see that the task time decreases for all benchmarks until two to four workers are used. Then it starts to increase. This behavior was not expected, rather it was expected that the task times keep decreasing as the number of workers increase because more tasks are executed in parallel.
+
+The next step is to investigate the network performance. Calculations give a first hint to understand if the bad speedups can be explained with the saturation of the 1Gb network (a small ``b'' denotes bits, a big ``B'' denotes bytes, e.g. 1Gb = 1 gigabit, 1GB = 1 gigabyte). In each benchmark, 250 iterations on 100 individuals are performed, resulting in 25000 tasks. The tasks are send from the master to the workers and the workers return the results. The task data send from the master to the worker contains two individuals. Each individual consists of its genome, where each value in the genome is of type \texttt{double} (8 bytes). For a genome size of 10, this makes 2 (parents) * 10 (genomes) * 8 (bytes) * 25000 (tasks) = 4000000 bytes (4MB) or 32Mb of data that needs to be transferred from the master to the workers during the benchmark. The size of the results send from the workers to the master is about the half, as it consists of an individual (the offspring) and its fitness (the fitness is composed of two \texttt{double} values). This fact allows to use the outgoing data amount as upper bound for the network usage: if the outgoing data rate doesn't exceed the network bandwidth, this will be true also for the incoming data. Table \ref{table:network} shows the results for all genome sizes together with the best algorithm execution times. One can see from the table that the benchmark data can be transferred on the 1Gb Ethernet network during the according fastest algorithm execution time.
+
+\begin{table}
+  \centering
+  \begin{tabular}{r|r|r|r}
+    genomes & data (Mb) & \parbox[t]{3cm}{theoretical\\transfer time (s)} & \parbox[t]{3cm}{fastest algorithm\\execution time (s)}\\ \hline
+    10 & 32 & 0.032 & 7.072 \\
+    100 & 320 & 0.32 & 7.031 \\
+    1000 & 3200 & 3.2 & 8.910 \\
+    10000 & 32000 & 32 & 55.475 \\
+  \end{tabular}
+  \caption{Amount of network data sent from master to workers, theoretical transfer time and fastest algorithm execution}
+  \label{table:network}
+\end{table}
+
+% The calculations are supported by observations of the network performance using the iftop utility \cite{iftop}. This tool shows, among other useful statistics, the peak network bandwidth for a given interface. The outgoing peak bandwidth on the Ethernet port of the master machine for a genome size of 10000 was about 400Mb/s. This is clearly below the theoretical limit of 1Gb/s for the used 1Gb Ethernet network.
+
+% But 400Mb/s are to slow to transmit 32Gb data in 55 seconds, so how is it possible that a benchmark for 10000 genomes terminates after 55s? The explanation can be found once more in the YARN container placement. The 400Mb/s is the data rate that is send through the Ethernet port to the cluster, but worker containers that run on the same machine as the master don't use this port for communication. Instead, they communicate through the local interface. iftop showed an additional combined data transfer rate of 400Mb/s on the local interface when workers were running on the same machine as the master. This gives an aggregated peak data rate of 600 - 700Mb/s for the outgoing traffic, which is fast enough to transmit 32Gb of data in less than 55s.
+ 
+% In cases where no workers executed on the same machine as the master the peak data rates on the Ethernet port and the algorithm execution times were higher. The results of three different tests with a genome size of 10000 were: 445Mb/s peak and 80s execution time, 426Mb/s peak and 86s execution time and 447Mb/s peak and 80s execution time. In all cases the execution time is sufficient to transfer the data from the master through the Ethernet to the workers. The peak data rates were in all cases below maximum network speed of 1Gb/s.
+
+Additional experiments were performed to improve the confidence in the calculations and to establish the true achievable data rate for the network, given different message sizes. The experiments measure the peak network bandwidth using a small Java program and iftop. The Java program uses the same communication techniques as Biohadoop (Netty + Kryo) and performs repeated request / response cycles between a master and several workers. The exchanged messages consist of 20, 200, 2000 or 20000 \texttt{double} values, corresponding to two parent individuals in the according ZDT-3 benchmarks. The resulting peak bandwidth was 134Mb/s for 20, 489Mb/s for 200, 901Mb/s for 2000 and 552Mb/s for 20000 \texttt{double} values. The CPU on the master was the limiting factor for 20, 200 and 20000 \texttt{double} values. For 2000 \texttt{double} values, the network was saturated at 901Mb/s and therefore the limiting factor. No studies were performed to explain why the experiments delivered the best results with 2000 values as this lies out of the scope of this thesis.
+
+One phenomena regarding the network bandwidth needs further investigation. The above measurements show a peak data rate of 552Mb/s for the case of 20000 \texttt{double} values. If this data rate is taken as base for the ZDT-3 benchmark with 10000 genomes, one can calculate that more than 55s are needed to exchange 32Gb of data over the network between the master and its workers (32000Mb / 552Mb/s = 57.97s). The explanation can be found once more in the YARN container placement. The 552Mb/s peak bandwidth is the data rate that is send through the Ethernet port to the cluster, but worker containers that run on the same machine as the master don't use this port for communication. Instead, they communicate through the local interface. iftop showed an additional combined data transfer rate of 400Mb/s (send and receive data rates are added) on the local interface when workers were running on the same machine as the master. This gives an aggregated peak data rate of 700Mb/s - 800Mb/s for the outgoing traffic, which is fast enough to transmit 32Gb of data in less than 55s. The execution times were higher in cases where no workers executed on the same machine as the master.
+
+The calculations and additional experiments show that the network is fast enough to transfer the ZDT-3 benchmark data. The reason for the bad ZDT-3 speedup results lie elsewhere.
+
+This leads to the assumption that the benchmarks are CPU bound which was confirmed through observations of the CPU usage of the master. In the case of 10 and 100 genomes the CPU limit was reached by the master with two workers, for 1000 and 10000 genomes the limit was reached with four workers.
+
+The high CPU utilization is caused by two effects: the first one is the object serialization/deserialization overhead that ranges between 30\% to 40\% for genome sizes of 10 and goes up to 60\% to 70\% for a genome size of 10000. Small genome sizes mean a high rate of exchanged messages and serializations/deserializations. Large genome sizes reduce the rate of exchanged messages but increase the amount of work for a single serialization/deserialization.
+
+The second effect is a direct consequence of computational small worker tasks like in the case of 10 to 100 genomes: the master performs (beside the communication aspects) the algorithms for ranking and crowding distance. The workers return their results fast as the computation is not intense. The master has to compute therefore the ranking and crowding distance at short intervals. This results in a CPU utilization of about 25\% to 30\% only for this computations.
+
+In conclusion, the ZDT-3 benchmarks are CPU bound by the master due to the small computational effort on the workers and the resulting fast exchange of many small messages. Increased genome sizes provide better speedup results, but are again limited by the CPU of the master, as they have higher demands for object serialization/deserialization. The performance of the 1Gb network and the available memory are sufficient to not slow down the ZDT-3 benchmarks.
+
+\subsection{Tiled matrix multiplication}
+The theoretical speedups for the tiled matrix multiplication promise better results (see table \ref{table:theoretical_speedup}) as matrix multiplications are compute intense and clearly dominate the algorithm execution time. Figure \ref{fig:tiledmul_250_100_128x128} and \ref{fig:tiledmul_250_100_256x256} show the execution times. One can see that the execution times decrease with the number of workers. This scales until 12 workers, after which the execution times remain the same or increase slightly. The reason for this is that the cluster offers 12 CPU cores in total. When all cores are fully utilized, which happens with 12 workers, additional workers have to share CPU resources. This negatively impacts the execution times. So the tiled matrix multiplication is CPU bound by the workers.
+
+% The master is not as strongly demanded as in the ZDT-3 benchmarks, because the worker execution times are higher which results in less CPU stress on the master for object serialization/deserialization. Also, the master doesn't have to compute the ranking and crowding distance. 
+
+An additional advantage of the tiled matrix multiplication benchmarks over the ZDT-3 benchmarks is the small amount of data that needs to be transmitted. Like in the ZDT-3 benchmarks, each task data consists of two parents that are sent from the master to the worker, the result is an offspring with its fitness value. In contrast to ZDT-3, where an individual consists of a number of \texttt{double} values according to its genome size, a tiled matrix multiplication individual consists of the tile sizes for the $i$, $j$ and $k$ loop. Each of them is a single \texttt{integer} with 4 bytes. The total amount of data that needs to be transmitted from the master to the workers is therefore $2 * 3 * 4 * 25000 = 600000$ bytes or 4.8Mb. Together with the computational intense tasks of matrix multiplication on the workers (leads to lower network usage) and the absence of time consuming ranking and crowding distance algorithms on the master, this provides speedups of up to 10.507 for 128x128 matrices and 7.961 for 256x256 matrices.
+
+The reason for the better performance of the 128x128 benchmark over the 256x256 benchmark is unknown. A possible explanation is that the tile sizes are taken from a bigger range (256 instead if 128) which makes it more likely that bad tile sizes are chosen. This is although pure speculation.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=100mm]{tiledmul_250_100_128x128.png}
+  \caption{Tiled matrix multiplication execution times for a matrix size of 128x128}
+  \label{fig:tiledmul_250_100_128x128}
+\end{figure}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=100mm]{tiledmul_250_100_256x256.png}
+  \caption{Tiled matrix multiplication execution times for a matrix size of 256x256}
+  \label{fig:tiledmul_250_100_256x256}
+\end{figure}
+
+% The results show less scattering in contrast to ZDT-3. This is due to the fact, that the matrix multiplications dominate the execution times. The location of the YARN containers and the time needed for the communication between the master and its workers have therefore a smaller impact on the execution times. Only the five benchmarks for \ref{fig:tiledmul_250_100_256x256} with one worker shows an elevated amount of scattering. The reason is unknown, as the master and the worker were located on different machines in all benchmarks with this settings. 
+
+\subsection{Speedups}
+Figure \ref{fig:speedup} depicts the speedups for all test problems with respect to increasing worker sizes. The ZDT-3 benchmarks show poor results. This is not surprising as the maximum theoretical speedups of this problems are small (see table \ref{table:theoretical_speedup}) and the communication overhead is bigger compared to the tiled matrix multiplication. The only unexpected outcome was that the benchmarks scale very bad with a maximum speedup of 2.498 for 1000 genomes. The reason is that the ZDT-3 benchmarks are CPU bound by the master, as the investigations in section \ref{chap:evaluation:result:zdt3} show.
+
+The tiled matrix multiplications demonstrate better results, the maximum speedup was 10.507 for a matrix size of 128x128. In this case, the speedup grows near linear or even slightly better than linear with the number of workers. That a speedup is better than linear is usually suspicious but can be explained by the fact that each benchmark was repeated five times and the average times of this five executions were taken to compute the speedups. Five executions seem to be to small to get smooth results, especially when taking into account that the YARN container placement has big influences on the execution times.
+
+The speedups for the 128x128 tiled matrix multiplication increase until a worker size of 12 is reached. At this point, no more improvements are achieved. The reason for this is the limited number of CPUs in the cluster.
+
+The speedup for the 256x256 tiled matrix multiplication benchmark is worse compared to the 128x128 tiled matrix multiplication, although it also grows nearly linear until 12 workers.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=130mm]{speedup.png}
+  \caption{Speedups for ZDT-3 and tiled matrix multiplications}
+  \label{fig:speedup}
+\end{figure}
+
+% 
+% 
+% Each physical machine in the cluster provides two cores, the master reaches its theoretical limit when it uses 200\% of the CPU resources, which means that both CPU are fully utilized by the master. The practical CPU limit is at about 150\%, because other processes run at the same time on the same machine. This limit is further reduced if worker containers are executed at the same time on the same machine. 
+% 
+% As each physical machine in the cluster provides two cores, the master reaches its theoretical limit when it uses 200\% of the CPU resources, which means that both CPU are fully utilized by the master. The practical CPU limit is at about 150\%, because other processes run at the same time on the same machine. This limit is further reduced if worker containers are executed at the same time on the same machine. 
+
+
+% The ZDT-3 benchmarks show that the speedup does not scale well with the number of workers. The reason for this is that the time spent by the worker on offspring creation and fitness evaluation is only a small fraction of the time it takes to complete a task. For a genome size of 10 and one worker, this fraction is for example 2.124\% and reduces to 0.596\% for 15 workers. For a genome size of 100 the fraction ranges from 8.765\% for one worker to 1.138\% for 15 worker. For a genome size of 1000 it ranges from 33.100\% to 7.044\% and for a genome size of 10000 it ranges from 54.556\% to 11.789\%. So the ZDT-3 benchmark is clearly bound by the communication between the master and its workers. This explains also the overall poor scaling when workers are  added.
+% 
+% The execution time results for ZDT-3 are shown in figure \ref{fig:nsga_250_100_10}, \ref{fig:nsga_250_100_100}, \ref{fig:nsga_250_100_1000} and \ref{fig:nsga_250_100_10000}. One thing to notice is that the benchmark results for given settings are distributed in a broad range, e.g. they range from 9.637s to 14.164s for ZDT-3 with a genome size of 100 and one worker (see figure \ref{fig:nsga_250_100_100}).
+% 
+% % \begin{figure}[ht!]
+% %   \centering
+% %   \includegraphics[width=130mm]{nsgaii_250_100.png}
+% %   \caption{ZDT-3 execution times. All benchmarks were performed with 250 iterations and a population size of 100. (a) genome size=10, (b) genome size=100, (c) genome size=1000, (d) genome size=10000}
+% %   \label{fig:nsga_250_100}
+% % \end{figure}
+% 
+% 
+% 
+% The reason for this is the location of the YARN containers in the cluster while a benchmark runs. Figure \ref{fig:nsga_250_100_100} is used as example: for the benchmark with one worker, 4 out of 5 benchmarks executed with both the master and worker container running on the same machine, resulting in better performance. A worker that is located on the same machine as the master can communicate to the master without using a physical network, which reduces the communication time. During the fifth benchmark, the master and worker were executed on different containers. The 4 benchmarks with master and worker on the same machine took 9,761s on average, the benchmark where master and worker were located on different machines took 14.164s to execute.
+% 
+% The same explanation applies to the other benchmarks with 1 to 6 workers in figure \ref{fig:nsga_250_100_10} to \ref{fig:nsga_250_100_10000}, except for the benchmark for one worker in figure \ref{fig:nsga_250_100_10}. This deviation is not due of container placement, the scattered results are the result of other factors that couldn't be established.
+% 
+% The container placement is done automatically by YARN and can not be influenced, without modifying the YARN environment - which was not done for this thesis. The placement can have advantages like in the example above, but can also negatively impact the performance.
+% 
+% As an example, look at the benchmark for 8 workers in figure \ref{fig:nsga_250_100_10}. For two benchmarks, YARN placed the master and two worker containers on the same machine. As each machine has only two cores, this worsens the execution time results. The master container has to share its CPU resources with two other containers, that have already a high resource demand. This slows the master down and with it the whole application. The numbers for this example are 6.842s (on average) for the benchmarks where the master had to share its machine with only one worker. In the case the master were placed together with two other containers on the same machine the execution time was on average 8.799s.
+% 
+% The more the cluster is utilized, the more it is likely that more than two containers execute on the same machine. This can be particularly seen in figures \ref{fig:nsga_250_100_10} and \ref{fig:nsga_250_100_100} for the benchmarks with six and more workers.
+% 
+% Figure \ref{fig:nsga_250_100_1000} and \ref{fig:nsga_250_100_10000} show a similar but less pronounced behavior for more than six workers, as they are less communication bound than the previous examples. Both figures show a high dependency on the container placement for a small number of workers, e.g. for one worker.
+% 
+% Figure \ref{fig:nsga_250_100_10} shows that more than two workers have no significant impact on the execution time for a genome size of 10. The execution time remains almost the same when workers are added. The reason for this is the bad work time to task time ratio mentioned above. Figure \ref{fig:nsga_250_100_100} shows advantages for up to 9 workers for a genome size of 100 - if the container placement comes in favor. More workers increase the execution time. Figure \ref{fig:nsga_250_100_1000} shows also advantages for up to 9 workers for a genome size of 1000. The scattering is reduced in most of the figures benchmark, compared to the previous benchmarks. Figure \ref{fig:nsga_250_100_10000} shows the results for a genome size of 10000. The best results are obtained between 6 to 12 workers, more workers increase the execution time. The speedup properties for this benchmark are better compared to the previous ones, as the work time to task time ratio is way better.
+
+% The theoretical speedups for the tiled matrix multiplication show better results (see table \ref{table:theoretical_speedup}), as matrix multiplications are compute intense and clearly dominate the algorithm execution time. Figure \ref{fig:tiledmul_250_100_128x128} and \ref{fig:tiledmul_250_100_256x256} shows the execution times for the tiled matrix multiplication test problem. The execution times for a matrix size of 128x128 are given in figure \ref{fig:tiledmul_250_100_128x128}. One can see that the execution time decreases with the number of workers. This scales until 12 workers, after which the execution time remains the same or slightly increases. The reason for this is, that the cluster offers 12 CPU cores in total. When all cores are fully utilized, which happens with 12 workers, additional workers have to share CPU cores. This negatively impacts the execution times. The same observations are true for figure \ref{fig:tiledmul_250_100_256x256}.
+% 
+% The results show less scattering in contrast to ZDT-3. This is due to the fact, that the matrix multiplications dominate the execution times. The location of the YARN containers and the time needed for the communication between the master and its workers have therefore a smaller impact on the execution times. Only the five benchmarks for \ref{fig:tiledmul_250_100_256x256} with one worker shows an elevated amount of scattering. The reason is unknown, as the master and the worker were located on different machines in all benchmarks with this settings. 
+% 
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=100mm]{tiledmul_250_100_128x128.png}
+%   \caption{Tiled matrix multiplication execution times. All benchmarks were performed with 250 iterations and a population size of 100. (a) matrix size=128x128, (b) matrix size=256x256}
+%   \label{fig:tiledmul_250_100_128x128}
+% \end{figure}
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=100mm]{tiledmul_250_100_256x256.png}
+%   \caption{Tiled matrix multiplication execution times. All benchmarks were performed with 250 iterations and a population size of 100. (a) matrix size=128x128, (b) matrix size=256x256}
+%   \label{fig:tiledmul_250_100_256x256}
+% \end{figure}
+% 
+% Figure \ref{fig:speedup} shows the speedups for all test problems with respect to increasing worker sizes. The tiled matrix multiplication shows good results. In the case of 128x128 tiled matrix multiplication, the speedup grows near linear or even slightly better with the number of workers. That a speedup is better than linear was not expected but can be explained by the fact that each benchmark was repeated 5 five times, which seems to be to small to get smooth results. After 6 workers, the 128x128 benchmark shows good speedups until a worker size of 12 is reached. At this point, no more improvements are achieved, the reason for this is the number of CPUs in the cluster. The speedup for the 256x256 tiled matrix multiplication benchmark is worse compared to the 128x128 tiled matrix multiplication, although it grows nearly linear until 12 workers.
+% 
+% The speedups for the ZDT-3 benchmarks are not so good. Specially small genome sizes deliver poor results with speedups of less than 2 for genome sizes of 10 and 100, no matter how many workers are used. Increasing the genome size provides better results, using 1000 genomes provides a speedup of 2.498 using 7 workers. A genome size of 10000 provides a maximum speedup of 2.479 using 8 workers. Overall, the ZDT-3 benchmarks show only small improvements when workers are added, increasing the number of workers beyond 8 to 10 doesn't provide any benefit. This is not surprising as the maximum theoretical speedups of this problems are small (see table \ref{table:theoretical_speedup}) and the communication overhead is bigger compared to the tiled matrix multiplication.
+% 
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=130mm]{speedup.png}
+%   \caption{Speedup for ZDT-3 and tiled matrix multiplication}
+%   \label{fig:speedup}
+% \end{figure}
+% 
+% Another observation was, that the number of worker containers running on the same machine as the master could affected the execution times negatively.

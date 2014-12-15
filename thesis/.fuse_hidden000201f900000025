@@ -1,0 +1,575 @@
+\chapter{Implementation}
+\label{chap:impl}
+
+\section{System architecture}
+\label{chap:impl:system-architecture}
+Biohadoop is a framework to parallelize algorithms on Apache Hadoop. It works according to the master - worker principle, where one master commands several workers. The master runs an algorithm whose compute intensive parts are executed by the workers in parallel. Time consuming sections of an algorithm, that can be parallelized, are good candidates to run on the workers.
+
+The genetic algorithm (GA) can be used as an example of how to parallelize an algorithm for the master - worker scheme. A GA is an iterative procedure, each iteration creates a set of new individuals (offsprings), evaluates their fitness and selects, based on the fitness of all GA individuals, the best ones for the next iteration (see section \ref{chap:bioalgorithms:ga}). The creation of an offspring and its subsequent fitness evaluation can be combined into a single function. This function consumes most of the time in a GA, but it can be executed in parallel, as it depends only on its input values (the parents) and has no side effects. It is therefore a good example of a parallel task that can be performed by workers, while the rest of the GA algorithm runs on the master (see figure \ref{fig:master-worker}).
+
+
+% The complete parallel GA for the master - worker scheme consists therefore of a master that iteratively receives new individuals from its workers and selects the new population. The workers return new offsprings by implementing offspring creation and fitness evaluation (see figure \ref{chap:bioalgorithms:ga}).
+% 
+% Offspring creation depends only on the parent individuals, it is therefore possible to create many offsprings in parallel. 
+% 
+% performed in parallel, as this operation depends only on the parents. The following fitness evaluation of the offspring can also 
+% 
+% Lets assume that offspring creation and fitness evaluation consume the most time (which is true in many cases). 
+% 
+% 
+% Those two steps are independent from other individuals, beside the two parents for offspring creation. So, given two parents, offspring creation and fitness evaluation can be parallelized and are therefore good examples of tasks that can be performed by workers. A parallel GA would therefore consist of a master that iteratively receives new individuals from its workers and selects the new population. The workers return new offsprings by implementing offspring creation and fitness evaluation (see figure \ref{chap:bioalgorithms:ga}).
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=100mm]{master-worker.png}
+  \caption{Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration.}
+  \label{fig:master-worker}
+\end{figure}
+
+The master - worker principle was chosen for Biohadoop, because many algorithms can be parallelized by this approach, like the GA and the PSO presented in chapter \ref{chap:bioalgorithms}. Another reason is, that the master - worker scheme maps very well to YARN (see chapter \ref{chap:hadoop:yarn}).
+
+Biohadoop is written to run as a YARN application and provides features, that otherwise need to be implemented manually, such as:
+
+\begin{itemize}
+  \item support for running several algorithms at the same time in a single Biohadoop instance. This has the advantage that workers, and therefore resources, can be shared by the algorithms
+  \item asynchronous communication between master and workers using a simple task system (section \ref{chap:impl:task-system}), as YARN doesn't provide a default communication facility between its containers
+  \item storage and load of arbitrary data sets to and from a file system (section \ref{chap:impl:persistence})
+  \item support for the island model, a high level parallelization that can be used to improve the optimization performance of bio-inspired optimization techniques, by exchanging results between multiple instances of an algorithm (section \ref{chap:impl:island-model})
+  \item support for Apache Oozie through a custom action (section \ref{chap:impl:oozie}). This custom action can be used to schedule one or many Biohadoop instances. It also allows the usage of Biohadoop in a larger workflow
+\end{itemize}
+
+Every YARN application needs a client that submits the application to YARN. In Biohadoop, the client is implemented in the class \texttt{BiohadoopClient}. It is the main entrance point to run Biohadoop in a Hadoop environment and responsible to start the ApplicationMaster under the control of Hadoop.
+
+Biohadoop's ApplicationMaster starts the configured workers using additional YARN containers, and as it is the master in the master - worker scheme, it executes the configured algorithms and communicates with the workers. The ApplicationMaster's main class is \texttt{BiohadoopApplicationMaster}. In a local (development) environment, it acts as the main entrance point to run Biohadoop without YARN (more on how to run Biohadoop can be found in \ref{chap:usage:run}).
+
+The workers are started in additional YARN containers, each worker resides in a dedicated container.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=80mm]{architecture.png}
+  \caption{The figure shows, how the Biohadoop architecture maps to the architecture of a typical YARN application}
+  \label{fig:architecture}
+\end{figure}
+
+Figure \ref{fig:architecture} gives an overview of how Biohadoop's architecture maps to the architecture of a typical YARN application. It also gives a first impression of the task system, that hides the technical details of the master - worker scheme from the algorithm. The task system consists of a task broker, one ore more endpoints and one or more workers.
+
+An algorithm uses the task system to submit work items, from here on called tasks, to the workers and wait for the results. A task contains data and a reference to a task configuration that defines how to compute the result for the task. In the GA example, a task would be to create individuals and compute their fitness. In this case, the task data represents the parent individuals that are used to create an offspring. The configuration defines the method for offspring creation and fitness computation.
+
+Submitted tasks are queued by the task broker. Endpoints get tasks from the broker and send them to waiting workers. The workers execute the configured computations on the tasks and return the results to the endpoints, that promote the results back to the broker and from there to the algorithms.
+
+A task configuration is usually shared by many tasks, for example each task in the GA uses the same method to compute an offspring and its fitness value. Therefore, a task configuration is send to a worker only the first time it is needed, and cached by the worker otherwise. This reduces the communication amount between the master and the workers.
+
+Figure \ref{fig:task-conf-reuse} shows how a worker requests tasks or task configurations to compute the result for a task. The worker requests a task from the master in picture \ref{fig:task-conf-reuse}(a), which is delivered in \ref{fig:task-conf-reuse}(b). The worker then recognizes, that it doesn't know how to compute the result for the task - it has to request the task configuration in \ref{fig:task-conf-reuse}(c). The task configuration is returned in \ref{fig:task-conf-reuse}(d), the worker can now compute the task result in \ref{fig:task-conf-reuse}(e). The result is returned in \ref{fig:task-conf-reuse}(f), together with the request for the next task. The next task is delivered in \ref{fig:task-conf-reuse}(g) and as it uses the same task configuration as the prior task, the worker can reuse this configuration and directly compute the result in \ref{fig:task-conf-reuse}(h), after which the result is returned together with the request for the next task.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=130mm]{task-conf-reuse.png}
+  \caption{A worker requests tasks from the master. The task configuration is send to the worker on demand.}
+  \label{fig:task-conf-reuse}
+\end{figure}
+
+More details about the task system can be found in section \ref{chap:impl:task-system}
+
+Persistence is another feature provided by Biohadoop. It can be used to save and load arbitrary data sets to and from the file system. This is convenient in many cases, for example if an algorithm wants to save its current state and reload this state at the next startup. To get more information about the persistence, refer to section \ref{chap:impl:persistence}.
+
+Biohadoop is capable of running several algorithms at the same time in a single Biohadoop instance. They all run in the same JVM as Biohadoop does, and can be of arbitrary type. For example it is possible to run two GA instances and one PSO instance at the same time. As Hadoop doesn't guarantee when an application runs, the mentioned capability of launching several algorithms at the same time in the same JVM is a useful enhancement when it comes to high level parallelization using the island model, as it guarantees that the algorithms really run at the same time. If the algorithms are started as separate Biohadoop instances, it is possible, that they run in sequential order, instead of running at the same time.
+
+But Biohadoop doesn't restrict the usage of the island model to algorithms that run in the same JVM. By taking advantage of ZooKeeper \cite{zookeeper}, running algorithms find each other also across the boundaries of different Biohadoop instances. This can lead to higher scalability, as each instance gets its own resources, but entails the aforementioned problem, that Hadoop doesn't guarantee when an application runs, so a trade off has to be made. More information about how to use the island model in Biohadoop can be found in section \ref{chap:impl:island-model}.
+
+Biooozie can be used to run Biohadoop as part of a larger workflow. It implements a custom action for Apache Oozie. This action can be used to schedule a single Biohadoop instance, or several instances in parallel (although there is still no guarantee that Hadoop executes the parallel instances at the same time). Biooozie is convenient in cases where workflows embed a Biohadoop computation. A short example workflow with three stages copies data sets to a HDFS file system, on which some MapReduce action is performed that produces new data sets. Those data sets in turn are the base for a GA computation, performed by Biohadoop. The example can be extended arbitrarily. More information can be found in section \ref{chap:impl:oozie}
+
+The following sections in this chapter continue to describe the details of Biohadoop in more detail, starting with the notion of Algorithm in section \ref{chap:impl:algorithm}. The next section \ref{chap:impl:task-system} talks about the task system and its components, followed by the description of the communication mechanisms in section \ref{chap:impl:communication}. The enhancements section \ref{chap:impl:enhancements} talks about how Biohadoop supports persistence and the island model. How to configure Biohadoop is explained in section \ref{chap:impl:configuration}. Biooozie is presented in the section \ref{chap:impl:oozie} of this chapter. Information on how to use Biohadoop can be found in chapter \ref{chap:usage}.
+
+\section{Algorithm}
+\label{chap:impl:algorithm}
+An algorithm in terms of Biohadoop is the implementation of an abstract problem that should be solved. For example, a genetic algorithm (GA) may be implemented to solve an optimization problem, where the offspring generation and fitness evaluation can be computed in parallel.
+
+Biohadoop supports the programmer with an easy way to parallelize the algorithm by providing the asynchronous task system (see \ref{chap:impl:task-system}). The algorithm can submit tasks to the task system and the task system takes care about the distribution and computation of the tasks and promotes the results back to the algorithm. Additional mechanisms that are offered to algorithms include persistence and high level parallelization using an island model (see \ref{chap:impl:enhancements}).
+
+All those capabilities can be used by the algorithm, but Biohadoop does not force their usage. The only thing an algorithm has to do to be run by Biohadoop, is to implement the \texttt{Algorithm} interface. This interface defines one method, namely \texttt{run}, which is invoked by Biohadoop after the system initialization has completed. The return value of the \texttt{run} method is void as there is no return data that could be useful in a general way. This may change in future versions.
+
+It is possible to run several algorithms of any kind at the same time in one Biohadoop instance (for example two GA and one PSO), this is just a matter of configuration (see section \ref{chap:impl:configuration}).
+   
+If there is an error during the execution of an algorithm, the algorithm may throw a \texttt{AlgorithmException} at any time. The meaning of a thrown \texttt{AlgorithmException} is, that there was an unrecoverable error which prevented the algorithm from progress, but the programmer was aware that such an error could happen, e.g. when a needed configuration argument is missing. Sometimes an algorithm may throw an unchecked exception, like the \texttt{NullPointerException}. The difference to \texttt{AlgorithmException} lies in their semantics: unchecked exceptions are considered as the outcome of bugs. At the moment, Biohadoop makes no difference in handling \texttt{AlgorithmException} and unchecked exceptions, in both cases, the error is logged and the algorithm is terminated without affecting the other running algorithms. But it is possible that this behavior may change in the future. For example, it is thinkable that in the case of an \texttt{AlgorithmException}, a custom recovery procedure is invoked.
+
+\section{Task system}
+\label{chap:impl:task-system}
+If a programmer decides to parallelize some parts of an algorithm, it can use Biohadoops task system. The task system takes care of promoting tasks to waiting workers and to return the results to the algorithms, while hiding the details of this process from the algorithm.
+
+The task system consists of a task broker, at least one endpoint and at least one worker. The broker and endpoints are executed on the master, which is the ApplicationMaster in YARN. The workers are executed in additional YARN containers.
+
+An algorithm submits its tasks to the task system, by adding them directly to the broker, or by using the \texttt{TaskSubmitter}. It is advised to use the the \texttt{TaskSubmitter}, as it offers a simple interface for task submission, while the broker offers additional methods that are needed internally by the task system. When an algorithm submits a task, it immediately receives back a \texttt{TaskFuture} that works similar to the Java \texttt{Future}. The \texttt{TaskFuture} represents the result of the task computation. The attempt to read the result of a task computation from a \texttt{TaskFuture} has two possible outcomes. In the first case, the result is known and can be read from the \texttt{TaskFuture}. In the second case, the result is yet not known (because it still needs to be computed), and the read attempt blocks, until the result is available. In addition to the possibly blocking read, the \texttt{TaskFuture} provides a non blocking method to check if the \texttt{TaskFuture} contains a result.
+
+A queued task is eventually taken out of the broker by an endpoint. Endpoints represent a boundary between the broker on the master side, and the workers on the other side. They interact with the broker and communicate with the workers. One endpoint can typically handle thousands of workers, due to the underlying implementation (see section \ref{chap:impl:communication}). On worker request, an endpoint takes the next task out of the broker and sends it to the worker. The worker computes the results for the task, using the task data and its related task configuration, and returns the result to an endpoint. The endpoint then returns the result to the task broker, which promotes it back to the algorithm. Figure \ref{fig:task-system} gives a graphical representation of this procedure.
+
+The task system works in an asynchronous manner and doesn't block the algorithm while processing the tasks. However, it provides also mechanisms to block and wait for a result to be computed, if this is preferred.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=130mm]{task-system.png}
+  \caption{Submitting tasks to the task system. The task system consists of a task broker and any number of endpoints and workers. For the sake of simplicity, the figure shows only one endpoint and one worker. In this figure, an optional task submitter is used for task submission.}
+  \label{fig:task-system}
+\end{figure}
+
+\subsection{Task Broker}
+The task broker is the central feature in the task system. It combines an internal FIFO queue with additional task bookkeeping (see the concepts below). The task broker is used to exchange tasks and their results between the algorithms and the endpoints. 
+
+All submitted tasks reference a task configuration, that is used by the workers to compute the task result. This configuration can be shared by any number of tasks. The configuration reference for a given task is stored in the task broker. The configuration itself is send to the workers on demand. A worker requests a specific task configuration, if it encounters a task whose configuration is unknown to the worker. After the configuration was received, it is cached by the worker for later reuse. This is appropriate as usually many tasks use the same configuration. In the GA example, where the workers generate offsprings and compute their fitness values, a single task configuration is enough for all tasks, as offspring generation and fitness evaluation is done in the same way for all tasks. Therefore, a worker needs to obtain the task configuration only once, reducing the communication overhead. It is of course also possible to assign each task an individual task configuration. The result would be, that the worker has to request the configuration for each task individually, the communication overhead would be much higher than in the previous example.
+
+To work properly, the task broker uses two concepts, that are needed to perform its work. 
+
+The first concept is its internal first-in first-out (FIFO) queue, that stores the submitted tasks. The FIFO queue is thread safe, to allow multiple producers (algorithms) and consumers (endpoints) to interact with the queue at the same time. As an example, lets suppose, that two GAs are running in one Biohadoop instance. Both algorithms can submit new tasks, while the endpoints consume tasks from the broker. By using a thread safe FIFO queue, all of this can happen at the same time, without causing problems.
+
+The second concept is a map, that connects submitted tasks with their configuration and their \texttt{TaskFuture}. This must be done, because a task loses its references once it is taken out of the FIFO queue and send to a worker. The configuration for the task would become unknown, and the result of the task could no longer be associated with the corresponding \texttt{TaskFuture}. The mentioned map resolves this problem.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=130mm]{task-broker.png}
+  \caption{Internal structure of the task broker}
+  \label{fig:task-broker}
+\end{figure}
+
+The two concepts are depicted in figure \ref{fig:task-broker}. In the first step, a task and its configuration is submitted to the broker. The broker inserts the task in its internal FIFO queue and adds the task, the configuration and a new \texttt{TaskFuture} to its internal map. The \texttt{TaskFuture} is immediately returned to the algorithm as result of the task submission. At this stage, any attempt to access the result of the \texttt{TaskFuture} would block, as the result of the task computation is unknown yet. At a certain point, step 2 is performed, where the queued task $T_N$ is consumed by an endpoint and send to a waiting worker. If the worker doesn't know about the referenced configuration $TC_N$ for task $T_N$, it asks the endpoint for the configuration, which gets the configuration from the broker in step 3. The configuration for the task $T_N$ can only be retrieved, because the broker kept a reference to it in its internal map. In step 4, the worker returns the computed result to the endpoint, which forwards it to the broker. The broker associates the result for task $T_N$ with the according \texttt{TaskFuture} $TF_N$, again using its internal map. After the result for the \texttt{TaskFuture} is set, the algorithm can access the result for task $T_N$ without blocking.
+
+In addition to task and result exchange, the task broker provides methods to resubmit a task. This is needed in the case of a failure during the computation of the task result.
+
+\subsection{Endpoint}
+\label{chap:impl:endpoint}
+An endpoint is a boundary between the task broker and the workers. It's main purpose is the communication with the workers. By hiding the technical details of the communication from the algorithm and the task broker, any type of communication facility between the master and the workers can be implemented. This property lead to the development of two different communication types for Biohadoop. Section \ref{chap:impl:communication} talks in greater detail about the communication.
+
+Communication is not the only purpose of an endpoint. It interacts also with the task broker, taking tasks and task configurations out of it, or returning results that were received from the workers. If there is the need to, endpoints are allowed to resubmit a task to the task broker. For example, lets suppose a task is taken from the task broker and send to a worker. This worker encounters a problem and stops its work before returning the result. The endpoint can detect the issue with different methods (e.g. connection closed, heartbeat, time out, etc.) and resubmit the task to the task broker. This way, no task gets lost.
+
+% The endpoints run in the YARN ApplicationMaster and are started and stopped automatically by Biohadoop. The lifecycle is depicted in figure \ref{fig:flow-endpoint}. The figure shows also, how the endpoints communicate with the workers and the task broker.
+% 
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=130mm]{flow-endpoint.png}
+%   \caption{The endpoints are started and stopped by Biohadoop. During their lifetime, they communicate with the workers and the task broker}
+%   \label{fig:flow-endpoint}
+% \end{figure}
+
+It is possible to run an arbitrary amount of endpoints, but usually this is not necessary, as an endpoint is capable of handling thousands of workers, due to Netty \cite{netty}, which is used as the underlying communication framework. Nevertheless, it can be useful to run different endpoints for different serialization protocols.
+% Biohadoop provides endpoints for Kryo and WebSocket serialization out of the box. More details about this can be found in \ref{chap:impl:communication}.
+
+The endpoints run in the YARN ApplicationMaster and are started and stopped automatically by Biohadoop. It is configurable which endpoints should be started, section \ref{chap:impl:configuration} gives details about the configuration aspects.
+
+\subsection{Worker}
+\label{chap:impl:worker}
+A worker computes the result for a given task, using the task configuration, that is related to this task. The task itself contains the data needed for the computation, e.g. the data of the GA example represents the parent individuals. The task configuration contains information about how to compute the result for a task. The ``how'' is specified by a Java class, that implements the \texttt{AsyncComputable} interface. In addition, the task configuration can contain immutable data sets that are shared by all tasks, the ``initial data''.
+
+Tasks are submitted to the workers without the task configuration. The task configuration is delivered only on demand and is afterwards cached by the worker. This can be done, as most tasks will share a common configuration. In the GA example, all fitness evaluations use the same algorithm for fitness computation. Sending the configuration only on demand, reduces the amount of transmitted data and increases therefore the performance of the whole system. Figure \ref{fig:async-computable} shows how tasks and task configurations are handled by the workers.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=130mm]{flow-asyncComputable.png}
+  \caption{Lifecycle of a task, computed by a worker using an AsyncComputable}
+  \label{fig:async-computable}
+\end{figure}
+
+A worker needs to communicate with an endpoint to get tasks. If the endpoint has currently no work to offer, for example because the running algorithms have not submitted any tasks to the task system, then the worker waits until new work is available. Of course the worker need some resources during the waiting times too, like CPU, RAM and storage or, in YARN terms, containers. One should consider and measure how much workers are really needed and at which point more of them are counterproductive.
+
+There are two different kinds of workers: the ones that run under the control of the Apache Hadoop system, (from now on called embedded workers) and the ones that run outside of this system (from now on called external workers), Biohadoop supports both forms.
+
+Embedded workers must be configured in Biohadoop, which controls their life cycle. In contrast, external workers don't have to be configured by Biohadoop, but their whole life cycle must be controlled in some other way that is not part of Biohadoop. This can pose some problems, as external workers need to know e.g. when and where Biohadoop is running and how to connect to it. If there are no special needs, embedded workers are just fine. There are although some good reasons to use external workers:
+
+\begin{itemize}
+  \item external worker don't necessarily depend on the Hadoop ecosystem, they may run wherever they want, as long as they are able to communicate to at least one endpoint. It is possible to develop external workers, that run in completely different environments, for example mobile phones.
+  \item there is no restriction on the program language for an external worker, as long as it knows how to talk to an endpoint. For example it is possible to implement a worker in JavaScript \cite{bioworker-browser} or Python \cite{bioworker-python}. In contrast to this, embedded workers have to be written in Java.
+  \item there is no limit in the number of external workers that may run. With suited algorithms to solve, this can lead to enormous scale. The algorithm should be suited in the sense, that the task runtime is not to short, as this would lead to high network traffic, effectively making this the bottleneck. On the other hand, the number of embedded workers is limited by the Hadoop environment on which Biohadoop runs.
+\end{itemize}
+
+Crucial to external workers is the fact, that they have to know how to communicate to the endpoints. As it is not always easy to simulate e.g. the Java serialization mechanism in other languages, there are different kinds of endpoints, that support different types of communication facilities. This way it is possible to implement external workers in a broad range of programming languages. And this is also the reason, why different endpoint types exist in the first place.
+
+% While the life cycle of external workers lies out of the scope of Biohadoop, embedded workers are controlled by Biohadoop. Figure \ref{fig:flow-worker} shows their typical life cycle, where Biohadoop starts the endpoints and the workers. The endpoints and workers communicate afterwards until the endpoints get shutdown by Biohadoop. The workers register this event and shut also down.
+% 
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=100mm]{flow-worker.png}
+%   \caption{Life cycle of an embedded worker}
+%   \label{fig:flow-worker}
+% \end{figure}
+
+% !!!!Workers don't get restarted if they fail!!!!
+
+\section{Communication}
+\label{chap:impl:communication}
+Algorithms can use the task system to distribute their computation to the workers. As seen in the previous chapters, the task system consists of the task broker, endpoints and workers. The broker and endpoints all work in the YARN ApplicationMaster, so they work in the same JVM and therefore in the same process. The communication between these parts is not difficult, it is just a matter of sharing variables between the different threads, possibly protected by concurrency protocols. For example, the task broker contains a FIFO queue based on the Java \texttt{LinkedBlockingQueue}, which is a thread safe queue that supports concurrent writers and readers.
+  
+The communication between the endpoints and workers is more complicated, as the endpoints and workers may run in different processes or even on different machines, so they can not easily share variables. A more sophisticated method of communication must be used.
+
+Biohadoop uses Netty \cite{netty} for all communication purposes that span different processes or machines. Netty is a high performance framework for network applications that hides the underlying socket implementation from the user and provides a useful and well tested API to build distributed applications. Netty provides TCP and UDP support, only TCP is used for Biohadoop. All provided endpoints and workers use Netty as their communication base.
+
+The communication protocols used on top of Netty can be of arbitrary type. Biohadoop provides two implementations for endpoints and workers, that use sockets (hidden by Netty) or the WebSocket protocol. The socket protocol uses Kryo \cite{kryo} for object serialization, while the WebSocket protocol relies on JSON serialization. The two protocols are discussed in more detail in section \ref{chap:impl:protocols}.
+
+The reason for the support of different protocols lies in their different use cases. While the performance of sockets with Kryo serialization is higher than for WebSockets, WebSockets have the advantage of great compatibility and broad support in different languages. This is important for external workers as they don't have to be implemented in Java.
+
+On top of the communication protocols, Biohadoop establishes its own application protocol for task, configuration and result exchange between endpoints and workers. This protocol defines a communication flow further described in section \ref{chap:impl:communication-flow}. Figure \ref{fig:communication-layers} shows the different layers, that Biohadoop uses for data exchange.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=80mm]{communication-layers.png}
+  \caption{Biohadoops communication layers}
+  \label{fig:communication-layers}
+\end{figure}
+
+Biohadoop enables the use of different, not provided communication mechanisms, by implementing the appropriate parts of \texttt{Endpoint} and \texttt{Worker} interfaces. Corresponding endpoints and workers have to agree about the communication and application protocol.
+
+\subsection{Protocols}
+\label{chap:impl:protocols}
+In this section, the two different communication protocols of Biohadoop are described, each one has its advantages and disadvantages.
+
+\subsubsection{Sockets}
+The socket communication between endpoints and workers is implemented on top of Netty, that provides an abstraction of the underlying raw TCP/IP socket. The advantage of using Netty over raw sockets is, that Netty provides a simple to use API for non-blocking asynchronous communication. A manual implementation would have been more error prone.
+
+Kryo \cite{kryo} is used for object serialization, it is a library for high speed serialization of Java objects. It is usually faster than the build-in serialization features of Java (!!!cite!!!).
+
+A disadvantage of Kryo is, that its object serialization is not a standard and therefore in broad usage. This restricts the worker implementations to be written in Java, which may not be a problem at all, especially if only embedded workers are used. But if external workers should be used, they have to be written in Java, or need to provide a custom Kryo implementation.
+
+If the data exchanged between endpoints and workers is huge, the Kryo buffer sizes must be increased. This can be done by setting the according configuration options in the configuration file (see section \ref{chap:impl:configuration}).
+
+\subsubsection{WebSocket}
+The WebSocket implementation also uses Netty to hide the underlying TCP/IP socket. In contrast to the socket communication, it adds the WebSocket protocol on top of it. JSON is used for object serialization.
+
+WebSockets were used first for the communication between a web application and its application server. They rely on the HTTP protocol for the handshake, during which the communication partners agree to upgrade to the WebSocket protocol. After the upgrade is done, the communication between an endpoint and a worker can be performed using binary or text streams.
+
+WebSockets have a very small overhead when data is exchanged, for example 2 byte for text stream messages. This is a major difference to the HTTP protocol where the HTTP headers are sent on each request and response. It improves the communication performance, especially for the transmission of small amounts of data. Another difference between WebSockets and HTTP is, that the WebSocket communication can be performed in full duplex, HTTP needs a request - response cycle. This can further improve the performance, but has no impact for Biohadoop, as the communication between endpoints and workers is performed in a request - response manner (see section \ref{chap:impl:communication-flow} for more information).
+
+The biggest advantage of WebSockets and JSON lies in their standardization. This is important in combination with external workers, as those workers can be written in any language. Most languages have support for WebSockets and JSON - because they are standards. The biggest disadvantage of WebSockets with JSON is, that they are slower than sockets with Kryo serialization.
+
+\subsection{Communication flow}
+\label{chap:impl:communication-flow}
+The communication protocols presented in the prior section are used as a base to the application protocol, that implements a well defined communication flow between the corresponding endpoints and workers. This communication flow, depicted in figure \ref{fig:communication-flow}, is the same for all communication protocols that are provided by Biohadoop. Custom protocols don't need to implement this flow, they are free to implement their own communication pattern.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=70mm]{communication-flow.png}
+  \caption{Communication flow between endpoints and workers}
+  \label{fig:communication-flow}
+\end{figure}
+
+As one can see in figure \ref{fig:communication-flow}, the communication between endpoints and workers is initialized by the worker. After the worker gets a task from an endpoints, it looks if the needed task configuration is already stored in its internal cache. If the configuration is unknown, the worker requests it from the endpoint. The endpoint responds with the configuration, which is cached by the worker, in case that it is needed again. The worker computes the result for the task using the task data, and the corresponding configuration. The result is then transmitted to the endpoint and a new task is requested.
+
+\section{Enhancements}
+\label{chap:impl:enhancements}
+Beside the task system, that is presented in greater detail in section \ref{chap:impl:task-system}, Biohadoop provides two enhancements for algorithms. One is the persistence, where it is possible to load and store arbitrary data to and from a file system (see section \ref{chap:impl:persistence}). The other enhancement provides high level parallelism between parallel running algorithms, called the ``iceland model''. Algorithms may use it to enhance their solution (see section \ref{chap:impl:island-model}).
+
+\subsection{Persistence}
+\label{chap:impl:persistence}
+There are a lot of reasons for an algorithm to store its data to a file system. The most important may be, that one wants to store the final result of a computation. Another reason is, to store intermediate results, in case something happens. If this data can be reloaded afterwards, the computation can be continued from that point on. Intermediate results can also be used for other computations or for visualization.
+
+The conclusion is that some kind of persistence is useful. It should include both the saving and loading of data. Biohadoop provides this kind of service by offering a simple API, accessible through the class \texttt{FileUtils}. The API stores the data in JSON format in a file with given name. When a file is loaded, the API supposes, that the contained data is also in JSON format.
+
+Of course, a programmer may opt to use its own mechanism of data storage and retrieval, but the presented API has the advantage, that it is able to run both on local file systems and on Hadoops HDFS.
+
+\subsection{The island model}
+\label{chap:impl:island-model}
+The island model is a high level parallelization model, that is sometimes used in optimization problems. In the island model, several algorithms run in parallel, trying to compute the result to the same problem. The parallel running algorithms are called the islands. Each of these algorithms is independent of the others, and each one may have a different solution at a given point of time. By exchanging their data after some intervals, islands may get interesting solutions from other islands, that can be integrated in their own computation to enhance their solution. If we take the GA as an example, the islands would consist of independently running GAs, that exchange individuals to improve the solution. Figure \ref{fig:island-model} shows an example island model with 3 GAs, that exchange individuals.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=70mm]{island-model.png}
+  \caption{Example island model with 3 GAs, exchanging individuals}
+  \label{fig:island-model}
+\end{figure}
+
+The island model greatly enhances the exploratory behavior of optimizers, which often results in better overall solutions. As the data exchange is only done at certain points of time, the optimizers have the chance to exploit their own solution. When they get stuck in a local optima, they get the chance to escape this optima by getting other solutions from different islands.
+
+Biohadoop provides an API, implemented in the class \texttt{IslandModel}, that can be used to build an island model between any number of algorithms. It provides methods to publish the own solutions to other islands or to merge remote solutions with the own solutions. Data merging can be configured by implementing the interfaces \texttt{RemoteResultGetter} and \texttt{DataMerger}. The \texttt{RemoteResultGetter} defines from which remote island the data should be retrieved. It may take into account different properties, like the number of iterations, the fitness of individuals, etc. The \texttt{DataMerger} defines, how two solutions should be merged.
+
+The island model API uses ZooKeeper \cite{zookeeper}, which is a server that provides distributed configuration and synchronization services and a naming registry. Therefore, a running ZooKeeper instance must be accessible by Biohadoop, if an algorithm wants to use the island model.
+
+By using ZooKeeper as central registry for the island model, it doesn't matter if the algorithms run in the same Biohadoop instance (which is possible by defining several instances in Biohadoops configuration file), or if the algorithms run in different Biohadoop instances. The only advantage of running several algorithms in the same Biohadoop instance is, that it guarantees that they all run at the same time. Scheduling several Biohadoop instances on Hadoop doesn't guarantee that they also run at the same time, as Hadoop decides when to launch an application. If the algorithms don't run at the same time, there is no data exchange between the islands, so the island model is reduced to one single island, which means that it makes no difference to running the algorithm without the island model.
+
+\section{Configuration}
+\label{chap:impl:configuration}
+Biohadoop uses a configuration file in JSON format. The advantage of JSON is, that its understandable for humans and usually smaller in size than e.g. XML. To provide support for automatic schema validation, JSON Schema \cite{json-schema} is used. The full JSON Schema \cite{json-schema} for the configuration file can be found in the appendix \ref{lst:json-schema}.
+
+The path to the configuration file must be given on invocation of Biohadoop as its first parameter (more information on how to run Biohadoop can be found in \ref{chap:usage:run}). If the path is empty or wrong, or the configuration file can not be parsed, Biohadoop stops immediately with an exception.
+
+The configuration file itself consists of the following four top-level objects:
+\begin{itemize}
+  \item \texttt{communicationConfiguration}: defines a list of endpoints and a list of workers, that Biohadoop should start. The worker configuration provides additional information about the number of workers, that should be started
+  \item \texttt{globalProperties}: a map with strings as keys and values. This properties are used for global settings, that should be available in different places. Examples for such global settings are configurations for Kryo and ZooKeeper.
+  \item \texttt{includePaths}: a list of strings that define the paths where needed libraries can be found. This isn't important for a local running instance of Biohadoop (e.g. during development), as the necessary classpaths must be set when starting Biohadoop. But it is important when Biohadoop runs in the Hadoop environment, as this are the paths to libraries, that Hadoop should provide to Biohadoop when running. If the paths to the necessary libraries are wrong when running on Hadoop, Biohadoop wont run correctly.
+  \item \texttt{algorithmConfigurations}: a list of algorithms that should be run by Biohadoop. Each element in the list describes the configuration for an algorithm.
+\end{itemize}
+
+It is not always convenient to write the configuration for an algorithm by hand, although it is possible. Biohadoop provides two builder classes, to make it more easy to produce configuration files. The builder in \texttt{BiohadoopConfiguration} offers methods to configure the top level elements of a configuration file. Algorithm configuration is simplified by the builder in \texttt{AlgorithmConfiguration}. The result of this algorithm configuration can then be handed over to the \texttt{BiohadoopConfiguration} builder.
+
+%   
+%   There are many different ways of communication between different (remote) processes. Biohadoop provides five different communication protocols, that can be used to transfer the data between adapters and workers. The reason to not stick to just one implementation was, that each one has its advantages and disadvantages. As the whole communication process is hidden from the algorithm by the task system, changing the communication facility is just a matter of configuration, which makes it easy to try out different protocols and decide later on about which one to use.
+%   
+%   If there is the need for different, yet not implemented protocols, Biohadoop provides a way to implement its own protocols by implementing the appropriate parts of \texttt{Adapter} (section \ref{chap:impl:adapter}) and \texttt{Worker} (section \ref{chap:impl:worker}). The adapters and workers have to agree about the protocol, the serialization of the data and the communication flow.
+%   
+%   An introduction to the provided protocols is given in section \ref{chap:impl:protocols}. In section \ref{chap:impl:communication-flow}, the communication flow for the provided protocols is shown. It defines the steps involved for the communication between the adapters and the workers. Those steps are the same for all provided protocols. If one wants to implement its own communication mechanisms, it doesn't have to stick to the presented control flow and is free to choose its own one.
+%   
+%   \subsection{Protocols}
+%   \label{chap:impl:protocols}
+%     In this section, the five different communication protocols of Biohadoop are given, each one has its advantages and disadvantages.
+% 
+%     \subsubsection{HTTP}
+%       Biohadoop provides an implementation of adapters and workers, that can communicate to each other by using HTTP. The adapter makes the tasks available as resources under a given URL. The URL is composed by the server name and port where the resource is available and the path \texttt{rs}, which is followed by the name of the task pipeline as subpath. For the default pipeline this would be for example \path{http://example.org/rs/DEFAULT_PIPELINE}. The workers take the tasks from this URL, compute the results and return those results to the same URL by using the \texttt{POST} verb.
+%       
+%       The main advantage of the HTTP protocol is, that it is in broad usage and that there exists an implementation for it in almost every language. This makes it very easy to write external workers in the desired language. The disadvantage of using HTTP is its speed, as there is a lot of overhead involved when sending HTTP requests over the wire (for example the HTTP headers).
+% 
+%       For serialization purposes, the JSON format is used. This is a very common format and suitable for machine communication, but also understandable for the human reader. Most programming language support JSON.
+%     \subsubsection{Kryo and KryoNet}
+%       Kryo \cite{kryo} is a library for high speed serialization of Java objects. It is usually faster than the build-in serialization features of Java. The developers of Kryo provide also the library KryoNet \cite{kryonet} for communication between different remote entities. This library is used by Biohadoop as one type of its provided protocols. The advantage consists of its speed, at least for the serialization.
+%       
+%       But as there where some problems when using KryoNet, the achieved communication speed is somewhat slower than with most of the other protocols. The problems are related to the asynchronous nature of KryoNet, where all requests are handled by exactly one event loop. If one request blocks (e.g. because it is waiting for new tasks), all other requests block too. To circumvent this, the requests are dispatched to special threads, but this slows the whole system noticeable down.
+%       
+%       Another disadvantage of Kryo and KryoNet is that they are custom serializers and protocol, that are not in broad usage. This restricts the worker implementations to be written in Java, which may not be a problem at all, especially if only embedded workers are used. But if external workers should be used, they have to be written in Java.
+%       
+%       Each class, that should be submitted between adapters and workers using Biohadoops Kryo protocol, must be registered with Kryo. The registration can be done by implementing the \path{at.ac.uibk.dps.biohadoop.utils.KryoRegistrator} interface in a registration object. This object then has to be made known to Biohadoop, by specifying its full class name in the \texttt{globalProperties} section of the configuration file (see section \ref{chap:impl:configuration} for more information about this topic). The name of the property must be \texttt{KRYO\_REGISTRATOR}. As an example, lets assume, that the full name of the configurator class is \path{com.biohadoop.KryoConfigurator}, then the property that needs to be set in the \texttt{globalProperties} section would be:
+%       \begin{lstlisting}
+% "KRYO_REGISTRATOR" : "com.biohadoop.KryoConfigurator"
+%       \end{lstlisting}
+%       When this parameter is set in the configuration file, Biohadoop knows that the classes, that are listed inside the configurator class, should be registered with Kryo.
+%     \subsubsection{Socket}
+%       When using the socket protocol, the communication and serialization is performed by the standard Java libraries. The communication is done using sockets, the serialization by the standard Java serializer. Each class, that should be submitted between adapters and workers using the socket protocol, must implement at least the \path{java.io.Serializable} marker interface. This is necessary for the standard Java serialization mechanism to succeed. As this serialization mechanisms can be somehow slow, there is the additional possibility, that a class implements the \path{java.io.Externalizable} interface, where the serialization has to be done manually.
+%       
+%       The advantage of the socket protocol is its very good performance, and that it is just a plain socket. Most languages provide mechanisms to connect to a socket, so this should be a rather easy task.
+%       
+%       The disadvantage of Biohadoops socket protocol is its dependence on the Java serialization, which restricts the workers to be written in Java or in a language that provides implementations for the Java serialization. This disadvantage may be mitigated by the possibility to implement a custom serialization mechanism by implementing the \texttt{Externalizable} interface.
+%     \subsubsection{WebSocket}
+%       WebSockets can be used for bidirectional communication. They were first used as an additional type of communication between a web application and an application server. They rely on the HTTP protocol for the handshake, during which the communication partners agree to upgrade to the WebSocket protocol. After the upgrade is done, the communication between the endpoints (in this case between the adapters and workers) can be performed using binary or text streams. Unlike in the plain HTTP protocol, the HTTP headers are not transmitted with every message, which reduces their size.
+%       
+%       Like in HTTP, the adapter makes the tasks available as resources under a given URL. The URL is composed by the server name and port where the resource is available, the path \texttt{ws}, which is followed by the name of the task pipeline as subpath. For the default pipeline this would be for example \path{http://example.org/ws/DEFAULT_PIPELINE}
+%       
+%       Unlike the HTTP protocol, for WebSockets there is no need to make a distinct request for every exchanged message. The worker just connects once to the URL and can then exchange all messages through this established connection.
+% 
+%       As already mentioned, the HTTP headers are omitted when WebSockets are used. This makes the data transfer faster than with HTTP, which is one of the advantages of using the WebSocket protocol in Biohadoop. Another advantage is, that WebSocket implementations are now available in many programming languages, making them available to a broad range of users, that may implement workers in their desired language. The disadvantage is that, if no WebSocket implementation exists in a language, it is harder to write a client, than e.g. for HTTP. Also, as WebSockets are a relatively new type of communication protocol, some available libraries may still contain bugs.
+%       
+%       JSON is used as the format for the data serialization, most languages provide parsers for it.
+%     \subsubsection{Local}
+%       The local communication can only be used with local workers. Those are workers, that run inside the same JVM (and therefor process) as Biohadoop and the algorithms. This makes it very easy to submit tasks and return results between adapters and workers. The data transfer is simply done by accessing shared variables. No serialization is needed, which greatly speeds up the communication between the adapters and workers. The access to the shared variables must be synchronized, as there may be several adapters and workers. This is done through standard Java mechanisms.
+%       
+%       The main advantage of the local protocol is its speed. As a process may use as much computational resources as available and because current hardware may provide a lot of shared CPU cores, the local protocol and workers may even scale to a sufficient degree for many tasks. But when greater scalability is needed, or when there are not enough computational resources available on the machine that runs Biohadoop, remote workers are needed, that rely on other communication protocols than the local one. Therefor the biggest disadvantage of local workers is, that they can run only on the local machine, where also Biohadoop runs.
+%       
+%   \subsection{Communication flow}
+%   \label{chap:impl:communication-flow}
+%     Each protocol presented in the prior section has to use some kind of communication flow between the corresponding adapters and workers. This communication flow, depicted in figure \ref{fig:communication-flow} is the same for all protocols that are provided by Biohadoop. If one wants to write a worker for one of the provided protocols, it must adhere to the communication flow presented here. Custom protocols don't need to reuse this, they are free to implement their own communication pattern.
+%     
+%     \begin{figure}[ht!]
+%       \centering
+%       \includegraphics[width=100mm]{communication-flow.png}
+%       \caption{Communication flow}
+%       \label{fig:communication-flow}
+%     \end{figure}
+%     
+%     As one can see in figure \ref{fig:communication-flow}, the communication between adapters and workers is initialized by the worker. Also, after each iteration, the worker actively asks for new tasks.
+%     
+%     After the worker gets a task from the adapter, it has to control, if it already has the needed \texttt{initialData}. This is done by looking at the class name of the \texttt{AsyncComputable}, which is send along with the task. If the class is unknown, the worker asks the adapter for the \texttt{initialData} for the task. The adapter responds with the \texttt{initialData}, that is then cached by the worker, in case that the result for another task with the same \texttt{AsyncComputable} should be computed. Then, the worker computes the result for the task using the tasks data, the \texttt{AsyncComputable} and the \texttt{initialData}. The result is then retransmitted to the adapter and, at the same time, a new task is requested. Then the loop starts from the beginning.
+%     
+%     If the answer of the adapter consists of a shutdown message, the worker disconnects from the adapter and does the shutdown.
+%     
+%     The implementation of the presented communication flow has one big problem: a worker doesn't recognize when the same  \texttt{AsyncComputable} is used for different kinds of tasks with different \texttt{initialData} values. For example, lets assume that we have two different tasks, \texttt{TASK\_A} and \texttt{TASK\_B}. Each task uses the same \texttt{AsyncComputable} for its computation, but a different \texttt{initialData} value. Lets further assume, that a worker first encounters \texttt{TASK\_A}. In this moment, the worker will look up internally, if it has already the \texttt{initialData} for the \texttt{AsyncComputable}, that comes along with the task. In this case, this is not true, as the worker encounters this \texttt{AsyncComputable} the first time. The worker asks the adapter for the \texttt{initialData} and after its retrieval it stores this data internally. Then it computes the result for the task and returns it to the adapter. Now lets assume, that the worker gets next the \texttt{TASK\_B}. As the \texttt{AsyncComputable} is the same as for \texttt{TASK\_A}, and the worker looks up the \texttt{initialData} based on the \texttt{AsyncComputable}, the worker believes that it knows already the right \texttt{initialData}, which is wrong.
+%     
+%     This problem can be solved by transmitting a hash value of the \texttt{AsyncComputable} and \texttt{initialData}, in addition to the normal task data, and letting the worker decide, based on this hash, if it needs to fetch the \texttt{initialData}. This is not a big code change, and is on top of the TODO list for Biohadoop.
+% 
+% \section{Enhancements}
+% \label{chap:impl:enhancements}
+%   Beside the task system, that is presented in greater detail in section \ref{chap:impl:task-system}, Biohadoop provides two enhancements for algorithm authors. One is about persistence, where it is possible to load and store some data to disk (see section \ref{chap:impl:persistence}). The other is about high level parallelism between parallel running algorithms, called the ``iceland model'', that is sometimes used by optimization algorithms to enhance the solution (see section \ref{chap:impl:island-model}).
+% 
+%   \subsection{Persistence}
+%   \label{chap:impl:persistence}
+%   There are a lot of reasons for an algorithm to store its data to a disk. The most important may be, that one wants to store the result of a computation. The next reason is, to store the computational work that is done until a certain point, in case something happens. If this data can be reloaded afterwards, the computation can be continued from that point on. Another reason may be, that the intermediate results are needed for some other computation or visualization.
+%   
+%   So we see, that some kind of persistence is useful. It should include both the saving and loading of data. Biohadoop provides this kind of service by offering a simple API. Of course, an algorithm author may opt to use its own mechanism of data storage and retrieval, but the presented API has the advantage, that it is able to run both on local file systems and on Hadoops HDFS.
+%   
+%   The file saving is performed by using the class \path{at.ac.uibk.dps.biohadoop.persistence.FileSaver} and its provided static method, as presented in listing \ref{listing:chap4-persistence-save}.
+%   
+%   \lstinputlisting[caption=Save method exposed by \texttt{FileSaver},label=listing:chap4-persistence-save]{../listings/chap4-persistence-save.lst}
+%   
+%   \begin{itemize}
+%     \item \texttt{static void save(SolverId solverId, Map<String, String>\newline properties, SolverData<?> solverData) throws\newline FileSaveException}: This method saves the data, provided by the \texttt{solverData} argument, to a file. The path for the file consists of the path that is defined in the configuration file under the algorithms private property with name \texttt{FILE\_SAVE\_PATH}, enhanced with the \texttt{solverId}. The filename consists again of the \texttt{solverId}, the iteration count that is submitted through the \texttt{SolverData} and the timestamp, at which the saving is done. The elements of the filename are separated by the character \texttt{\_}.
+%     
+%     So, for example, lets assume that the path defined in the configuration file is \path{/biohadoop/save}, the unique \texttt{solverId} is a UUID and has the value \path{08b1bc4c-e6d9-44ec-ba5d-24801f6c2339}, the iteration count is \text{100} and the timestamp, at which the saving is done, has the value \texttt{1411588421915}. Then the data, submitted with the \texttt{solverData} argument, is saved in the file:   
+%     \begin{lstlisting}
+% /biohadoop/save/08b1bc4c-e6d9-44ec-ba5d-24801f6c2339/08b1bc4c-e6d9-44ec-ba5d-24801f6c2339_100_1411588421915
+%     \end{lstlisting}
+%     
+%     The saved data is stored in the file using the JSON format, which is a nice format for data serialization, that is available in many different programs, programming languages and environments.
+%     
+%     The method \texttt{save(SolverId, Map<String, String>, SolverData<?>)} throws a \texttt{FileSaveException} in the following cases:
+%     \begin{itemize}
+%       \item the \texttt{FILE\_SAVE\_PATH} property is not set
+%       \item the save path can not be created
+%       \item a file with the given name already exists
+%       \item there was an error during the save operation
+%     \end{itemize}
+%     It is the responsibility of the algorithm author, to act appropriately to such an exception.
+%   \end{itemize}
+%   
+%   As mentioned, the saving is configured in the configuration file. There are two properties, by which the saving can be adjusted to the personal needs (for more information about the configuration of Biohadoop, refer to section \ref{chap:impl:configuration}):
+%   \begin{itemize}
+%     \item FILE\_SAVE\_PATH: This is the initial path, where the files should be stored when they are saved. See the description of the \texttt{save(SolverId, Map<String, String>, SolverData<?>)} method above for more information about how the final file name is defined.
+%     \item FILE\_SAVE\_AFTER\_ITERATION: Through this property, an algorithm author can decide after how many iterations a file should be saved. This removes from the algorithm author the burden of checking the iteration by hand. The \texttt{save} method than compares this value with the value that is provided in the \texttt{solverId} argument and decides, if it should persist the data.
+%   \end{itemize}
+%   
+%   To load a file, for example to resume an old computation at the beginning of an algorithm, the class \path{at.ac.uibk.dps.biohadoop.persistence.FileLoader} can be used. This class provides a static method, presented in listing \ref{listing:chap4-persistence-load}.
+%   
+%   \lstinputlisting[caption=Load method exposed by \texttt{FileLoader},label=listing:chap4-persistence-load]{../listings/chap4-persistence-load.lst}
+%   
+%   \begin{itemize}
+%     \item \texttt{static SolverData<?> load(SolverId solverId, Map<String, String>\newline properties) throws FileLoadException}: This method loads data from a file that is defined in the private property section of the algorithm under the name \texttt{FILE\_LOAD\_PATH}. This value can be defined in two ways. The first one defines the full path for a file, including the file name, that contains loadable data in a JSON format. In this case, exactly this file is loaded. In the second case, the value defines a directory path where loadable files can be found. In this case, the latest file in the directory is loaded, which is the file that was modified most recently. This can be suitable, when always the newest file of a directory should be loaded.
+%     
+%     The method throws a \texttt{FileLoadException} in the following cases:
+%     \begin{itemize}
+%       \item the \texttt{FILE\_LOAD\_PATH} property is not set
+%       \item the file or path can not be found
+%       \item the \texttt{FILE\_LOAD\_PATH} points to an empty directory
+%       \item there was an error during the save operation
+%     \end{itemize}
+%     It is the responsibility of the algorithm author, to act appropriately to such an exception.
+%   \end{itemize}
+% 
+%   Like in the case of file saving, the loading is configured in the configuration file. There are two properties, by which the loading can be adjusted to the personal needs:
+%   \begin{itemize}
+%     \item FILE\_LOAD\_PATH: This is the initial path, where the files should be stored when they are saved. See the description of the \texttt{save(SolverId, Map<String, String>, SolverData<?>)} method above for more information about how the final file name is defined.
+%     \item FILE\_LOAD\_ON\_STARTUP: This boolean property defines, if the configured file should be loaded at all (the name is a bit confusing). If this property is not set, a call to \texttt{load} returns null as result. This can be convenient, if there is no useful data to load.
+%   \end{itemize}
+%   
+%   \subsection{The island model}
+%   \label{chap:impl:island-model}
+%   The island model is a high level parallelization model, that is sometimes used in optimization problems. In the island model, there are several optimization algorithms running in parallel, trying to compute the result to the same problem. Those optimizers are called the islands. Each of these optimizers is independent of the others, and each one may have a different solution at a given point of time. By exchanging their data after some intervals, islands may get interesting solutions from other islands, that can be integrated in their own computation to enhance their solution.
+%   
+%   The island model greatly enhances the exploration behavior of optimizers, which often results in better overall solutions. As the data exchange is only done at certain points of time, the optimizers have the chance to exploit their own solution. When they get stuck in a local optima, they get the chance to escape this optima by getting another solution from another island.
+%   
+%     \subsubsection{API}
+%     \label{chap:impl:island-model-api}
+%     Biohadoop provides an API that can be used to build an island model. This API is exposed through the class \path{at.ac.uibk.dps.biohadoop.islandmodel.IslandModel} as seen in listing  \ref{listing:chap4-island-model}.
+%     
+%     \lstinputlisting[caption=Methods exposed by the \texttt{IslandModel} class. The class can be used to exchange data between the islands and therefor to construct an island model,label=listing:chap4-island-model]{../listings/chap4-island-model.lst}  
+%     
+%     \begin{itemize}
+%       \item \texttt{static void initialize(SolverId solverId) throws\newline IslandModelException}: This method must be called by an algorithm to register it at the ZooKeeper service (see below for more information about ZooKeeper). It takes the \texttt{solutionId} as its only argument, which is the unique identifier for the algorithm.
+%       
+%       The method throws a \texttt{IslandModelException} if the host or port of ZooKeeper is not specified in the global properties of the configuration file. The host is specified through the \texttt{ZOOKEEPER\_HOSTNAME} property, the port through the \texttt{ZOOKEEPER\_PORT} property.
+%       \item \texttt{static Object merge(SolverId solverId, Map<String, String>\newline properties, SolverData<?> solverData) throws\newline IslandModelException}: This method should be called, when the data merging should be done. The \texttt{solverId} identifies the algorithm, the \texttt{solverData} contains the current solution.
+%       
+%       The properties object is the map configured in the private property part of the algorithm. It uses strings for the keys and the values and must contain the following properties:
+%       \begin{itemize}
+% 	\item \texttt{ISLAND\_DATA\_REMOTE\_RESULT\_GETTER}: This property specifies a class that implements the interface \path{at.ac.uibk.dps.biohadoop.islandmodel.RemoteResultGetter} with the following method:
+% 	\begin{lstlisting}
+% Object getBestRemoteResult(List<NodeData> nodesData) throws IslandModelException
+% 	\end{lstlisting}
+% 	It has the job to get an appropriate remote result from a remote island. To perform this job, a list of \texttt{NodeData} elements is provided, that represents all currently known islands. From this list, a suitable solution should be chosen and returned.
+% 	\item \texttt{ISLAND\_DATA\_MERGER}: This property specifies a class that implements the merging of the local and a remote solution. This class must implement the generic \path{at.ac.uibk.dps.biohadoop.islandmodel.DataMerger} interface with the following method, where T is the generic type:
+% 	\begin{lstlisting}
+% T merge(T o1, T o2)
+% 	\end{lstlisting}      
+% 	The job of this method is to merge the data of the solutions given as \texttt{o1} and \texttt{o2} into a new solution.
+%       \end{itemize}
+%       
+%       The \texttt{merge(SolverId, Map<String, String>, SolverData<?>)} method throws an \texttt{IslandModelException} at the same conditions as the \texttt{initialize(SolverId)} method mentioned above. In addition, it throws the \texttt{IslandModelException} if the \texttt{RemoteResultGetter} or the \texttt{DataMerger} classes are not defined or can not be instantiated. Also, the \texttt{RemoteResultGetter} or the \texttt{DataMerger} may throw this exception, if there is something wrong during the data merging. It is the responsibility of the algorithm author, to act appropriately to such an exception.
+%     \end{itemize}
+%     
+%     To make its own solution available to other islands, the data must be explicitly set by the algorithm author. This is done by using the following method of the \path{at.ac.uibk.dps.biohadoop.datastore.DataClient} object:
+%     \begin{lstlisting}
+% static <T> void setData(SolverId solverId, Option<T> option, T data)
+%     \end{lstlisting}   
+%     
+%     It takes as arguments the \texttt{solverId}, the second argument in this case must be \path{DataOptions.SOLVER_DATA}, and the third argument should be the data, wrapped in a \path{at.ac.uibk.dps.biohadoop.solver.SolverData} object.
+% 
+%     \subsubsection{ZooKeeper}
+%     \label{chap:impl:island-model-zookeeper}
+%     As mentioned above, Biohadoops island model API takes usage of ZooKeeper \cite{zookeeper}, which is a Server that provides distributed configuration and synchronization services, and a naming registry. Therefor, a running ZooKeeper instance must be accessible by Biohadoop.
+%     
+%     When using the island model, the algorithms first have to register to ZooKeeper by using the \texttt{initialize(SolverId)} method of the \texttt{IslandModel}. The registration adds an entry to ZooKeeper, that is visible to all other algorithms that use the island model API. The path to the registration is defined by the fixed string \path{/biohadoop/solvers}, followed by the simple class name of the algorithm and the \texttt{solverId} as subpath. For example lets assume that the full class name of our algorithm is \path{org.example.Sum} and that its \texttt{solverId} is \texttt{08b1bc4c-e6d9-44ec-ba5d-24801f6c2339}. Then the path, at which the algorithm registers itself to ZooKeeper is
+%     \begin{lstlisting}
+% /biohadoop/solvers/Sum/08b1bc4c-e6d9-44ec-ba5d-24801f6c2339
+%     \end{lstlisting}
+%     
+%     The registration data consists, again, of the \texttt{solverId} and a URL, where the current solution for the algorithm can be found, both serialized using the JSON format. An example for this data can be found in listing \ref{listing:chap4-zookeeper-registration-data}, where the relevant information is on line 1.
+%     
+%     \lstinputlisting[caption=Example for ZooKeeper registration data,label=listing:chap4-zookeeper-registration-data]{../listings/chap4-zookeeper-registration-data.lst}
+%       
+%     When the data merging between islands should be done, the defined \texttt{RemoteResultGetter} gets a list of all the algorithms that are registered at ZooKeeper, along with their registration data. With this information, that contains also the URL where the current solution for the islands can be found, the \texttt{RemoteResultGetter} chooses which remote solution should be used for the subsequent merge.
+%     
+%     The remote solutions are made available as HTTP resources at the URL that is part of the registration information, where the complete URL consists of the URL from the ZooKeeper registration with the \texttt{solverId} appended, for example:
+%     
+%     \begin{lstlisting}
+% http://example.org:30000/rs/islandmodel/08b1bc4c-e6d9-44ec-ba5d-24801f6c2339
+%     \end{lstlisting}  
+%     
+%     In the end, the whole process of registration to ZooKeeper, retrieval of this information from ZooKeeper and publishing the result of the computation at a defined URL is done by the island model API behind the curtains, so an algorithm author doesn't have to bother with it. The only things an algorithm author has to do is to
+%     \begin{itemize}
+%       \item provide its data using the \texttt{DataClient.setData(SolverId, Option<T>, T)} method
+%       \item use the provided methods of the \texttt{IslandModel} object when the merging should be done
+%       \item provide an implementation of \texttt{RemoteResultGetter} and \texttt{DataMerger} to define which data should be merged and how the merging should be done
+%     \end{itemize}
+% 
+%     By using ZooKeeper as central registry for the island model, and by exchanging the data between the islands through HTTP, it doesn't matter if the algorithms run in the same Biohadoop instance (which is possible by defining several instances in Biohadoops configuration file), or if the algorithms run in different Biohadoop instances. The only advantage of running several algorithms in the same Biohadoop instance is, that it guarantees that they all run at the same time. When running several Biohadoop instances on Hadoop, it isn't guaranteed that they also run at the same time, as Hadoop decides when to launch a program. If the algorithms don't run at the same time, then there is no data exchange possible between them, so the island model is reduced to one single island, which means that it makes no difference to running the algorithm without the island model.
+%   
+% \section{Configuration}
+% \label{chap:impl:configuration}
+%   Biohadoop uses a configuration file in JSON format. This has the advantage, that it isn't hard for humans to understand and modify its content. It usually is also smaller in size than e.g. XML and parsers exist for a broad range of programming languages. To provide support for automatic schema validation, JSON Schema \cite{json-schema} is used. The full JSON Schema \cite{json-schema} for the configuration file can be found in the appendix \ref{lst:json-schema}.
+%   
+%   The path to the configuration file must be given on invocation of Biohadoop as its first parameter (more information on how to run Biohadoop can be found in \ref{chap:usage:run}). If the path is empty or wrong, Biohadoop stops immediately with an \texttt{IllegalArgumentException}. If a file is found, its content is parsed and Biohadoop tries to build a configuration object out of it. If there was an error during parsing, Biohadoop stops with an \texttt{IOException}, \texttt{JsonParseException} or \texttt{JsonMappingException}, depending on the reason of the error. Supposing everything went right, the configuration is exposed through the static class \path{at.ac.uibk.dps.biohadoop.hadoop.Environment} and its \texttt{getBiohadoopConfiguration()} method.
+%   
+%   Note that the exposure is restricted to the JVM that runs Biohadoop. But this should be enough for most purposes. The algorithms can directly access the \texttt{Environment}, although this should be seldom necessary, as the algorithm get their parameters as arguments. Adapters are also able to access the \texttt{Environment}. Both mentioned components run in the same JVM as Biohadoop does.
+%   
+%   When it comes to the workers and the \texttt{AsyncComputable} methods that they run, things are a little bit different. The workers run on different JVMs than Biohadoop does (except the local running workers, that run as separate threads), so they don't have direct access to the \texttt{Environment} object. Nevertheless, the path to the configuration file is provided also to the workers, such that they could read and parse the configuration file. But at the time of this writing, there was no reason for a worker or \texttt{AsyncComputable} to access the configuration file directly, therefor the access is currently not implemented. Changing this at a later stage is not a big task.
+%   
+%   The configuration file itself consists of the following four top-level objects:
+%   \begin{itemize}
+%     \item \texttt{communicationConfiguration}: defines lists for additional adapters and all workers, that Biohadoop should start. Additional in the sense, that adapters for dedicated pipelines must be configured right here, whereas adapters for the default pipeline don't have to be configured. The workers must be also defined here, for all pipelines including the default pipeline, since there is no useful default configuration for workers. 
+%     \begin{itemize}
+%        \item \texttt{dedicatedAdapters}: a list of additional adapters. Each element in the list is of type \path{at.ac.uibk.dps.biohadoop.tasksystem.adapter.AdapterConfiguration}, that contains the canonical class name of an \texttt{Adapter} and a string that defines to which pipeline that adapter belongs.
+%        \begin{itemize}
+%          \item \texttt{adapter}: canonical class name of the \texttt{Adapter}
+%          \item \texttt{pipelineName}: string that defines to which pipeline that adapter belongs
+%        \end{itemize}
+%        \item \texttt{workerConfigurations}: a list of workers: Each element in the worker list is of type \path{at.ac.uibk.dps.biohadoop.tasksystem.worker.WorkerConfiguration}, that contains the canonical class name of a \texttt{Worker}, a string that defines to which pipeline that worker belongs and a counter that indicates how many instances of this worker should be started.
+%        \begin{itemize}
+%          \item \texttt{worker}: canonical class name of the \texttt{Worker}
+%          \item \texttt{pipelineName}: string that defines to which pipeline that worker belongs
+%          \item \texttt{count}: number of instances of this worker
+%        \end{itemize}
+%     \end{itemize}
+%     \item \texttt{globalProperties}: a map with strings as keys and values. This properties are used for global settings, that should be available in different places.
+%     \item \texttt{includePaths}: a list of strings that define the paths where needed libraries can be found. This isn't important for a local running instance of Biohadoop (e.g. during development), as the necessary classpaths must be set when starting Biohadoop. But it is important when Biohadoop runs in the Hadoop environment, as this are the paths with libraries, that Hadoop should provide to Biohadoop when running. If the paths to the necessary libraries are not set correctly when running on Hadoop, \texttt{ClassNotFoundException} are thrown.
+%     \item \texttt{solverConfiguration}: a list of algorithms that should be run by Biohadoop. Each element in the list is of type \path{at.ac.uibk.dps.biohadoop.solver.SolverConfiguration}, that contains the canonical class name of an \texttt{Algorithm}, a freely selectable name for it, and a map of properties, that are passed to the algorithm as argument.
+%     \begin{itemize}
+%       \item \texttt{algorithm}: canonical class name of the \texttt{Algorithm}
+%       \item \texttt{name}: freely selectable name, is shown for example in the log files
+%       \item \texttt{properties}: a map with strings as keys and values. This properties are used for this instance of the algorithm and should be considered private to it. This properties are provided as second argument to the algorithm, when its \texttt{compute(SolverId, Map<String, String>)} method is invoked.
+%     \end{itemize}
+%   \end{itemize}
+% 
+%   Listing \ref{lst:sum-configuration} illustrates a very simple configuration file for the \texttt{Sum} algorithm, introduced in section \ref{chap:impl:system-architecture}. The implementation can be found in \cite{biohadoop-algorithms}. The algorithm sums up all values of an integer array. It takes as input arguments the the number of chunks (\texttt{CHUNCKS}) of integer arrays. As second input argument it takes the size of each chunk (\texttt{CHUNCK\_SIZE}). The whole integer array has then the size $\texttt{CHUNCKS} * \texttt{CHUNCK\_SIZE}$. The chunks are submitted to the task system, the sum for each chunk is computed on workers and then returned back to the algorithm, where the final summation for all chunks is done.
+% 
+%   \lstinputlisting[caption=Simple configuration file for the \texttt{Sum} algorithm\, introduced in section \ref{chap:impl:system-architecture},label=lst:sum-configuration]{../listings/chap4-sum-configuration.lst}
+%   
+%   At line 2 we have the configuration of the paths, that have to be included when running Biohadoop. This setting is only important if Biohadoop runs in a Hadoop environment. It is not important if it runs in local mode, for example during development. When running on Hadoop, the files in this directories are made available to Biohadoop.
+%   
+%   At line 3 starts the communication configuration, which consists of a list of dedicated adapters and a list of all workers. The definition of dedicated adapters at line 4 is empty, as \texttt{Sum} uses only the default pipeline for computation. If dedicated pipelines were used, than the adapters for this pipeline must be configured here.
+%   
+%   Beginning with line 5 we have the declaration of the workers, that Biohadoop should launch. Each entry is defined by the a worker class name, a pipeline to which this worker is assigned, and the number of workers of this instance, that should be launched. We see here for example, that 5 workers of different types are configured, but only the \texttt{LocalWorker} at line 10 should be instantiated once. All other workers have a count of 0, which means that no instances of these workers are launched.
+%   
+%   At line 27 we have the definition of the global properties. Again, \texttt{Sum} doesn't take usage of this configuration possibility. Other algorithms instead use this place for example to specify the configuration for ZooKeeper.
+%   
+%   At line 28, the definition for the algorithm starts. In this case, only one algorithm should be started, it is the algorithm with class \texttt{SumAlgorithm}. The name of the algorithm is \texttt{SUM}, which can be seen e.g. in the log output of Biohadoop. At line 31 there is the configuration of the properties, that are submitted to the \texttt{compute(SolverId, Map<String, String>)} method of the algorithm. Those are the properties described before (\texttt{CHUNCKS} and \texttt{CHUNCK\_SIZE}).
+%  
+%   It is not always convenient to write the configuration for an algorithm by hand, although it is possible. Biohadoop provides two builder classes, to make it more easy to produce config files. The builder in \path{at.ac.uibk.dps.biohadoop.hadoop.BiohadoopConfiguration} offers methods to configure the top level elements of a configuration file (\texttt{communicationConfiguration}, \texttt{globalProperties}, \texttt{includePaths}, \texttt{solverConfigurations}). The configuration for solvers is simplified by the builder in \path{at.ac.uibk.dps.biohadoop.solver.SolverConfiguration}. The result of this solver configuration can then be handed over to the \texttt{BiohadoopConfiguration} builder. Listing \ref{lst:sum-configuration-builder} shows how the configuration for the \texttt{Sum} algorithm can be performed by using the mentioned builders. Note that the outcome of this listing is exactly the config file of listing \ref{lst:sum-configuration}.
+%   
+%   \lstinputlisting[caption=Example on how to produce a configuration file for the \texttt{Sum} algorithm\, using the provided builders. The output of this program can be found in listing \ref{lst:sum-configuration},label=lst:sum-configuration-builder]{../listings/chap4-sum-configuration-builder.lst}
+%   
+\section{Biooozie}
+\label{chap:impl:oozie}
+Biooozie implements a custom action for Apache Oozie (see \ref{chap:hadoop:oozie}), that can be used to invoke one or several instances of Biohadoop. Biohadoop could also be invoked using Oozie's \texttt{java} action, the advantage of Biooozie is, that its tailored to Biohadoop and there is no need to provide all the parameters, that a simple \texttt{java} action needs. 
+
+The action is configured in an Oozie workflow as an XML element with name \texttt{biohadoop}. It contains one \texttt{name-node} element, that defines the URL of the HDFS NameNode, and one or several \texttt{config-file} elements. Each \texttt{config-file} element represents a Biohadoop instance, that starts with the given configuration file. This way it is possible to schedule several Biohadoop instances in parallel, using a single action. The parallel instances are for example useful for running an island model. Listing \ref{lst:biooozie} in the appendix shows a sample workflow XML file, that schedules two Biohadoop instances.
+
+The term ``schedule'' is used here on purpose, because Hadoop doesn't guarantee that the instances also run in parallel, this depends on the available Hadoop resources (i.e. on the available YARN containers). It is for example possible, that a custom action schedules three instances of Biohadoop, but due to a lack of Hadoop resources, the instances have to run one after another.
+
+The outcome of the custom action is ``ok'' if no error happened during the execution of the action. This is also true for the case that several Biohadoop instances are defined in one action. If any Biohadoop instance fails, the outcome of the action is ``error''.
+
+%   \begin{itemize}
+%     \item where fits oozie in the picture?
+%     \item advantage of using oozie / problems with oozie (not guaranteed that oozie starts parallel task in parallel)
+%     \item custom tag / extension
+%     \item configuration / why using json rather than XML
+%     \item extension possibilities (extend tags in a way that XML configuration can be submitted to biohadoop (e.g. make json out of xml configuration, save to file, start biohadoop))
+%   \end{itemize}

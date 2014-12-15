@@ -13,29 +13,33 @@
 \BOOKMARK [1][]{section.3.3}{Oozie}{chapter.3}% 13
 \BOOKMARK [0][]{chapter.4}{Implementation}{}% 14
 \BOOKMARK [1][]{section.4.1}{System architecture}{chapter.4}% 15
-\BOOKMARK [0][]{chapter.5}{Using Biohadoop}{}% 16
-\BOOKMARK [1][]{section.5.1}{Example algorithm}{chapter.5}% 17
-\BOOKMARK [2][]{subsection.5.1.1}{Configuring the algorithm}{section.5.1}% 18
-\BOOKMARK [2][]{subsection.5.1.2}{Parallelization using the task system}{section.5.1}% 19
-\BOOKMARK [1][]{section.5.2}{Run Biohadoop}{chapter.5}% 20
-\BOOKMARK [2][]{subsection.5.2.1}{Local environment}{section.5.2}% 21
-\BOOKMARK [2][]{subsection.5.2.2}{Hadoop environment}{section.5.2}% 22
-\BOOKMARK [0][]{chapter.6}{Results}{}% 23
-\BOOKMARK [0][]{chapter.7}{Conclusions}{}% 24
-\BOOKMARK [0][]{section*.3}{Appendices}{}% 25
-\BOOKMARK [1][]{section.A.1}{JSON Schema for Biohadoops configuration file}{section*.3}% 26
-\BOOKMARK [1][]{section.A.2}{Example algorithm: Sum}{section*.3}% 27
-\BOOKMARK [1][]{section.A.3}{Example algorithm: Sum - AsyncComputable}{section*.3}% 28
-\BOOKMARK [1][]{section.A.4}{Biohadoop quickstart}{section*.3}% 29
-\BOOKMARK [2][]{subsection.A.4.1}{Build and start the Hadoop environment}{section.A.4}% 30
-\BOOKMARK [2][]{subsection.A.4.2}{Build Biohadoop and copy it to the Hadoop environment}{section.A.4}% 31
-\BOOKMARK [2][]{subsection.A.4.3}{Build example algorithms and copy them to the Hadoop environment}{section.A.4}% 32
-\BOOKMARK [2][]{subsection.A.4.4}{Run Biohadoop in the Hadoop environment}{section.A.4}% 33
-\BOOKMARK [1][]{section.A.5}{Pre-build Hadoop environment using Docker}{section*.3}% 34
-\BOOKMARK [2][]{subsection.A.5.1}{Build the Hadoop environment}{section.A.5}% 35
-\BOOKMARK [2][]{subsection.A.5.2}{Run Hadoop}{section.A.5}% 36
-\BOOKMARK [2][]{subsection.A.5.3}{Stopping Hadoop}{section.A.5}% 37
-\BOOKMARK [2][]{subsection.A.5.4}{SSH access}{section.A.5}% 38
-\BOOKMARK [0][]{appendix*.4}{List of Figures}{}% 39
-\BOOKMARK [0][]{appendix*.5}{List of Tables}{}% 40
-\BOOKMARK [0][]{appendix*.7}{Bibliography}{}% 41
+\BOOKMARK [1][]{section.4.2}{Algorithm}{chapter.4}% 16
+\BOOKMARK [1][]{section.4.3}{Task system}{chapter.4}% 17
+\BOOKMARK [2][]{subsection.4.3.1}{Task Broker}{section.4.3}% 18
+\BOOKMARK [2][]{subsection.4.3.2}{Endpoint}{section.4.3}% 19
+\BOOKMARK [2][]{subsection.4.3.3}{Worker}{section.4.3}% 20
+\BOOKMARK [1][]{section.4.4}{Communication}{chapter.4}% 21
+\BOOKMARK [2][]{subsection.4.4.1}{Protocols}{section.4.4}% 22
+\BOOKMARK [2][]{subsection.4.4.2}{Communication flow}{section.4.4}% 23
+\BOOKMARK [1][]{section.4.5}{Enhancements}{chapter.4}% 24
+\BOOKMARK [2][]{subsection.4.5.1}{Persistence}{section.4.5}% 25
+\BOOKMARK [2][]{subsection.4.5.2}{The island model}{section.4.5}% 26
+\BOOKMARK [1][]{section.4.6}{Configuration}{chapter.4}% 27
+\BOOKMARK [1][]{section.4.7}{Biooozie}{chapter.4}% 28
+\BOOKMARK [0][]{chapter.5}{Using Biohadoop}{}% 29
+\BOOKMARK [1][]{section.5.1}{Run Biohadoop}{chapter.5}% 30
+\BOOKMARK [2][]{subsection.5.1.1}{Local environment}{section.5.1}% 31
+\BOOKMARK [2][]{subsection.5.1.2}{Hadoop environment}{section.5.1}% 32
+\BOOKMARK [0][]{chapter.6}{Evaluation}{}% 33
+\BOOKMARK [1][]{section.6.1}{Test problems}{chapter.6}% 34
+\BOOKMARK [2][]{subsection.6.1.1}{ZDT-3}{section.6.1}% 35
+\BOOKMARK [2][]{subsection.6.1.2}{Tiled matrix multiplication}{section.6.1}% 36
+\BOOKMARK [1][]{section.6.2}{Benchmarks}{chapter.6}% 37
+\BOOKMARK [1][]{section.6.3}{Results}{chapter.6}% 38
+\BOOKMARK [2][]{subsection.6.3.1}{Influence of YARN container placement}{section.6.3}% 39
+\BOOKMARK [2][]{subsection.6.3.2}{ZDT-3}{section.6.3}% 40
+\BOOKMARK [2][]{subsection.6.3.3}{Tiled matrix multiplication}{section.6.3}% 41
+\BOOKMARK [2][]{subsection.6.3.4}{Speedups}{section.6.3}% 42
+\BOOKMARK [0][]{chapter.7}{Conclusions}{}% 43
+\BOOKMARK [0][]{chapter*.5}{List of Figures}{}% 44
+\BOOKMARK [0][]{chapter*.6}{Bibliography}{}% 45

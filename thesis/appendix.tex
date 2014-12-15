@@ -3,14 +3,14 @@
 
 \chapter{}
 
-\section{JSON Schema for Biohadoops configuration file}
-\lstinputlisting[caption=JSON Schema \cite{json-schema} for the Biohadoop configuration file,label=lst:json-schema]{../listings/appendix-configuration-schema.lst}
+% \section{JSON Schema for Biohadoops configuration file}
+% \lstinputlisting[caption=JSON Schema \cite{json-schema} for the Biohadoop configuration file,label=lst:json-schema]{../listings/appendix-configuration-schema.lst}
 
-\section{Example algorithm: Sum}
-\lstinputlisting[caption=Source code for the example \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-full]{../listings/appendix-sum-full.lst}
-
-\section{Example algorithm: Sum - AsyncComputable}
-\lstinputlisting[caption=Source code for the \texttt{AsyncSumComputation} part of the \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-async]{../listings/appendix-sum-async.lst}
+% \section{Example algorithm: Sum}
+% \lstinputlisting[caption=Source code for the example \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-full]{../listings/appendix-sum-full.lst}
+% 
+% \section{Example algorithm: Sum - AsyncComputable}
+% \lstinputlisting[caption=Source code for the \texttt{AsyncSumComputation} part of the \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-async]{../listings/appendix-sum-async.lst}
 
 \section{Biohadoop quickstart}
 \label{chap:appendix:biohadoop-quickstart}
@@ -113,3 +113,23 @@ scripts/docker-stop-all.sh
 
 \subsection{SSH access}
 The master node is accessible with user root, a password is generated on each startup and printed on the terminal. Consider adding your SSH key to the Dockerfile if you are going to use docker-biohadoop often.
+
+\section{Biohadoop example workflow.xml}
+\begin{lstlisting}[label=lst:biooozie, language=XML]
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="biohadoop-wf">
+    <start to="biohadoop-node"/>
+    <action name="biohadoop-node">
+        <biohadoop xmlns="uri:custom:biohadoop-action:0.1">
+            <name-node>hdfs://master:54310</name-node>
+            <config-file>/biohadoop/conf/biohadoop-algorithm-1.json</config-file>
+            <config-file>/biohadoop/conf/biohadoop-algorithm-2.json</config-file>
+        </biohadoop>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>Biohadoop failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
+\end{lstlisting}

@@ -16,7 +16,7 @@ The first implemented optimization algorithm is NSGA-II that is used to find opt
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=110mm]{zdt3.png}
+  \includegraphics[width=110mm,natwidth=640,natheight=384]{zdt3.png}
   \caption{Optimal Pareto Front for ZDT-3}
   \label{fig:zdt3}
 \end{figure}
@@ -87,7 +87,7 @@ The machines are directly connected to the same Switch through a 1Gb (Gigabit) E
 \label{chap:evaluation:result}
 The time a Biohadoop application takes to execute is composed of the time Biohadoop needs to start up and the algorithm execution time. The start up begins with Biohadoops submission to Hadoop and ends when the algorithms \texttt{run} method is invoked. The algorithm execution time starts with the invocation of the algorithms \texttt{run} method and ends when this method returns.
 
-The distinction between start up time and algorithm execution time is made because the main part of the start up time is spent between the application submission to YARN and the beginning of its execution. It is not possible to predict when an application is executed by Hadoop, it depends on different factors like the available cluster resources. To minimize the impact of this uncertainty, the following measurements are based on the algorithm execution time, without the application start up time. The start up time over all benchmarks range from 2.378s to 6.147s, with a median of 3.864s, a 25\% quartile of 3.145s and a 75\% quartile of 4.258s. The mean was 3.781s. This start up times are close to each other, because the used cluster was completely dedicated to the benchmarks. The start up may take longer when the cluster usage is higher.
+The distinction between start up time and algorithm execution time is made because the main part of the start up time is spent between the application submission to YARN and the beginning of its execution. It is not possible to predict when an application is executed by Hadoop, it depends on different factors like the available cluster resources. To minimize the impact of this uncertainty, the following measurements are based on the algorithm execution time, without the application start up time. The start up time over all benchmarks range from 2.378s to 6.147s, with a median of 3.864s, a 25\% quartile of 3.145s and a 75\% quartile of 4.258s. The mean value is 3.781s. This start up times are close to each other, because the used cluster was completely dedicated to the benchmarks. The start up may take longer when the cluster usage is higher.
 
 Table \ref{table:theoretical_speedup} gives an impression how well the benchmark problems are suited to parallelization by showing the maximum theoretical speedup. The theoretical speedup was calculated using the formula $S = T / (T - t_p)$, where $S$ is the speedup, $T$ the algorithm execution time and $t_p$ is the time spent in code parts that are parallelized using Biohadoops task system. $T$ and $t_p$ were taken from the average benchmark times with one worker.
 
@@ -129,25 +129,25 @@ The next thing to notice are the speedups for the ZDT-3 benchmarks. ZDT-3 is not
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{nsgaii_250_100_10.png}
+  \includegraphics[width=100mm,natwidth=640,natheight=384]{nsgaii_250_100_10.png}
   \caption{ZDT-3 execution times for a genome size of 10}
   \label{fig:nsga_250_100_10}
 \end{figure}
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{nsgaii_250_100_100.png}
+  \includegraphics[width=100mm,natwidth=640,natheight=384]{nsgaii_250_100_100.png}
   \caption{ZDT-3 execution times for a genome size of 100}
   \label{fig:nsga_250_100_100}
 \end{figure}
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{nsgaii_250_100_1000.png}
+  \includegraphics[width=100mm,natwidth=640,natheight=384]{nsgaii_250_100_1000.png}
   \caption{ZDT-3 execution times for a genome size of 1000}
   \label{fig:nsga_250_100_1000}
 \end{figure}
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{nsgaii_250_100_10000.png}
+  \includegraphics[width=100mm,natwidth=640,natheight=384]{nsgaii_250_100_10000.png}
   \caption{ZDT-3 execution times for a genome size of 10000}
   \label{fig:nsga_250_100_10000}
 \end{figure}
@@ -218,13 +218,13 @@ The theoretical speedups for the tiled matrix multiplication promise better resu
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{tiledmul_250_100_128x128.png}
+  \includegraphics[width=100mm,natwidth=640,natheight=384]{tiledmul_250_100_128x128.png}
   \caption{Tiled matrix multiplication execution times for a matrix size of 128x128}
   \label{fig:tiledmul_250_100_128x128}
 \end{figure}
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{tiledmul_250_100_256x256.png}
+  \includegraphics[width=100mm,natwidth=640,natheight=384]{tiledmul_250_100_256x256.png}
   \caption{Tiled matrix multiplication execution times for a matrix size of 256x256}
   \label{fig:tiledmul_250_100_256x256}
 \end{figure}
@@ -248,7 +248,7 @@ The speedup for the 256x256 tiled matrix multiplication benchmark is worse compa
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=130mm]{speedup.png}
+  \includegraphics[width=130mm,natwidth=640,natheight=384]{speedup.png}
   \caption{Speedups for ZDT-3 and tiled matrix multiplications}
   \label{fig:speedup}
 \end{figure}

@@ -1,11 +1,12 @@
-\chapter{Implementation}
+\chapter{Biohadoop architecture}
 \label{chap:impl}
 
-\section{System architecture}
-\label{chap:impl:system-architecture}
-Biohadoop is a framework to parallelize algorithms on Apache Hadoop. It works according to the master - worker principle, where one master commands several workers. The master runs an algorithm whose compute intensive parts are executed by the workers in parallel. Time consuming sections of an algorithm, that can be parallelized, are good candidates to run on the workers.
+Biohadoop is a framework to parallelize algorithms on Apache Hadoop. It works according to the master - worker principle, where one master commands several workers. The master runs an algorithm whose compute intensive parts are executed by the workers in parallel.
 
-The genetic algorithm (GA) from chapter \ref{chap:bioalgorithms:ga} is used in the following sections as an example of how to parallelize an algorithm for the master - worker scheme. A GA is an iterative procedure, each iteration creates a set of new individuals (offsprings), evaluates their fitness and selects the best individuals for the next iteration, based on the fitness of all GA individuals. The creation of an offspring and its subsequent fitness evaluation can be combined into a single function. This function consumes most of the time in a GA, but it can be executed in parallel, as it depends only on its input values (the parents) and has no side effects. It is therefore a good example of a parallel task that can be performed by workers, while the rest of the GA algorithm runs on the master (see figure \ref{fig:master-worker}).
+% The genetic algorithm (GA) from chapter \ref{chap:bioalgorithms:ga} is used in the following sections as an example of how to parallelize an algorithm for the master - worker scheme. 
+In the following we are going to show how to parallelize the GA from chapter \ref{chap:bioalgorithms:ga}. A GA is an iterative procedure, each iteration creates a set of new individuals (offsprings), evaluates their fitness and selects the best individuals for the next iteration, based on the fitness of all GA individuals. The creation of an offspring and its subsequent fitness evaluation can be combined into a single function. This function consumes most of the time in a GA and can be executed in parallel since it depends only on its input values (the parents) and has no side effects. It is therefore a good example of a parallel task that can be performed by workers. The master controls the generational loop and workers create and evaluate individuals (see figure \ref{fig:master-worker}).
+
+% , while the rest of the GA algorithm runs on the master (see figure \ref{fig:master-worker}).
 
 \begin{figure}[ht!]
   \centering
@@ -14,13 +15,13 @@ The genetic algorithm (GA) from chapter \ref{chap:bioalgorithms:ga} is used in t
   \label{fig:master-worker}
 \end{figure}
 
-The master - worker architecture was chosen for Biohadoop, because many algorithms can be parallelized by this approach, like the GA and the PSO presented in chapter \ref{chap:bioalgorithms}. Another reason is that the master - worker scheme maps very well to YARN (see chapter \ref{chap:hadoop:yarn}).
+The master - worker architecture was chosen for Biohadoop, because many bio-inspired algorithms can be parallelized by this approach (like GA and PSO of chapter \ref{chap:bioalgorithms}). Another reason is that the master - worker scheme maps very well to YARN (see chapter \ref{chap:hadoop:yarn}).
 
-Biohadoop is written to run as a YARN application and provides features, that otherwise need to be implemented manually, such as:
+Biohadoop is written to run as a YARN application and supports features that are not provided by YARN, such as:
 
 \begin{itemize}
-  \item support for running several algorithms at the same time in a single Biohadoop instance. This has the advantage that workers, and therefore resources, can be shared by the algorithms
-  \item asynchronous communication between master and workers using the task system (section \ref{chap:impl:task-system}), as YARN doesn't provide a default communication facility between its containers
+  \item support for the execution of several algorithms at the same time in a single Biohadoop instance. This has the advantage that workers, and therefore resources, can be shared by the algorithms. It guarantees also that the algorithms run at the same time. This guarantee can't be given when several Biohadoop instances are used, as YARN decides when it executes a scheduled application. The island model (section \ref{chap:impl:island-model}) benefits from this feature, as it ensures the simultaneous execution of the islands
+  \item asynchronous communication between master and workers using Biohadoops task system (section \ref{chap:impl:task-system}). YARN doesn't provide a default communication facility between its containers
   \item storage and load of arbitrary data sets to and from a file system (section \ref{chap:impl:persistence})
   \item support for the island model, a high level parallelization that can be used to improve the optimization performance of bio-inspired optimization techniques by exchanging results between multiple instances of an algorithm (section \ref{chap:impl:island-model})
   \item support for Apache Oozie through a custom action (section \ref{chap:impl:oozie}). This custom action can be used to schedule one or many Biohadoop instances. It also allows the usage of Biohadoop in a larger workflow
@@ -28,7 +29,7 @@ Biohadoop is written to run as a YARN application and provides features, that ot
 
 Every YARN application needs a client that submits the application to YARN. The YARN client in Biohadoop is implemented in the class \texttt{BiohadoopClient}. It is the main entrance point to run Biohadoop in a Hadoop environment and responsible to start the ApplicationMaster under the control of Hadoop.
 
-Biohadoops ApplicationMaster starts the configured workers using additional YARN containers, and as it is the master in the master - worker scheme, it executes the configured algorithms and communicates with the workers. The ApplicationMasters main class is \texttt{BiohadoopApplicationMaster}. In a local (development) environment, it acts as the main entrance point to run Biohadoop without YARN (more on how to run Biohadoop can be found in \ref{chap:usage:run}).
+Biohadoops ApplicationMaster starts the configured workers using additional YARN containers, and as it is the master in the master - worker scheme, it executes the configured algorithms in a single ApplicationMaster and communicates with the workers. The ApplicationMasters main class is \texttt{BiohadoopApplicationMaster}. In a local (development) environment, it acts as the main entrance point to run Biohadoop without Hadoop (more on how to run Biohadoop can be found in \ref{chap:usage:run}).
 
 The workers are started in additional YARN containers, each worker resides in a dedicated container.
 
@@ -60,9 +61,9 @@ More details about the task system can be found in section \ref{chap:impl:task-s
 
 Persistence is another feature provided by Biohadoop. It can be used to save and load arbitrary data sets to and from the file system. This is convenient in many cases, for example if an algorithm wants to save its current state and reload this state at the next startup. To get more information about the persistence, refer to section \ref{chap:impl:persistence}.
 
-Biohadoop is capable of running several algorithms at the same time in a single Biohadoop instance. They all run in the same JVM as Biohadoop does, and can be of arbitrary type. For example it is possible to run two GA instances and one PSO instance at the same time. As Hadoop doesn't guarantee when an application runs, the mentioned capability of launching several algorithms at the same time in the same JVM is a useful enhancement when it comes to high level parallelization using the island model, as it guarantees that the algorithms really run at the same time. If the algorithms are started as separate Biohadoop instances, it is possible that they run in sequential order, instead of running at the same time.
+Biohadoop is capable of running several algorithms at the same time in a single Biohadoop instance. They all run in the same JVM as Biohadoop does, and can be of arbitrary type. For example it is possible to run two GA instances and one PSO instance at the same time. As YARN doesn't guarantee when an application runs, the mentioned capability of launching several algorithms at the same time in the same JVM is a useful enhancement when it comes to high level parallelization using the island model, as it guarantees that the algorithms really run at the same time. If the algorithms are started as separate Biohadoop instances, it is possible that they run in sequential order, instead of running at the same time.
 
-But Biohadoop doesn't restrict the usage of the island model to algorithms that run in the same JVM. By taking advantage of ZooKeeper \cite{zookeeper}, running algorithms find each other also across the boundaries of different Biohadoop instances. This can lead to higher scalability, as each instance gets its own resources, but entails the aforementioned problem that Hadoop doesn't guarantee when an application runs, so a trade off has to be made. More information about how to use the island model in Biohadoop can be found in section \ref{chap:impl:island-model}.
+But Biohadoop doesn't restrict the usage of the island model to algorithms that run in the same JVM. By taking advantage of ZooKeeper \cite{zookeeper}, running algorithms find each other also across the boundaries of different Biohadoop instances. This can lead to higher scalability, as each instance gets its own resources, but entails the aforementioned problem that YARN doesn't guarantee when an application runs, so a trade off has to be made. More information about how to use the island model in Biohadoop can be found in section \ref{chap:impl:island-model}.
 
 Biooozie (section \ref{chap:impl:oozie}) implements a custom action for Apache Oozie and is used to run Biohadoop as part of a larger workflow. The action schedules a single Biohadoop instance or several instances in parallel, depending on its configuration.
 
@@ -146,7 +147,7 @@ Tasks are send to the workers without task configuration. The task configuration
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=130mm]{flow-asyncComputable.png}
-  \caption{Lifecycle of a task, computed by a worker using an AsyncComputable}
+  \caption{Life cycle of a task, the result is computed by a worker using an AsyncComputable}
   \label{fig:async-computable}
 \end{figure}
 
@@ -213,7 +214,7 @@ The biggest advantage of WebSockets and JSON lies in their standardization. This
 
 \subsection{Communication flow}
 \label{chap:impl:communication-flow}
-The communication protocols presented in the prior section are used as a base to the application protocol, that implements a well defined communication flow between endpoints and workers. This communication flow, depicted in figure \ref{fig:communication-flow}, is the same for the provided communication protocols. Custom protocols don't need to implement this flow, they are free to implement their own communication pattern.
+The communication protocols presented in the prior section are used as a base to the application protocol, that implements a well defined communication flow between endpoints and workers. This communication flow, depicted in figure \ref{fig:communication-flow}, is the same for both provided communication protocols. Custom protocols don't need to implement this flow, they are free to implement their own communication pattern.
 
 \begin{figure}[ht!]
   \centering
@@ -226,7 +227,7 @@ As one can see in figure \ref{fig:communication-flow}, the communication between
 
 \section{Enhancements}
 \label{chap:impl:enhancements}
-Biohadoop provides two enhancements for algorithms, beside the task system presented in section \ref{chap:impl:task-system}. The first one is for persistence, where it is possible to load and store arbitrary data to and from a file system (see section \ref{chap:impl:persistence}). The second enhancement provides high level parallelism between parallel running algorithms, called the ``iceland model'' (see section \ref{chap:impl:island-model}).
+Biohadoop provides two enhancements for algorithms, beside the task system presented in section \ref{chap:impl:task-system}. The first one is for persistence, where it is possible to load and store arbitrary data to and from a file system (see section \ref{chap:impl:persistence}). The second enhancement provides high level parallelism between parallel running algorithms, called the ``island model'' (see section \ref{chap:impl:island-model}).
 
 \subsection{Persistence}
 \label{chap:impl:persistence}
@@ -255,13 +256,13 @@ The island model API uses ZooKeeper \cite{zookeeper}, which is a server that pro
 
 By using ZooKeeper as central registry for the island model, it doesn't matter if the algorithms run in the same Biohadoop instance or in different Biohadoop instances. They find each other through their ZooKeeper registrations.
 
-The main advantage of running several algorithms in the same Biohadoop instance is, that it guarantees that they all run at the same time. Scheduling several Biohadoop instances on Hadoop doesn't guarantee that they also run at the same time, as Hadoop decides when to launch an application. The island model is useless if the algorithms don't run at the same time.
+The main advantage of running several algorithms in the same Biohadoop instance is, that it guarantees that they all run at the same time. Scheduling several Biohadoop instances in parallel doesn't guarantee that they also run at the same time, as YARN decides when to launch an application. The island model is useless if the algorithms don't run at the same time.
 
 \section{Configuration}
 \label{chap:impl:configuration}
 Biohadoop uses a configuration file in JSON format. The advantage of JSON is, that its understandable for humans and usually smaller in size than e.g. XML.
 
-The path to the configuration file must be given on invocation of Biohadoop as its first parameter (more information on how to run Biohadoop can be found in \ref{chap:usage:run}). If the path is empty or wrong or the configuration file can not be parsed, Biohadoop stops immediately with an exception.
+The path to the configuration file must be given on invocation of Biohadoop as its first parameter (more information on how to run Biohadoop can be found in \ref{chap:usage:run}). Biohadoop stops immediately with an exception if the path is empty or wrong or the configuration file can not be parsed.
 
 The configuration file itself consists of the following four top-level objects:
 \begin{itemize}

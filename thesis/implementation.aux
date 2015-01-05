@@ -1,70 +1,66 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{21}{chapter.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Biohadoop architecture}{21}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{chap:impl}{{4}{21}{Implementation}{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}System architecture}{21}{section.4.1}}
-\newlabel{chap:impl:system-architecture}{{4.1}{21}{System architecture}{section.4.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration.}}{22}{figure.4.1}}
-\newlabel{fig:master-worker}{{4.1}{22}{Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration}{figure.4.1}{}}
+\newlabel{chap:impl}{{4}{21}{Biohadoop architecture}{chapter.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration.}}{21}{figure.4.1}}
+\newlabel{fig:master-worker}{{4.1}{21}{Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration}{figure.4.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces The figure shows, how the Biohadoop architecture maps to the architecture of a typical YARN application}}{23}{figure.4.2}}
 \newlabel{fig:architecture}{{4.2}{23}{The figure shows, how the Biohadoop architecture maps to the architecture of a typical YARN application}{figure.4.2}{}}
 \citation{zookeeper}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces A worker requests tasks from the master. The task configuration is send to the worker on demand.}}{25}{figure.4.3}}
 \newlabel{fig:task-conf-reuse}{{4.3}{25}{A worker requests tasks from the master. The task configuration is send to the worker on demand}{figure.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Algorithm}{26}{section.4.2}}
-\newlabel{chap:impl:algorithm}{{4.2}{26}{Algorithm}{section.4.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Task system}{26}{section.4.3}}
-\newlabel{chap:impl:task-system}{{4.3}{26}{Task system}{section.4.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Task Broker}{27}{subsection.4.3.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Algorithm}{26}{section.4.1}}
+\newlabel{chap:impl:algorithm}{{4.1}{26}{Algorithm}{section.4.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Task system}{26}{section.4.2}}
+\newlabel{chap:impl:task-system}{{4.2}{26}{Task system}{section.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Task Broker}{27}{subsection.4.2.1}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Submitting tasks to the task system. The task system consists of a task broker and any number of endpoints and workers. For the sake of simplicity, the figure shows only one endpoint and one worker. In this figure, an optional task submitter is used for task submission.}}{28}{figure.4.4}}
 \newlabel{fig:task-system}{{4.4}{28}{Submitting tasks to the task system. The task system consists of a task broker and any number of endpoints and workers. For the sake of simplicity, the figure shows only one endpoint and one worker. In this figure, an optional task submitter is used for task submission}{figure.4.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Internal structure of the task broker}}{29}{figure.4.5}}
 \newlabel{fig:task-broker}{{4.5}{29}{Internal structure of the task broker}{figure.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Endpoint}{30}{subsection.4.3.2}}
-\newlabel{chap:impl:endpoint}{{4.3.2}{30}{Endpoint}{subsection.4.3.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Worker}{30}{subsection.4.3.3}}
-\newlabel{chap:impl:worker}{{4.3.3}{30}{Worker}{subsection.4.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Endpoint}{30}{subsection.4.2.2}}
+\newlabel{chap:impl:endpoint}{{4.2.2}{30}{Endpoint}{subsection.4.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Worker}{30}{subsection.4.2.3}}
+\newlabel{chap:impl:worker}{{4.2.3}{30}{Worker}{subsection.4.2.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Life cycle of a task, the result is computed by a worker using an AsyncComputable}}{31}{figure.4.6}}
 \newlabel{fig:async-computable}{{4.6}{31}{Life cycle of a task, the result is computed by a worker using an AsyncComputable}{figure.4.6}{}}
 \citation{bioworker-browser}
 \citation{bioworker-python}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Communication}{32}{section.4.4}}
-\newlabel{chap:impl:communication}{{4.4}{32}{Communication}{section.4.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Communication}{32}{section.4.3}}
+\newlabel{chap:impl:communication}{{4.3}{32}{Communication}{section.4.3}{}}
 \citation{netty}
 \citation{kryo}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Biohadoops communication layers}}{33}{figure.4.7}}
 \newlabel{fig:communication-layers}{{4.7}{33}{Biohadoops communication layers}{figure.4.7}{}}
 \citation{kryo}
 \citation{jvm-serializers}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Protocols}{34}{subsection.4.4.1}}
-\newlabel{chap:impl:protocols}{{4.4.1}{34}{Protocols}{subsection.4.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Protocols}{34}{subsection.4.3.1}}
+\newlabel{chap:impl:protocols}{{4.3.1}{34}{Protocols}{subsection.4.3.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline Sockets}{34}{section*.3}}
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline WebSocket}{34}{section*.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Communication flow}{35}{subsection.4.4.2}}
-\newlabel{chap:impl:communication-flow}{{4.4.2}{35}{Communication flow}{subsection.4.4.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Enhancements}{35}{section.4.5}}
-\newlabel{chap:impl:enhancements}{{4.5}{35}{Enhancements}{section.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Persistence}{35}{subsection.4.5.1}}
-\newlabel{chap:impl:persistence}{{4.5.1}{35}{Persistence}{subsection.4.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Communication flow}{35}{subsection.4.3.2}}
+\newlabel{chap:impl:communication-flow}{{4.3.2}{35}{Communication flow}{subsection.4.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Enhancements}{35}{section.4.4}}
+\newlabel{chap:impl:enhancements}{{4.4}{35}{Enhancements}{section.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Persistence}{35}{subsection.4.4.1}}
+\newlabel{chap:impl:persistence}{{4.4.1}{35}{Persistence}{subsection.4.4.1}{}}
+\citation{zookeeper}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Communication flow between endpoints and workers}}{36}{figure.4.8}}
 \newlabel{fig:communication-flow}{{4.8}{36}{Communication flow between endpoints and workers}{figure.4.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}The island model}{36}{subsection.4.5.2}}
-\newlabel{chap:impl:island-model}{{4.5.2}{36}{The island model}{subsection.4.5.2}{}}
-\citation{zookeeper}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Example island model with 3 GAs, exchanging individuals}}{37}{figure.4.9}}
-\newlabel{fig:island-model}{{4.9}{37}{Example island model with 3 GAs, exchanging individuals}{figure.4.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Configuration}{38}{section.4.6}}
-\newlabel{chap:impl:configuration}{{4.6}{38}{Configuration}{section.4.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Biooozie}{39}{section.4.7}}
-\newlabel{chap:impl:oozie}{{4.7}{39}{Biooozie}{section.4.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Example Oozie workflow, including Biooozie action}}{39}{figure.4.10}}
-\newlabel{fig:biooozie}{{4.10}{39}{Example Oozie workflow, including Biooozie action}{figure.4.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}The island model}{36}{subsection.4.4.2}}
+\newlabel{chap:impl:island-model}{{4.4.2}{36}{The island model}{subsection.4.4.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Configuration}{37}{section.4.5}}
+\newlabel{chap:impl:configuration}{{4.5}{37}{Configuration}{section.4.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Biooozie}{38}{section.4.6}}
+\newlabel{chap:impl:oozie}{{4.6}{38}{Biooozie}{section.4.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Example Oozie workflow, including Biooozie action}}{39}{figure.4.9}}
+\newlabel{fig:biooozie}{{4.9}{39}{Example Oozie workflow, including Biooozie action}{figure.4.9}{}}
 \@setckpt{implementation}{
-\setcounter{page}{41}
+\setcounter{page}{40}
 \setcounter{equation}{0}
 \setcounter{enumi}{0}
 \setcounter{enumii}{0}
@@ -74,18 +70,18 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{4}
-\setcounter{section}{7}
+\setcounter{section}{6}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{10}
+\setcounter{figure}{9}
 \setcounter{table}{0}
 \setcounter{AM@survey}{0}
 \setcounter{lstnumber}{1}
 \setcounter{Item}{0}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{28}
+\setcounter{bookmark@seq@number}{27}
 \setcounter{subfigure}{0}
 \setcounter{lofdepth}{1}
 \setcounter{subtable}{0}

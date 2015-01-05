@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.22)  15 DEC 2014 15:35
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.22)  28 DEC 2014 17:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -840,7 +840,7 @@ LaTeX Warning: Unused global option(s):
     [dcolumn].
 
 (./master.aux (./introduction.aux) (./bioalgorithms.aux) (./hadoopoozie.aux)
-(./implementation.aux) (./usage.aux) (./results.aux) (./conclusions.aux))
+(./implementation.aux) (./results.aux) (./conclusions.aux) (./appendix.aux))
 \openout1 = `master.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
@@ -980,19 +980,34 @@ Class scrreprt Warning: Usage of deprecated font command `\rm'!
 
 
 
-] <../images/bioinsp-dominance.png, id=318, 438.438pt x 103.587pt>
+]
+
+Class scrreprt Warning: Usage of deprecated font command `\rm'!
+(scrreprt)              You should note, that in 1994 font command `\rm' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\rm' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\rm' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\rm'
+(scrreprt)              by `\mathrm ' on input line 28.
+
+<../images/bioinsp-dominance.png, id=342, 438.438pt x 103.587pt>
 File: ../images/bioinsp-dominance.png Graphic file (type png)
 
 <use ../images/bioinsp-dominance.png>
-Package pdftex.def Info: ../images/bioinsp-dominance.png used on input line 33.
+Package pdftex.def Info: ../images/bioinsp-dominance.png used on input line 41.
 
 (pdftex.def)             Requested size: 284.52756pt x 67.22801pt.
 
-<../images/bioinsp-dominance2.png, id=321, 481.8pt x 209.583pt>
+<../images/bioinsp-dominance2.png, id=345, 481.8pt x 209.583pt>
 File: ../images/bioinsp-dominance2.png Graphic file (type png)
 
 <use ../images/bioinsp-dominance2.png>
-Package pdftex.def Info: ../images/bioinsp-dominance2.png used on input line 42
+Package pdftex.def Info: ../images/bioinsp-dominance2.png used on input line 50
 .
 (pdftex.def)             Requested size: 312.9803pt x 136.15057pt.
  [4] [5pdfTeX warning (ext4): destination with the same identifier (name{figure
@@ -1000,118 +1015,140 @@ Package pdftex.def Info: ../images/bioinsp-dominance2.png used on input line 42
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.66 I
-      ts correspondence in the objective space (that is, the space where the...
+l.72 \noindent
+              \textbf{Definition (Pareto Optimal Set)}: for a given MOP $\ma...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.2}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.66 I
-      ts correspondence in the objective space (that is, the space where the...
+l.72 \noindent
+              \textbf{Definition (Pareto Optimal Set)}: for a given MOP $\ma...
  <../images/bioinsp-dominance.png> <../images/bioinsp-dominance2.png>]
-<../images/bioinsp-conv-div.png, id=341, 528.7755pt x 157.7895pt>
+<../images/bioinsp-conv-div.png, id=368, 528.7755pt x 157.7895pt>
 File: ../images/bioinsp-conv-div.png Graphic file (type png)
 
 <use ../images/bioinsp-conv-div.png>
-Package pdftex.def Info: ../images/bioinsp-conv-div.png used on input line 80.
+Package pdftex.def Info: ../images/bioinsp-conv-div.png used on input line 88.
 (pdftex.def)             Requested size: 369.88582pt x 110.37965pt.
  [6pdfTeX warning (ext4): destination with the same identifier (name{figure.2.3
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.87 
+l.95 
       <../images/bioinsp-conv-div.png>] [7]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 114.
+put line 124.
  [8]
-<../images/bioinsp-rank-crowdingdist.png, id=377, 494.44725pt x 222.8325pt>
+<../images/bioinsp-rank-crowdingdist.png, id=400, 494.44725pt x 222.8325pt>
 File: ../images/bioinsp-rank-crowdingdist.png Graphic file (type png)
 
 <use ../images/bioinsp-rank-crowdingdist.png>
 Package pdftex.def Info: ../images/bioinsp-rank-crowdingdist.png used on input 
-line 142.
+line 152.
 (pdftex.def)             Requested size: 312.9803pt x 141.05164pt.
  [9pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.159 
-       <../images/bioinsp-rank-crowdingdist.png>]
-<../images/bioinsp-pso.png, id=386, 559.49025pt x 624.53325pt>
+l.166 \end{equation}
+                     <../images/bioinsp-rank-crowdingdist.png>]
+<../images/bioinsp-pso.png, id=409, 559.49025pt x 624.53325pt>
 File: ../images/bioinsp-pso.png Graphic file (type png)
 
 <use ../images/bioinsp-pso.png>
-Package pdftex.def Info: ../images/bioinsp-pso.png used on input line 167.
+Package pdftex.def Info: ../images/bioinsp-pso.png used on input line 177.
 (pdftex.def)             Requested size: 369.88582pt x 412.8984pt.
-) [10] [11pdfTeX warning (ext4): destination with the same identifier (name{fig
-ure.2.5}) has been already used, duplicate ignored
+ [10]
+<../images/island-model.png, id=424, 654.64575pt x 463.13025pt>
+File: ../images/island-model.png Graphic file (type png)
+
+<use ../images/island-model.png>
+Package pdftex.def Info: ../images/island-model.png used on input line 192.
+(pdftex.def)             Requested size: 199.16928pt x 140.89764pt.
+
+Underfull \vbox (badness 2564) has occurred while \output is active []
+
+ [11pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+5}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.198 
+       <../images/bioinsp-pso.png>]) [12pdfTeX warning (ext4): destination with
+ the same identifier (name{figure.2.6}) has been already used, duplicate ignore
+d
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.60 \include{bioalgorithms}
-                             <../images/bioinsp-pso.png>]
+                             <../images/island-model.png>]
 \openout2 = `hadoopoozie.aux'.
 
  (./hadoopoozie.tex
-[12
-
-
-
-]
 Chapter 3.
-[13] <../images/hadoop-layer.png, id=413, 475.17525pt x 96.96225pt>
+[13
+
+
+
+] <../images/hadoop-layer.png, id=449, 475.17525pt x 96.96225pt>
 File: ../images/hadoop-layer.png Graphic file (type png)
 
 <use ../images/hadoop-layer.png>
-Package pdftex.def Info: ../images/hadoop-layer.png used on input line 21.
+Package pdftex.def Info: ../images/hadoop-layer.png used on input line 23.
 (pdftex.def)             Requested size: 369.88582pt x 75.47932pt.
  [14pdfTeX warning (ext4): destination with the same identifier (name{figure.3.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.30 
+l.31 
       <../images/hadoop-layer.png>]
-<../images/hadoop-hdfs.png, id=423, 451.08525pt x 224.037pt>
+<../images/hadoop-hdfs.png, id=459, 451.08525pt x 224.037pt>
 File: ../images/hadoop-hdfs.png Graphic file (type png)
 
 <use ../images/hadoop-hdfs.png>
-Package pdftex.def Info: ../images/hadoop-hdfs.png used on input line 37.
+Package pdftex.def Info: ../images/hadoop-hdfs.png used on input line 40.
 (pdftex.def)             Requested size: 369.88582pt x 183.71494pt.
- [15pdfTeX warning (ext4): destination with the same identifier (name{figure.3.
-2}) has been already used, duplicate ignored
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [15]
+[16pdfTeX warning (ext4): destination with the same identifier (name{figure.3.2
+}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.49 
-      <../images/hadoop-hdfs.png>] [16]
-<../images/hadoop-app.png, id=440, 451.08525pt x 289.08pt>
+l.62   \item A
+              dditional containers: the additional containers are not mandat...
+ <../images/hadoop-hdfs.png>]
+<../images/hadoop-app.png, id=477, 451.08525pt x 289.08pt>
 File: ../images/hadoop-app.png Graphic file (type png)
 
 <use ../images/hadoop-app.png>
-Package pdftex.def Info: ../images/hadoop-app.png used on input line 70.
+Package pdftex.def Info: ../images/hadoop-app.png used on input line 73.
 (pdftex.def)             Requested size: 369.88582pt x 237.05153pt.
 
-Underfull \vbox (badness 5417) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [17pdfTeX warning (ext4): destination with the same identifier (name{figure.3.
-3}) has been already used, duplicate ignored
+ [17]
+[18pdfTeX warning (ext4): destination with the same identifier (name{figure.3.3
+}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.78 
+l.87 
       <../images/hadoop-app.png>]
-<../images/oozie-example.png, id=450, 380.01974pt x 308.352pt>
+<../images/oozie-example.png, id=491, 380.01974pt x 308.352pt>
 File: ../images/oozie-example.png Graphic file (type png)
 
 <use ../images/oozie-example.png>
-Package pdftex.def Info: ../images/oozie-example.png used on input line 87.
+Package pdftex.def Info: ../images/oozie-example.png used on input line 92.
 (pdftex.def)             Requested size: 284.52756pt x 230.87761pt.
-) [18] [19pdfTeX warning (ext4): destination with the same identifier (name{fig
-ure.3.4}) has been already used, duplicate ignored
+) [19pdfTeX warning (ext4): destination with the same identifier (name{figure.3
+.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
@@ -1125,25 +1162,27 @@ l.61 \include{hadoopoozie}
 
 ]
 Chapter 4.
-<../images/master-worker.png, id=467, 1158.729pt x 527.571pt>
+<../images/master-worker.png, id=506, 1158.729pt x 527.571pt>
 File: ../images/master-worker.png Graphic file (type png)
 
 <use ../images/master-worker.png>
-Package pdftex.def Info: ../images/master-worker.png used on input line 12.
+Package pdftex.def Info: ../images/master-worker.png used on input line 13.
 (pdftex.def)             Requested size: 284.52756pt x 129.5418pt.
- [21] [22pdfTeX warning (ext4): destination with the same identifier (name{figu
-re.4.1}) has been already used, duplicate ignored
+
+Underfull \vbox (badness 7291) has occurred while \output is active []
+
+ [21pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
+1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.35 F
-      igure \ref{fig:architecture} shows how Biohadoops architecture maps to...
- <../images/master-worker.png>]
-<../images/architecture.png, id=488, 923.8515pt x 1250.271pt>
+l.19 
+      <../images/master-worker.png>] [22]
+<../images/architecture.png, id=527, 923.8515pt x 1250.271pt>
 File: ../images/architecture.png Graphic file (type png)
 
 <use ../images/architecture.png>
-Package pdftex.def Info: ../images/architecture.png used on input line 39.
+Package pdftex.def Info: ../images/architecture.png used on input line 40.
 (pdftex.def)             Requested size: 227.62204pt x 308.0456pt.
 
 Underfull \vbox (badness 3049) has occurred while \output is active []
@@ -1153,13 +1192,13 @@ Underfull \vbox (badness 3049) has occurred while \output is active []
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.47 
+l.48 
       <../images/architecture.png>]
-<../images/task-conf-reuse.png, id=505, 1429.7415pt x 1088.26575pt>
+<../images/task-conf-reuse.png, id=544, 1429.7415pt x 1088.26575pt>
 File: ../images/task-conf-reuse.png Graphic file (type png)
 
 <use ../images/task-conf-reuse.png>
-Package pdftex.def Info: ../images/task-conf-reuse.png used on input line 54.
+Package pdftex.def Info: ../images/task-conf-reuse.png used on input line 55.
 (pdftex.def)             Requested size: 369.88582pt x 281.53094pt.
  [24]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1169,165 +1208,121 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.74 
+l.77 
       <../images/task-conf-reuse.png>] [26]
-<../images/task-system.png, id=537, 1468.2855pt x 663.07726pt>
+<../images/task-system.png, id=575, 1468.2855pt x 663.07726pt>
 File: ../images/task-system.png Graphic file (type png)
 
 <use ../images/task-system.png>
-Package pdftex.def Info: ../images/task-system.png used on input line 99.
+Package pdftex.def Info: ../images/task-system.png used on input line 102.
 (pdftex.def)             Requested size: 369.88582pt x 167.03362pt.
  [27]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 4072) has occurred while \output is active []
 
  [28pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.114 
+l.117 
        <../images/task-system.png>]
-<../images/task-broker.png, id=549, 1508.034pt x 827.4915pt>
+<../images/task-broker.png, id=587, 1508.034pt x 827.4915pt>
 File: ../images/task-broker.png Graphic file (type png)
 
 <use ../images/task-broker.png>
-Package pdftex.def Info: ../images/task-broker.png used on input line 119.
+Package pdftex.def Info: ../images/task-broker.png used on input line 122.
 (pdftex.def)             Requested size: 369.88582pt x 202.95816pt.
  [29pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.125 
+l.128 
        <../images/task-broker.png>] [30]
-<../images/flow-asyncComputable.png, id=565, 1747.12724pt x 1594.758pt>
+<../images/flow-asyncComputable.png, id=604, 1747.12724pt x 1594.758pt>
 File: ../images/flow-asyncComputable.png Graphic file (type png)
 
 <use ../images/flow-asyncComputable.png>
 Package pdftex.def Info: ../images/flow-asyncComputable.png used on input line 
-148.
+151.
 (pdftex.def)             Requested size: 369.88582pt x 337.61014pt.
  [31pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.154 
+l.157 
        <../images/flow-asyncComputable.png>] [32]
-<../images/communication-layers.png, id=585, 857.604pt x 291.489pt>
+<../images/communication-layers.png, id=624, 857.604pt x 291.489pt>
 File: ../images/communication-layers.png Graphic file (type png)
 
 <use ../images/communication-layers.png>
 Package pdftex.def Info: ../images/communication-layers.png used on input line 
-185.
+188.
 (pdftex.def)             Requested size: 227.62204pt x 77.3643pt.
  [33pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 7}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.192 \subsection
+l.195 \subsection
                  {Protocols} <../images/communication-layers.png>] [34]
-<../images/communication-flow.png, id=607, 912.40875pt x 1334.586pt>
+<../images/communication-flow.png, id=645, 912.40875pt x 1334.586pt>
 File: ../images/communication-flow.png Graphic file (type png)
 
 <use ../images/communication-flow.png>
 Package pdftex.def Info: ../images/communication-flow.png used on input line 22
-0.
+3.
 (pdftex.def)             Requested size: 199.16928pt x 291.30869pt.
  [35] [36pdfTeX warning (ext4): destination with the same identifier (name{figu
 re.4.8}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.242 
-       <../images/communication-flow.png>]
-<../images/island-model.png, id=624, 654.64575pt x 463.13025pt>
-File: ../images/island-model.png Graphic file (type png)
-
-<use ../images/island-model.png>
-Package pdftex.def Info: ../images/island-model.png used on input line 245.
-(pdftex.def)             Requested size: 199.16928pt x 140.89764pt.
-
-Underfull \vbox (badness 2213) has occurred while \output is active []
-
- [37pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
-9}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.257 
-       <../images/island-model.png>] [38]
-<../images/biooozie.png, id=639, 800.9925pt x 340.8735pt>
+l.256 
+       <../images/communication-flow.png>] [37]
+<../images/biooozie.png, id=669, 800.9925pt x 340.8735pt>
 File: ../images/biooozie.png Graphic file (type png)
 
 <use ../images/biooozie.png>
-Package pdftex.def Info: ../images/biooozie.png used on input line 284.
+Package pdftex.def Info: ../images/biooozie.png used on input line 287.
 (pdftex.def)             Requested size: 284.52756pt x 121.08635pt.
- [39pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
-10}) has been already used, duplicate ignored
+ [38]) [39pdfTeX warning (ext4): destination with the same identifier (name{fig
+ure.4.9}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.292 
-       <../images/biooozie.png>]) [40]
-\openout2 = `usage.aux'.
-
- (./usage.tex
-Chapter 5.
-[41
-
-
-
-] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2013/08/26 1.5b listings language file
-)
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2013/08/26 1.5b listings language file
-)
-
-LaTeX Warning: Reference `chap:appendix:biohadoop-quickstart' on page 42 undefi
-ned on input line 98.
-
-
-LaTeX Warning: Reference `chap:appendix:biohadoop-docker' on page 42 undefined 
-on input line 98.
-
-[42]
-
-LaTeX Warning: Reference `chap:appendix:biohadoop-docker' on page 43 undefined 
-on input line 116.
-
-[43]) [44]
+l.62 \include{implementation}
+                              <../images/biooozie.png>]
 \openout2 = `results.aux'.
 
- (./results.tex
-Chapter 6.
-<../images/zdt3.png, id=688, 642.4pt x 385.44pt>
+ (./results.tex [40
+
+
+
+]
+Chapter 5.
+<../images/zdt3.png, id=691, 642.4pt x 385.44pt>
 File: ../images/zdt3.png Graphic file (type png)
  <use ../images/zdt3.png>
 Package pdftex.def Info: ../images/zdt3.png used on input line 19.
 (pdftex.def)             Requested size: 312.9803pt x 187.79097pt.
 
-[45
-
-
-
-] [46pdfTeX warning (ext4): destination with the same identifier (name{figure.6
-.1}) has been already used, duplicate ignored
+[41] [42pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.5.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.50 
-      <../images/zdt3.png>] [47] [48] [49pdfTeX warning (ext4): destination wit
-h the same identifier (name{table.6.1}) has been already used, duplicate ignore
+      <../images/zdt3.png>] [43] [44] [45pdfTeX warning (ext4): destination wit
+h the same identifier (name{table.5.1}) has been already used, duplicate ignore
 d
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.113 \subsection
-                 {Influence of YARN container placement}] [50]
-<../images/nsgaii_250_100_10.png, id=756, 642.4pt x 385.44pt>
+                 {Influence of YARN container placement}] [46]
+<../images/nsgaii_250_100_10.png, id=760, 642.4pt x 385.44pt>
 File: ../images/nsgaii_250_100_10.png Graphic file (type png)
 
 <use ../images/nsgaii_250_100_10.png>
@@ -1335,7 +1330,7 @@ Package pdftex.def Info: ../images/nsgaii_250_100_10.png used on input line 132
 .
 (pdftex.def)             Requested size: 284.52756pt x 170.71745pt.
 
-<../images/nsgaii_250_100_100.png, id=757, 642.4pt x 385.44pt>
+<../images/nsgaii_250_100_100.png, id=761, 642.4pt x 385.44pt>
 File: ../images/nsgaii_250_100_100.png Graphic file (type png)
 
 <use ../images/nsgaii_250_100_100.png>
@@ -1343,7 +1338,7 @@ Package pdftex.def Info: ../images/nsgaii_250_100_100.png used on input line 13
 8.
 (pdftex.def)             Requested size: 284.52756pt x 170.71745pt.
 
-<../images/nsgaii_250_100_1000.png, id=758, 642.4pt x 385.44pt>
+<../images/nsgaii_250_100_1000.png, id=762, 642.4pt x 385.44pt>
 File: ../images/nsgaii_250_100_1000.png Graphic file (type png)
 
 <use ../images/nsgaii_250_100_1000.png>
@@ -1351,34 +1346,34 @@ Package pdftex.def Info: ../images/nsgaii_250_100_1000.png used on input line 1
 44.
 (pdftex.def)             Requested size: 284.52756pt x 170.71745pt.
 
-<../images/nsgaii_250_100_10000.png, id=759, 642.4pt x 385.44pt>
+<../images/nsgaii_250_100_10000.png, id=763, 642.4pt x 385.44pt>
 File: ../images/nsgaii_250_100_10000.png Graphic file (type png)
 
 <use ../images/nsgaii_250_100_10000.png>
 Package pdftex.def Info: ../images/nsgaii_250_100_10000.png used on input line 
 150.
 (pdftex.def)             Requested size: 284.52756pt x 170.71745pt.
- [51pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
+ [47pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
 2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.156 
       pdfTeX warning (ext4): destination with the same identifier (name{figure.
-6.3}) has been already used, duplicate ignored
+5.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.156 
        <../images/nsgaii_250_100_10.png> <../images/nsgaii_250_100_100.png>]
-[52pdfTeX warning (ext4): destination with the same identifier (name{figure.6.4
+[48pdfTeX warning (ext4): destination with the same identifier (name{figure.5.4
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.182 
       pdfTeX warning (ext4): destination with the same identifier (name{figure.
-6.5}) has been already used, duplicate ignored
+5.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
@@ -1387,7 +1382,7 @@ l.182
 ]
 Underfull \vbox (badness 1931) has occurred while \output is active []
 
- [53pdfTeX warning (ext4): destination with the same identifier (name{table.6.2
+ [49pdfTeX warning (ext4): destination with the same identifier (name{table.5.2
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1396,8 +1391,8 @@ l.205
       ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [54]
-<../images/tiledmul_250_100_128x128.png, id=789, 642.4pt x 385.44pt>
+ [50]
+<../images/tiledmul_250_100_128x128.png, id=793, 642.4pt x 385.44pt>
 File: ../images/tiledmul_250_100_128x128.png Graphic file (type png)
 
 <use ../images/tiledmul_250_100_128x128.png>
@@ -1405,14 +1400,14 @@ Package pdftex.def Info: ../images/tiledmul_250_100_128x128.png used on input l
 ine 221.
 (pdftex.def)             Requested size: 284.52756pt x 170.71745pt.
 
-<../images/tiledmul_250_100_256x256.png, id=790, 642.4pt x 385.44pt>
+<../images/tiledmul_250_100_256x256.png, id=794, 642.4pt x 385.44pt>
 File: ../images/tiledmul_250_100_256x256.png Graphic file (type png)
 
 <use ../images/tiledmul_250_100_256x256.png>
 Package pdftex.def Info: ../images/tiledmul_250_100_256x256.png used on input l
 ine 227.
 (pdftex.def)             Requested size: 284.52756pt x 170.71745pt.
- [55pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
+ [51pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
 6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1421,7 +1416,7 @@ l.237
        <../images/tiledmul_250_100_128x128.png (PNG copy)>]
 Underfull \vbox (badness 2096) has occurred while \output is active []
 
- [56pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
+ [52pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
 7}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1429,13 +1424,13 @@ Underfull \vbox (badness 2096) has occurred while \output is active []
 l.247 T
        he speedup for the 256x256 tiled matrix multiplication benchmark is w...
  <../images/tiledmul_250_100_256x256.png (PNG copy)>]
-<../images/speedup.png, id=802, 642.4pt x 385.44pt>
+<../images/speedup.png, id=806, 642.4pt x 385.44pt>
 File: ../images/speedup.png Graphic file (type png)
 
 <use ../images/speedup.png>
 Package pdftex.def Info: ../images/speedup.png used on input line 251.
 (pdftex.def)             Requested size: 369.88582pt x 221.93799pt.
-) [57pdfTeX warning (ext4): destination with the same identifier (name{figure.6
+) [53pdfTeX warning (ext4): destination with the same identifier (name{figure.5
 .8}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1445,100 +1440,117 @@ l.64 \include{results}
 \openout2 = `conclusions.aux'.
 
  (./conclusions.tex
-[58
+[54
 
 
 
 ]
-Chapter 7.
-) [59] [60
+Chapter 6.
+) [55]
+\openout2 = `appendix.aux'.
+
+ (./appendix.tex [56
 
 
-] (./master.lof [61])
+
+]
+Appendix A.
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2013/08/26 1.5b listings language file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2013/08/26 1.5b listings language file
+) [57] [58]
+[59] [60]) [61] [62
+
+
+] (./master.lof [63])
 \tf@lof=\write6
 \openout6 = `master.lof'.
 
- (./master.bbl [62]
+ (./master.bbl [64]
 Underfull \hbox (badness 10000) in paragraph at lines 42--44
 []\OT1/cmr/m/n/10.95 ``Biohadoop.'' [][]$\OT1/cmtt/m/n/10 https : / / github . 
 com / gappc / biohadoop$[][]\OT1/cmr/m/n/10.95 .  last ac-cess:
  []
 
-[63
+[65
 
 ]
-Underfull \hbox (badness 2035) in paragraph at lines 82--85
+Underfull \hbox (badness 2035) in paragraph at lines 72--75
 []\OT1/cmr/m/n/10.95 ``Hdfs high avail-abil-ity us-ing the quo-rum jour-nal man
 -ager.'' [][]$\OT1/cmtt/m/n/10 http :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 82--85
+Underfull \hbox (badness 10000) in paragraph at lines 72--75
 \OT1/cmtt/m/n/10 / / hadoop . apache . org / docs / current / hadoop-[]project-
 []dist / hadoop-[]hdfs /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 87--90
+Underfull \hbox (badness 10000) in paragraph at lines 77--80
 []\OT1/cmr/m/n/10.95 ``Hdfs high avail-abil-ity us-ing nfs.'' [][]$\OT1/cmtt/m/
 n/10 http : / / hadoop .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 87--90
+Underfull \hbox (badness 10000) in paragraph at lines 77--80
 \OT1/cmtt/m/n/10 apache . org / docs / current / hadoop-[]project-[]dist / hado
 op-[]hdfs /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--95
+Underfull \hbox (badness 10000) in paragraph at lines 82--85
 []\OT1/cmr/m/n/10.95 ``Yarn high avail-abil-ity.'' [][]$\OT1/cmtt/m/n/10 http :
  / / hadoop . apache . org / docs / current /
  []
 
 
-Underfull \hbox (badness 4726) in paragraph at lines 92--95
+Underfull \hbox (badness 4726) in paragraph at lines 82--85
 \OT1/cmtt/m/n/10 hadoop-[]yarn / hadoop-[]yarn-[]site / ResourceManagerHA . htm
 l$[][]\OT1/cmr/m/n/10.95 .  last ac-cess:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--117
+Underfull \hbox (badness 10000) in paragraph at lines 109--111
 []\OT1/cmr/m/n/10.95 ``Kryo.'' [][]$\OT1/cmtt/m/n/10 https : / / github . com /
  EsotericSoftware / kryo$[][]\OT1/cmr/m/n/10.95 .  last ac-cess:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 119--122
+Underfull \hbox (badness 10000) in paragraph at lines 113--116
 []\OT1/cmr/m/n/10.95 ``Comparison of jvm se-ri-al-iz-ers.'' [][]$\OT1/cmtt/m/n/
 10 https : / / github . com / eishay /
  []
 
-[64])
+[66]
+Underfull \hbox (badness 10000) in paragraph at lines 144--147
+[]\OT1/cmr/m/n/10.95 ``docker-biohadoop.'' [][]$\OT1/cmtt/m/n/10 https : / / in
+dex . docker . io / u / sequenceiq /
+ []
+
+)
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 88.
- [65]
+ [67]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 88.
  (./master.aux (./introduction.aux) (./bioalgorithms.aux)
-(./hadoopoozie.aux) (./implementation.aux) (./usage.aux) (./results.aux)
-(./conclusions.aux))
+(./hadoopoozie.aux) (./implementation.aux) (./results.aux) (./conclusions.aux)
+(./appendix.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 88.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 88.
 Package rerunfilecheck Info: File `master.out' has not changed.
-(rerunfilecheck)             Checksum: EB9F70A1E3B84927B62298325681C1F3;2766.
-
-
-LaTeX Warning: There were undefined references.
-
+(rerunfilecheck)             Checksum: 245DAA68C39865FDC846CAA41588D481;3086.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 88.
  ) 
 Here is how much of TeX's memory you used:
- 12874 strings out of 494976
- 189586 string characters out of 6179137
- 420085 words of memory out of 5000000
- 15599 multiletter control sequences out of 15000+600000
+ 12913 strings out of 494976
+ 190068 string characters out of 6179137
+ 421908 words of memory out of 5000000
+ 15620 multiletter control sequences out of 15000+600000
  14391 words of font info for 51 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 50i,11n,59p,1564b,1203s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 50i,11n,59p,1564b,1853s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/tex
@@ -1553,10 +1565,10 @@ bx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on master.pdf (73 pages, 1962101 bytes).
+Output written on master.pdf (75 pages, 1984525 bytes).
 PDF statistics:
- 1020 PDF objects out of 1200 (max. 8388607)
- 870 compressed objects within 9 object streams
- 208 named destinations out of 1000 (max. 500000)
- 496 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1089 PDF objects out of 1200 (max. 8388607)
+ 936 compressed objects within 10 object streams
+ 227 named destinations out of 1000 (max. 500000)
+ 528 words of extra memory for PDF output out of 10000 (max. 10000000)
 

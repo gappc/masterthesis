@@ -9,13 +9,14 @@
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Example Pareto Fronts: (a) Pareto Front with bad convergence, (b) Pareto Front with bad divergence, (c) ideal case, where the Pareto Front matches the optimal Pareto Front}}{6}{figure.2.3}
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Ranking and crowding distance: (a) A has rank 0, B and C rank 1, (b) crowding distance of solution B}}{9}{figure.2.4}
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Four iterations of PSO for a single particle. The red dot marks gBest, the gray dot the particle. The velocity and position of the particle does rely only on gBest in this example, pBest is not used}}{11}{figure.2.5}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Example island model with 3 GAs, exchanging individuals}}{12}{figure.2.6}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Hadoop layers: HDFS forms the base and provides data services, YARN builds on it and provides resource management. The applications run on top of YARN.}}{14}{figure.3.1}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces HDFS file storage, each file is replicated twice.}}{15}{figure.3.2}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Example occupation of a Hadoop cluster for two applications. The NameNode (HDFS) and ResourceManager (YARN) run on the master node. DataNodes (HDFS) and NodeManagers (YARN) run on the slave nodes and communicate with the corresponding services on the master node. The applications, including the ApplicationMasters, run on the slave nodes inside containers.}}{17}{figure.3.3}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces HDFS file storage, each file is replicated twice.}}{16}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Example occupation of a Hadoop cluster for two applications. The NameNode (HDFS) and ResourceManager (YARN) run on the master node. DataNodes (HDFS) and NodeManagers (YARN) run on the slave nodes and communicate with the corresponding services on the master node. The applications, including the ApplicationMasters (AM container), run on the slave nodes inside containers.}}{18}{figure.3.3}
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Oozie workflow transitions. If any action returns with an error, the workflow transitions to the final state ``Failed'', else the workflow advances according to the defined sequence.}}{19}{figure.3.4}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration.}}{22}{figure.4.1}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration.}}{21}{figure.4.1}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces The figure shows, how the Biohadoop architecture maps to the architecture of a typical YARN application}}{23}{figure.4.2}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces A worker requests tasks from the master. The task configuration is send to the worker on demand.}}{25}{figure.4.3}
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Submitting tasks to the task system. The task system consists of a task broker and any number of endpoints and workers. For the sake of simplicity, the figure shows only one endpoint and one worker. In this figure, an optional task submitter is used for task submission.}}{28}{figure.4.4}
@@ -23,17 +24,16 @@
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Life cycle of a task, the result is computed by a worker using an AsyncComputable}}{31}{figure.4.6}
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Biohadoops communication layers}}{33}{figure.4.7}
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Communication flow between endpoints and workers}}{36}{figure.4.8}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Example island model with 3 GAs, exchanging individuals}}{37}{figure.4.9}
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Example Oozie workflow, including Biooozie action}}{39}{figure.4.10}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Example Oozie workflow, including Biooozie action}}{39}{figure.4.9}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Optimal Pareto Front for ZDT-3}}{42}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces ZDT-3 execution times for a genome size of 10}}{47}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces ZDT-3 execution times for a genome size of 100}}{47}{figure.5.3}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces ZDT-3 execution times for a genome size of 1000}}{48}{figure.5.4}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces ZDT-3 execution times for a genome size of 10000}}{48}{figure.5.5}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Tiled matrix multiplication execution times for a matrix size of 128x128}}{51}{figure.5.6}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Tiled matrix multiplication execution times for a matrix size of 256x256}}{52}{figure.5.7}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Speedups for ZDT-3 and tiled matrix multiplications}}{53}{figure.5.8}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Optimal Pareto Front for ZDT-3}}{46}{figure.6.1}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces ZDT-3 execution times for a genome size of 10}}{51}{figure.6.2}
-\contentsline {figure}{\numberline {6.3}{\ignorespaces ZDT-3 execution times for a genome size of 100}}{51}{figure.6.3}
-\contentsline {figure}{\numberline {6.4}{\ignorespaces ZDT-3 execution times for a genome size of 1000}}{52}{figure.6.4}
-\contentsline {figure}{\numberline {6.5}{\ignorespaces ZDT-3 execution times for a genome size of 10000}}{52}{figure.6.5}
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Tiled matrix multiplication execution times for a matrix size of 128x128}}{55}{figure.6.6}
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Tiled matrix multiplication execution times for a matrix size of 256x256}}{56}{figure.6.7}
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Speedups for ZDT-3 and tiled matrix multiplications}}{57}{figure.6.8}
 \addvspace {10\p@ }
 \select@language {english}

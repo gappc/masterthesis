@@ -1,26 +1,27 @@
-\chapter{Implementation}
+\chapter{Biohadoop architecture}
 \label{chap:impl}
 
-\section{System architecture}
-\label{chap:impl:system-architecture}
-Biohadoop is a framework to parallelize algorithms on Apache Hadoop. It works according to the master - worker principle, where one master commands several workers. The master runs an algorithm whose compute intensive parts are executed by the workers in parallel. Time consuming sections of an algorithm, that can be parallelized, are good candidates to run on the workers.
+Biohadoop is a framework to parallelize algorithms on Apache Hadoop. It works according to the master - worker principle, where one master commands several workers. The master runs an algorithm whose compute intensive parts are executed by the workers in parallel.
 
-The genetic algorithm (GA) from chapter \ref{chap:bioalgorithms:ga} is used in the following sections as an example of how to parallelize an algorithm for the master - worker scheme. A GA is an iterative procedure, each iteration creates a set of new individuals (offsprings), evaluates their fitness and selects the best individuals for the next iteration, based on the fitness of all GA individuals. The creation of an offspring and its subsequent fitness evaluation can be combined into a single function. This function consumes most of the time in a GA, but it can be executed in parallel, as it depends only on its input values (the parents) and has no side effects. It is therefore a good example of a parallel task that can be performed by workers, while the rest of the GA algorithm runs on the master (see figure \ref{fig:master-worker}).
+% The genetic algorithm (GA) from chapter \ref{chap:bioalgorithms:ga} is used in the following sections as an example of how to parallelize an algorithm for the master - worker scheme. 
+In the following we are going to show how to parallelize the GA from chapter \ref{chap:bioalgorithms:ga}. A GA is an iterative procedure, each iteration creates a set of new individuals (offsprings), evaluates their fitness and selects the best individuals for the next iteration, based on the fitness of all GA individuals. The creation of an offspring and its subsequent fitness evaluation can be combined into a single function. This function consumes most of the time in a GA and can be executed in parallel since it depends only on its input values (the parents) and has no side effects. It is therefore a good example of a parallel task that can be performed by workers. The master controls the generational loop and workers create and evaluate individuals (see figure \ref{fig:master-worker}).
+
+% , while the rest of the GA algorithm runs on the master (see figure \ref{fig:master-worker}).
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{master-worker.png}
+  \includegraphics[width=100mm,natwidth=1924,natheight=876]{master-worker.png}
   \caption{Master - worker principle for a GA, one master commands several workers. The master runs the main loop, where it communicates with the workers to get new individuals. Then it selects the best individuals to become the population of the next iteration.}
   \label{fig:master-worker}
 \end{figure}
 
-The master - worker architecture was chosen for Biohadoop, because many algorithms can be parallelized by this approach, like the GA and the PSO presented in chapter \ref{chap:bioalgorithms}. Another reason is that the master - worker scheme maps very well to YARN (see chapter \ref{chap:hadoop:yarn}).
+The master - worker architecture was chosen for Biohadoop, because many bio-inspired algorithms can be parallelized by this approach (like GA and PSO of chapter \ref{chap:bioalgorithms}). Another reason is that the master - worker scheme maps very well to YARN (see chapter \ref{chap:hadoop:yarn}).
 
-Biohadoop is written to run as a YARN application and provides features, that otherwise need to be implemented manually, such as:
+Biohadoop is written to run as a YARN application and supports features that are not provided by YARN, such as:
 
 \begin{itemize}
-  \item support for the execution of several algorithms at the same time in a single Biohadoop instance. This has the advantage that workers, and therefore resources, can be shared by the algorithms. It guarantees also that the algorithms run at the same time. This guarantee can't be given when several Biohadoop instances are used, as YARN decides when it executes a scheduled application
-  \item asynchronous communication between master and workers using the task system (section \ref{chap:impl:task-system}). YARN doesn't provide a default communication facility between its containers
+  \item support for the execution of several algorithms at the same time in a single Biohadoop instance. This has the advantage that workers, and therefore resources, can be shared by the algorithms. It guarantees also that the algorithms run at the same time. This guarantee can't be given when several Biohadoop instances are used, as YARN decides when it executes a scheduled application. The island model (section \ref{chap:bioalgorithms:island-model}) benefits from this feature, as it ensures the simultaneous execution of the islands
+  \item asynchronous communication between master and workers using Biohadoops task system (section \ref{chap:impl:task-system}). YARN doesn't provide a default communication facility between its containers
   \item storage and load of arbitrary data sets to and from a file system (section \ref{chap:impl:persistence})
   \item support for the island model, a high level parallelization that can be used to improve the optimization performance of bio-inspired optimization techniques by exchanging results between multiple instances of an algorithm (section \ref{chap:impl:island-model})
   \item support for Apache Oozie through a custom action (section \ref{chap:impl:oozie}). This custom action can be used to schedule one or many Biohadoop instances. It also allows the usage of Biohadoop in a larger workflow
@@ -28,7 +29,7 @@ Biohadoop is written to run as a YARN application and provides features, that ot
 
 Every YARN application needs a client that submits the application to YARN. The YARN client in Biohadoop is implemented in the class \texttt{BiohadoopClient}. It is the main entrance point to run Biohadoop in a Hadoop environment and responsible to start the ApplicationMaster under the control of Hadoop.
 
-Biohadoops ApplicationMaster starts the configured workers using additional YARN containers, and as it is the master in the master - worker scheme, it executes the configured algorithms and communicates with the workers. The ApplicationMasters main class is \texttt{BiohadoopApplicationMaster}. In a local (development) environment, it acts as the main entrance point to run Biohadoop without YARN (more on how to run Biohadoop can be found in \ref{chap:usage:run}).
+Biohadoops ApplicationMaster starts the configured workers using additional YARN containers, and as it is the master in the master - worker scheme, it executes the configured algorithms in this single ApplicationMaster instance and communicates with the workers. The ApplicationMasters main class is \texttt{BiohadoopApplicationMaster}. In a local (development) environment, it acts as the main entrance point to run Biohadoop without Hadoop (more on how to run Biohadoop can be found in appendix \ref{chap:usage:run}).
 
 The workers are started in additional YARN containers, each worker resides in a dedicated container.
 
@@ -36,22 +37,22 @@ Figure \ref{fig:architecture} shows how Biohadoops architecture maps to the arch
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=80mm]{architecture.png}
+  \includegraphics[width=80mm,natwidth=1534,natheight=2076]{architecture.png}
   \caption{The figure shows, how the Biohadoop architecture maps to the architecture of a typical YARN application}
   \label{fig:architecture}
 \end{figure}
 
-An algorithm uses the task system to submit work items, from here on called tasks, to the workers and wait for the results. A task contains data and a reference to a task configuration that defines how to compute the result for the task. In the GA example, a task would be to create individuals and compute their fitness. In this case, the task data represents the parent individuals that are used to create an offspring. The configuration defines the method for offspring creation and fitness computation.
+An algorithm uses the task system to submit work items, from here on called tasks, to the workers and to wait for the results. A task contains data and a reference to a task configuration that defines how to compute the result for the task. In the GA example, a task would be to create individuals and compute their fitness. In this case, the task data represents the parent individuals that are used to create an offspring. The configuration defines the method for offspring creation and fitness computation.
 
 Submitted tasks are queued by the task broker. Endpoints get tasks from the broker and send them to waiting workers. The workers execute the configured computations on the tasks and return the results to the endpoints, that promote the results back to the broker and from there to the algorithms.
 
 A task configuration is usually shared by many tasks, for example each task in the GA uses the same method to compute an offspring and its fitness value. Therefore, a task configuration is send to a worker only the first time it is needed, and cached by the worker otherwise. This reduces the communication amount between the master and the workers.
 
-Figure \ref{fig:task-conf-reuse} shows how a worker requests tasks or task configurations to compute the result for a task. The worker requests a task from the master in picture \ref{fig:task-conf-reuse}(a), which is delivered in \ref{fig:task-conf-reuse}(b). The worker then recognizes that it doesn't know how to compute the result for the task - it has to request the task configuration in \ref{fig:task-conf-reuse}(c). The task configuration is returned in \ref{fig:task-conf-reuse}(d), the worker can now compute the task result in \ref{fig:task-conf-reuse}(e). The result is returned in \ref{fig:task-conf-reuse}(f), together with the request for the next task. The next task is delivered in \ref{fig:task-conf-reuse}(g) and as it uses the same task configuration as the prior task, the worker can reuse this configuration and directly compute the result in \ref{fig:task-conf-reuse}(h), after which the result is returned together with the request for the next task.
+Figure \ref{fig:task-conf-reuse} shows how a worker requests tasks or task configurations to compute the result for a task. The worker requests a task from the master in figure \ref{fig:task-conf-reuse}(a), which is delivered in \ref{fig:task-conf-reuse}(b). The worker then recognizes that it doesn't know how to compute the result for the task - it has to request the task configuration in \ref{fig:task-conf-reuse}(c). The task configuration is returned in \ref{fig:task-conf-reuse}(d), the worker can now compute the task result in \ref{fig:task-conf-reuse}(e). The result is returned in \ref{fig:task-conf-reuse}(f), together with the request for the next task. The next task is delivered in \ref{fig:task-conf-reuse}(g) and as it uses the same task configuration as the prior task, the worker can reuse this configuration and directly compute the result in \ref{fig:task-conf-reuse}(h), after which the result is returned together with the request for the next task.
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=130mm]{task-conf-reuse.png}
+  \includegraphics[width=130mm,natwidth=2374,natheight=1807]{task-conf-reuse.png}
   \caption{A worker requests tasks from the master. The task configuration is send to the worker on demand.}
   \label{fig:task-conf-reuse}
 \end{figure}
@@ -62,21 +63,23 @@ Persistence is another feature provided by Biohadoop. It can be used to save and
 
 Biohadoop is capable of running several algorithms at the same time in a single Biohadoop instance. They all run in the same JVM as Biohadoop does, and can be of arbitrary type. For example it is possible to run two GA instances and one PSO instance at the same time. As YARN doesn't guarantee when an application runs, the mentioned capability of launching several algorithms at the same time in the same JVM is a useful enhancement when it comes to high level parallelization using the island model, as it guarantees that the algorithms really run at the same time. If the algorithms are started as separate Biohadoop instances, it is possible that they run in sequential order, instead of running at the same time.
 
-But Biohadoop doesn't restrict the usage of the island model to algorithms that run in the same JVM. By taking advantage of ZooKeeper \cite{zookeeper}, running algorithms find each other also across the boundaries of different Biohadoop instances. This can lead to higher scalability, as each instance gets its own resources, but entails the aforementioned problem that YARN doesn't guarantee when an application runs, so a trade off has to be made. More information about how to use the island model in Biohadoop can be found in section \ref{chap:impl:island-model}.
+But Biohadoop doesn't restrict the usage of the island model to algorithms that run in the same JVM. Algorithms that register to ZooKeeper \cite{zookeeper} find each other also across the boundaries of different Biohadoop instances. The registration and data exchange is hidden behind Biohadoops island model API (see \ref{chap:impl:island-model}). The execution of algorithms in different Biohadoop instances can lead to higher scalability, as each instance gets its own resources, but entails the aforementioned problem that YARN doesn't guarantee when an application runs, so a trade off has to be made.
 
-Biooozie (section \ref{chap:impl:oozie}) implements a custom action for Apache Oozie and is used to run Biohadoop as part of a larger workflow. The action schedules a single Biohadoop instance or several instances in parallel, depending on its configuration.
+Biooozie (section \ref{chap:impl:oozie}) implements a custom action for Apache Oozie and is used to run Biohadoop as part of a larger workflow. As an example, a workflow imports data from a set of sensors into HDFS, performs a MapReduce task on this data to extract the relevant information and executes Biohadoop to find a solution for a given problem.
+% The action schedules a single Biohadoop instance or several instances in parallel, depending on its configuration.
 
-The following sections in this chapter continue to describe the details of Biohadoop in more detail, starting with the notion of Algorithm in section \ref{chap:impl:algorithm}. Section \ref{chap:impl:task-system} talks about the task system and its components, followed by the description of the communication mechanisms in section \ref{chap:impl:communication}. The enhancements section \ref{chap:impl:enhancements} provides information about Biohadoops support for persistence and the island model. Section \ref{chap:impl:configuration} explains how to configure Biohadoop. Biooozie is presented in the section \ref{chap:impl:oozie} of this chapter. Information on how to use Biohadoop can be found in chapter \ref{chap:usage}.
+The following sections in this chapter continue to describe the details of Biohadoop in more detail, starting with the notion of Algorithm in section \ref{chap:impl:algorithm}. Section \ref{chap:impl:task-system} talks about the task system and its components, followed by the description of the communication mechanisms in section \ref{chap:impl:communication}. The enhancements section \ref{chap:impl:enhancements} provides information about Biohadoops support for persistence and the island model. Section \ref{chap:impl:configuration} explains how to configure Biohadoop. Biooozie is presented in the section \ref{chap:impl:oozie} of this chapter.
+% Information on how to use Biohadoop can be found in chapter \ref{chap:usage}.
 
 \section{Algorithm}
 \label{chap:impl:algorithm}
 An algorithm in terms of Biohadoop is the implementation of an abstract problem that should be solved. For example, a genetic algorithm (GA) can be implemented to solve an optimization problem.
 
-Biohadoop supports the programmer with an easy way to parallelize the algorithm by providing the asynchronous task system (see \ref{chap:impl:task-system}). The algorithm can submit tasks to the task system and the task system takes care about the distribution and computation of the tasks and promotes the results back to the algorithm. The technical details of the task system are hidden from the algorithm.
+Biohadoop provides an easy way to parallelize the algorithm using its asynchronous task system (see \ref{chap:impl:task-system}). The algorithm can submit tasks to the task system that takes care about the distribution and computation of the tasks, and promotes the results back to the algorithm. The technical details of the task system are hidden from the algorithm.
 
 Additional mechanisms that are offered to algorithms include persistence and high level parallelization using an island model (see \ref{chap:impl:enhancements}).
 
-All those capabilities can be used by the algorithm, but Biohadoop does not force their usage. The only thing an algorithm has to do to be run by Biohadoop, is to implement the \texttt{Algorithm} interface. This interface defines one method, namely \texttt{run}, which is invoked by Biohadoop after the system initialization has completed. The return value of the \texttt{run} method is void as there is no return data that could be used in a general way. This may change in future versions.
+All those capabilities can be used by the algorithm, but Biohadoop does not force their usage. The only thing an algorithm has to do to be run by Biohadoop, is to implement the \texttt{Algorithm} interface. This interface defines one method, namely \texttt{run}, which is invoked by Biohadoop after the system initialization has completed. The return value of the \texttt{run} method is void as there is no return data that could be used in a general way.
 
 It is possible to run several algorithms of any kind at the same time in one Biohadoop instance (for example two GA and one PSO), this is just a matter of configuration (see section \ref{chap:impl:configuration}).
    
@@ -84,7 +87,7 @@ If there is an error during the execution of an algorithm, the algorithm may thr
 
 \section{Task system}
 \label{chap:impl:task-system}
-If a programmer decides to parallelize some parts of an algorithm, it can use Biohadoops task system. The task system takes care of promoting tasks to waiting workers and to return the results to the algorithm, while hiding the details of this process from the algorithm.
+If a programmer decides to parallelize some parts of an algorithm, it can use Biohadoops task system. The task system takes care of promoting tasks to waiting workers and to return the results to the algorithm, while hiding the details of this process to the algorithm.
 
 The task system consists of a task broker, at least one endpoint and at least one worker. The broker and endpoints are executed on the master, which is the ApplicationMaster in YARN. The workers are executed in additional YARN containers.
 
@@ -96,7 +99,7 @@ The task system works in an asynchronous manner and doesn't block the algorithm 
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=130mm]{task-system.png}
+  \includegraphics[width=130mm,natwidth=2438,natheight=1101]{task-system.png}
   \caption{Submitting tasks to the task system. The task system consists of a task broker and any number of endpoints and workers. For the sake of simplicity, the figure shows only one endpoint and one worker. In this figure, an optional task submitter is used for task submission.}
   \label{fig:task-system}
 \end{figure}
@@ -104,7 +107,7 @@ The task system works in an asynchronous manner and doesn't block the algorithm 
 \subsection{Task Broker}
 The task broker is the central feature in the task system, it is used to exchange tasks and their results between the algorithms and the endpoints. The broker combines an internal FIFO queue with additional task bookkeeping (see the concepts below).
 
-All submitted tasks reference a task configuration that is used by the workers to compute the task result. This configuration can be shared by any number of tasks. The configuration reference for a given task is stored in the task broker. The configuration itself is send to the workers on demand. A worker requests a specific task configuration, if it encounters a task whose configuration is unknown to the worker. After the configuration was received, it is cached by the worker for later reuse. This is appropriate as usually many tasks use the same configuration. In the GA example, where the workers generate offsprings and compute their fitness values, a single task configuration is enough for all tasks, as offspring generation and fitness evaluation is done in the same way for all tasks. Therefore, a worker needs to obtain the task configuration only once, reducing the communication overhead. It is of course also possible to assign each task an individual task configuration. The result would be, that the worker has to request the configuration for each task individually, the communication overhead would be much higher than in the previous example.
+All submitted tasks reference a task configuration that is used by the workers to compute the task result. This configuration can be shared by any number of tasks. The configuration reference for a given task is stored in the task broker. The configuration itself is sent to the workers on demand. A worker requests a specific task configuration, if it encounters a task whose configuration is unknown to the worker. After the configuration was received, it is cached by the worker for later reuse. The cache is only limited by the amount of available memory. This is appropriate as usually many tasks use the same configuration. In the GA example, where the workers generate offsprings and compute their fitness values, a single task configuration is enough for all tasks, as offspring generation and fitness evaluation is done in the same way for all tasks. Therefore, a worker needs to obtain the task configuration only once, reducing the communication overhead. It is of course also possible to assign each task an individual task configuration. The result would be, that the worker has to request the configuration for each task individually, the communication overhead would be much higher than in the previous example.
 
 To work properly, the task broker uses two concepts that are needed to perform its work. 
 
@@ -112,11 +115,11 @@ The first concept is its internal first-in first-out (FIFO) queue, that stores t
 
 The second concept is a map, that connects submitted tasks to their configuration and their \texttt{TaskFuture}. This must be done, because a task loses its references once it is taken out of the FIFO queue and send to a worker. The configuration for the task would become unknown and the result of the task could no longer be associated with the corresponding \texttt{TaskFuture}. The mentioned map resolves this problem.
 
-The two concepts are depicted in figure \ref{fig:task-broker}. In the first step, a task and its configuration is submitted to the broker. The broker inserts the task in its internal FIFO queue and adds the task, the configuration and a new \texttt{TaskFuture} to its internal map. The \texttt{TaskFuture} is immediately returned to the algorithm as result of the task submission. At this stage, any attempt to access the result of the \texttt{TaskFuture} would block, as the result of the task computation is unknown yet. At a certain point, step 2 is performed, where the queued task $T_N$ is consumed by an endpoint and send to a waiting worker. If the worker doesn't know about the referenced configuration $TC_N$ for task $T_N$, it asks the endpoint for the configuration, which gets the configuration from the broker in step 3. The configuration for the task $T_N$ can only be retrieved, because the broker kept a reference to it in its internal map. In step 4, the worker returns the computed result to the endpoint, which forwards it to the broker. The broker associates the result for task $T_N$ with the according \texttt{TaskFuture} $TF_N$, again using its internal map. After the result for the \texttt{TaskFuture} is set, the algorithm can access the result for task $T_N$ without blocking.
+The two concepts are depicted in figure \ref{fig:task-broker}. In the first step, a task and its configuration is submitted to the broker. The broker inserts the task in its internal FIFO queue and adds the task, the configuration and a new \texttt{TaskFuture} to its internal map. The \texttt{TaskFuture} is immediately returned to the algorithm as result of the task submission. At this stage, any attempt to access the result of the \texttt{TaskFuture} would block, as the result of the task computation is unknown yet. At a certain point, step 2 is performed, where the queued task $T_N$ is consumed by an endpoint and sent to a waiting worker. If the worker doesn't know about the referenced configuration $TC_N$ for task $T_N$, it asks the endpoint for the configuration, which gets the configuration from the broker in step 3. The configuration for the task $T_N$ can only be retrieved, because the broker kept a reference to it in its internal map. In step 4, the worker returns the computed result to the endpoint, which forwards it to the broker. The broker associates the result for task $T_N$ with the according \texttt{TaskFuture} $TF_N$, again using its internal map. After the result for the \texttt{TaskFuture} is set, the algorithm can access the result for task $T_N$ without blocking.
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=130mm]{task-broker.png}
+  \includegraphics[width=130mm,natwidth=2504,natheight=1374]{task-broker.png}
   \caption{Internal structure of the task broker}
   \label{fig:task-broker}
 \end{figure}
@@ -139,13 +142,13 @@ The endpoints run in the YARN ApplicationMaster and are started and stopped auto
 \label{chap:impl:worker}
 A worker computes the result for a given task using the configuration that is referenced by the task. The task itself contains the data needed for the computation. The configuration contains information about how to compute the result for the task. The ``how'' is specified by a Java class that implements the \texttt{AsyncComputable} interface. In addition, the task configuration can contain an immutable data set, shared by all tasks that reference the same configuration. The immutable data set is called  ``initial data''.
 
-In the GA example, a task generates and evaluates an offspring. The task data consists of the parent individuals and the task configuration points to a class that implements offspring generation and fitness evaluation. The ``initial data'' contains static parameters for offspring creation and fitness evaluation. The worker uses the configuration to instantiate the given \texttt{AsyncComputable} class. The class and the ``initial data'' are then used to compute the result for the task, which is a new offspring and its related fitness value. The result is then send to the endpoint.
+In the GA example, a task generates and evaluates an offspring. The task data consists of the parent individuals and the task configuration points to a class that implements offspring generation and fitness evaluation. The ``initial data'' contains static parameters for offspring creation and fitness evaluation. The worker uses the configuration to instantiate the given \texttt{AsyncComputable} class. The class and the ``initial data'' are then used to compute the result for the task, which is a new offspring and its related fitness value. The result is then sent to the endpoint.
 
-Tasks are send to the workers without task configuration. The task configuration is delivered only on demand and is afterwards cached by the worker. This can be done, as most tasks will share a common configuration. Sending the configuration only on demand, reduces the amount of transmitted data and increases therefore the performance of the whole system. Figure \ref{fig:async-computable} shows how tasks and task configurations are handled by the workers.
+Tasks are sent to the workers without task configuration. The task configuration is delivered only on demand and is afterwards cached by the worker. This can be done, as most tasks will share a common configuration. Sending the configuration only on demand, reduces the amount of transmitted data and increases therefore the performance of the whole system. Figure \ref{fig:async-computable} shows how tasks and task configurations are handled by the workers.
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=130mm]{flow-asyncComputable.png}
+  \includegraphics[width=130mm,natwidth=2901,natheight=2648]{flow-asyncComputable.png}
   \caption{Life cycle of a task, the result is computed by a worker using an AsyncComputable}
   \label{fig:async-computable}
 \end{figure}
@@ -156,7 +159,7 @@ Biohadoop supports two different kinds of workers: the ones that run under the c
 
 Embedded workers must be configured in Biohadoop, which controls their life cycle. In contrast, external workers can not be configured by Biohadoop, their whole life cycle must be controlled in some other way that is not part of Biohadoop. This can pose some problems, as external workers need to know e.g. when and where Biohadoop is running. The solution to this problems is outside of the scope of this thesis.
 
-If there are no special needs, embedded workers are just fine. There are although some good reasons to use external workers:
+If there are no special needs, embedded workers are just fine. There are however some good reasons to use external workers:
 
 \begin{itemize}
   \item external worker don't necessarily depend on the Hadoop ecosystem, they may run wherever they want, as long as they are able to communicate to at least one endpoint. It is possible to develop external workers that run in completely different environments, for example on mobile phones.
@@ -182,7 +185,7 @@ On top of the communication protocols, Biohadoop establishes its own application
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=80mm]{communication-layers.png}
+  \includegraphics[width=80mm,natwidth=1424,natheight=484]{communication-layers.png}
   \caption{Biohadoops communication layers}
   \label{fig:communication-layers}
 \end{figure}
@@ -217,7 +220,7 @@ The communication protocols presented in the prior section are used as a base to
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=70mm]{communication-flow.png}
+  \includegraphics[width=70mm,natwidth=1515,natheight=2216]{communication-flow.png}
   \caption{Communication flow between endpoints and workers}
   \label{fig:communication-flow}
 \end{figure}
@@ -238,20 +241,20 @@ The API covers the fundamental persistence use cases, but a programmer is free t
 
 \subsection{The island model}
 \label{chap:impl:island-model}
-The island model is a high level parallelization model that is sometimes used in optimization problems. In the island model, several algorithms run in parallel, trying to compute the result to the same problem. The parallel running algorithms are called the islands. Each of these algorithms is independent of the others, and each one may have a different solution at a given point of time. By exchanging their data after some intervals, islands may get interesting solutions from other islands that can be integrated in their own computation to enhance their solution. If we take the GA as an example, the islands would consist of independently running GAs that exchange individuals to improve the solution. Figure \ref{fig:island-model} shows an example island model with 3 GAs that exchange individuals.
+% The island model is a high level parallelization model that is sometimes used in optimization problems. In the island model, several algorithms run in parallel, trying to compute the result to the same problem. The parallel running algorithms are called the islands. Each of these algorithms is independent of the others, and each one may have a different solution at a given point of time. By exchanging their data after some intervals, islands may get interesting solutions from other islands that can be integrated in their own computation to enhance their solution. If we take the GA as an example, the islands would consist of independently running GAs that exchange individuals to improve the solution. Figure \ref{fig:island-model} shows an example island model with 3 GAs that exchange individuals.
+% 
+% \begin{figure}[ht!]
+%   \centering
+%   \includegraphics[width=70mm]{island-model.png}
+%   \caption{Example island model with 3 GAs, exchanging individuals}
+%   \label{fig:island-model}
+% \end{figure}
+% 
+% The island model enhances the exploratory behavior of optimization algorithms, which often results in better overall solutions. As the data exchange is only done at certain points of time, the islands have the chance to exploit their own solution. When they get stuck in a local optima, they get the chance to escape this optima by considering solutions from other islands.
+% 
+Biohadoop provides an API, implemented in the class \texttt{IslandModel}, that can be used to build an island model between any number of algorithms. It provides methods to register to ZooKeeper \cite{zookeeper}, publish the own solutions to other islands or to merge remote solutions with the own solutions. Data merging can be configured by implementing the interfaces \texttt{RemoteResultGetter} and \texttt{DataMerger}. The \texttt{RemoteResultGetter} defines from which remote island the data should be retrieved. It may take into account different properties, like the number of iterations, the fitness of individuals, etc. The \texttt{DataMerger} defines, how two solutions should be merged.
 
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=70mm]{island-model.png}
-  \caption{Example island model with 3 GAs, exchanging individuals}
-  \label{fig:island-model}
-\end{figure}
-
-The island model enhances the exploratory behavior of optimization algorithms, which often results in better overall solutions. As the data exchange is only done at certain points of time, the islands have the chance to exploit their own solution. When they get stuck in a local optima, they get the chance to escape this optima by considering solutions from other islands.
-
-Biohadoop provides an API, implemented in the class \texttt{IslandModel}, that can be used to build an island model between any number of algorithms. It provides methods to publish the own solutions to other islands or to merge remote solutions with the own solutions. Data merging can be configured by implementing the interfaces \texttt{RemoteResultGetter} and \texttt{DataMerger}. The \texttt{RemoteResultGetter} defines from which remote island the data should be retrieved. It may take into account different properties, like the number of iterations, the fitness of individuals, etc. The \texttt{DataMerger} defines, how two solutions should be merged.
-
-The island model API uses ZooKeeper \cite{zookeeper}, which is a server that provides distributed configuration and synchronization services and a naming registry. Therefore, a running ZooKeeper instance must be accessible by Biohadoop, if an algorithm wants to use the island model.
+The island model API uses ZooKeeper, which is a server that provides distributed configuration and synchronization services and a naming registry. Therefore, a running ZooKeeper instance must be accessible by Biohadoop, if an algorithm wants to use the island model.
 
 By using ZooKeeper as central registry for the island model, it doesn't matter if the algorithms run in the same Biohadoop instance or in different Biohadoop instances. They find each other through their ZooKeeper registrations.
 
@@ -261,7 +264,7 @@ The main advantage of running several algorithms in the same Biohadoop instance 
 \label{chap:impl:configuration}
 Biohadoop uses a configuration file in JSON format. The advantage of JSON is, that its understandable for humans and usually smaller in size than e.g. XML.
 
-The path to the configuration file must be given on invocation of Biohadoop as its first parameter (more information on how to run Biohadoop can be found in \ref{chap:usage:run}). Biohadoop stops immediately with an exception if the path is empty or wrong or the configuration file can not be parsed.
+The path to the configuration file must be given on invocation of Biohadoop as its first parameter (more information on how to run Biohadoop can be found in appendix \ref{chap:usage:run}). Biohadoop stops immediately with an exception if the path is empty or wrong or the configuration file can not be parsed.
 
 The configuration file itself consists of the following four top-level objects:
 \begin{itemize}
@@ -281,7 +284,7 @@ A short example workflow with three stages copies data sets to a HDFS file syste
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=100mm]{biooozie.png}
+  \includegraphics[width=100mm,natwidth=1330,natheight=566]{biooozie.png}
   \caption{Example Oozie workflow, including Biooozie action}
   \label{fig:biooozie}
 \end{figure}

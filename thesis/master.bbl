@@ -59,16 +59,6 @@ M.~Ehrgott, {\em Multicriteria optimization}, vol.~2.
 X.-S. Yang, {\em Nature-inspired metaheuristic algorithms}.
 \newblock Luniver press, 2010.
 
-\bibitem{dorigo2010ant}
-M.~Dorigo and M.~Birattari, ``Ant colony optimization,'' in {\em Encyclopedia
-  of Machine Learning}, pp.~36--39, Springer, 2010.
-
-\bibitem{durillo2008study}
-J.~J. Durillo, A.~J. Nebro, F.~Luna, and E.~Alba, ``A study of master-slave
-  approaches to parallelize nsga-ii,'' in {\em Parallel and Distributed
-  Processing, 2008. IPDPS 2008. IEEE International Symposium on}, pp.~1--8,
-  IEEE, 2008.
-
 \bibitem{deb2002fast}
 K.~Deb, A.~Pratap, S.~Agarwal, and T.~Meyarivan, ``A fast and elitist
   multiobjective genetic algorithm: Nsga-ii,'' {\em Evolutionary Computation,
@@ -92,6 +82,10 @@ S.~Ghemawat, H.~Gobioff, and S.-T. Leung, ``The google file system,'' in {\em
 ``Yarn high availability.''
   \url{http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/ResourceManagerHA.html}.
 \newblock last access: 13.11.2014.
+
+\bibitem{oozie-hue}
+``Oozie hue.'' \url{http://gethue.com/category/oozie/}.
+\newblock last access: 26.12.2014.
 
 \bibitem{zookeeper}
 ``Zookeeper.'' \url{http://zookeeper.apache.org/}.
@@ -120,14 +114,6 @@ S.~Ghemawat, H.~Gobioff, and S.-T. Leung, ``The google file system,'' in {\em
   \url{https://github.com/eishay/jvm-serializers/wiki}.
 \newblock last access: 27.11.2014.
 
-\bibitem{maven}
-``Maven.'' \url{http://maven.apache.org/}.
-\newblock last access: 11.09.2014.
-
-\bibitem{docker}
-``Docker.'' \url{https://www.docker.com/}.
-\newblock last access: 11.09.2014.
-
 \bibitem{zitzler2000comparison}
 E.~Zitzler, K.~Deb, and L.~Thiele, ``Comparison of multiobjective evolutionary
   algorithms: Empirical results,'' {\em Evolutionary computation}, vol.~8,
@@ -145,5 +131,18 @@ M.~Wolfe, ``More iteration space tiling,'' in {\em Proceedings of the 1989
 \bibitem{iftop}
 ``iftop.'' \url{http://www.ex-parrot.com/pdw/iftop/}.
 \newblock last access: 08.12.2014.
+
+\bibitem{maven}
+``Maven.'' \url{http://maven.apache.org/}.
+\newblock last access: 11.09.2014.
+
+\bibitem{docker}
+``Docker.'' \url{https://www.docker.com/}.
+\newblock last access: 11.09.2014.
+
+\bibitem{docker-sequenceiq}
+``docker-biohadoop.''
+  \url{https://index.docker.io/u/sequenceiq/hadoop-docker/}.
+\newblock last access: 03.06.2014.
 
 \end{thebibliography}

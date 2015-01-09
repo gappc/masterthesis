@@ -8,10 +8,6 @@ S.~Sivanandam and S.~Deepa, {\em Genetic Algorithm Optimization Problems}.
 J.~Kennedy, ``Particle swarm optimization,'' in {\em Encyclopedia of Machine
   Learning}, pp.~760--766, Springer, 2010.
 
-\bibitem{hadoop}
-``Apache hadoop.'' \url{http://hadoop.apache.org/}.
-\newblock last access: 01.10.2014.
-
 \bibitem{dean2008mapreduce}
 J.~Dean and S.~Ghemawat, ``Mapreduce: simplified data processing on large
   clusters,'' {\em Communications of the ACM}, vol.~51, no.~1, pp.~107--113,
@@ -23,28 +19,12 @@ V.~K. Vavilapalli, A.~C. Murthy, C.~Douglas, S.~Agarwal, M.~Konar, R.~Evans,
   another resource negotiator,'' in {\em Proceedings of the 4th annual
   Symposium on Cloud Computing}, p.~5, ACM, 2013.
 
-\bibitem{storm}
-``Apache storm.'' \url{https://storm.apache.org/}.
-\newblock last access: 01.10.2014.
-
-\bibitem{spark}
-``Apache spark.'' \url{https://spark.apache.org/}.
-\newblock last access: 01.10.2014.
-
 \bibitem{zaharia2012resilient}
 M.~Zaharia, M.~Chowdhury, T.~Das, A.~Dave, J.~Ma, M.~McCauley, M.~J. Franklin,
   S.~Shenker, and I.~Stoica, ``Resilient distributed datasets: A fault-tolerant
   abstraction for in-memory cluster computing,'' in {\em Proceedings of the 9th
   USENIX conference on Networked Systems Design and Implementation}, pp.~2--2,
   USENIX Association, 2012.
-
-\bibitem{biohadoop}
-``Biohadoop.'' \url{https://github.com/gappc/biohadoop}.
-\newblock last access: 15.12.2014.
-
-\bibitem{oozie}
-``Apache oozie.'' \url{http://oozie.apache.org/}.
-\newblock last access: 01.10.2014.
 
 \bibitem{alexander2005history}
 S.~Alexander, ``On the history of combinatorial optimization (till 1960),''
@@ -68,52 +48,6 @@ K.~Deb, A.~Pratap, S.~Agarwal, and T.~Meyarivan, ``A fast and elitist
 S.~Ghemawat, H.~Gobioff, and S.-T. Leung, ``The google file system,'' in {\em
   ACM SIGOPS Operating Systems Review}, vol.~37, pp.~29--43, ACM, 2003.
 
-\bibitem{hdfs-ha-qjm}
-``Hdfs high availability using the quorum journal manager.''
-  \url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html}.
-\newblock last access: 12.11.2014.
-
-\bibitem{hdfs-ha-nfs}
-``Hdfs high availability using nfs.''
-  \url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithNFS.html}.
-\newblock last access: 12.11.2014.
-
-\bibitem{yarn-ha}
-``Yarn high availability.''
-  \url{http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/ResourceManagerHA.html}.
-\newblock last access: 13.11.2014.
-
-\bibitem{oozie-hue}
-``Oozie hue.'' \url{http://gethue.com/category/oozie/}.
-\newblock last access: 26.12.2014.
-
-\bibitem{zookeeper}
-``Zookeeper.'' \url{http://zookeeper.apache.org/}.
-\newblock last access: 05.09.2014.
-
-\bibitem{bioworker-browser}
-``Example worker for biohadoop, written in javascript.''
-  \url{https://github.com/gappc/bioworker-browser}.
-\newblock last access: 22.09.2014.
-
-\bibitem{bioworker-python}
-``Example worker for biohadoop, written in python.''
-  \url{https://github.com/gappc/bioworker-python}.
-\newblock last access: 22.09.2014.
-
-\bibitem{netty}
-``Netty.'' \url{http://netty.io/}.
-\newblock last access: 19.11.2014.
-
-\bibitem{kryo}
-``Kryo.'' \url{https://github.com/EsotericSoftware/kryo}.
-\newblock last access: 04.08.2014.
-
-\bibitem{jvm-serializers}
-``Comparison of jvm serializers.''
-  \url{https://github.com/eishay/jvm-serializers/wiki}.
-\newblock last access: 27.11.2014.
-
 \bibitem{zitzler2000comparison}
 E.~Zitzler, K.~Deb, and L.~Thiele, ``Comparison of multiobjective evolutionary
   algorithms: Empirical results,'' {\em Evolutionary computation}, vol.~8,
@@ -128,21 +62,9 @@ K.~Deb, ``An efficient constraint handling method for genetic algorithms,''
 M.~Wolfe, ``More iteration space tiling,'' in {\em Proceedings of the 1989
   ACM/IEEE conference on Supercomputing}, pp.~655--664, ACM, 1989.
 
-\bibitem{iftop}
-``iftop.'' \url{http://www.ex-parrot.com/pdw/iftop/}.
-\newblock last access: 08.12.2014.
-
-\bibitem{maven}
-``Maven.'' \url{http://maven.apache.org/}.
-\newblock last access: 11.09.2014.
-
-\bibitem{docker}
-``Docker.'' \url{https://www.docker.com/}.
-\newblock last access: 11.09.2014.
-
-\bibitem{docker-sequenceiq}
-``docker-biohadoop.''
-  \url{https://index.docker.io/u/sequenceiq/hadoop-docker/}.
-\newblock last access: 03.06.2014.
+\bibitem{amdahl1967validity}
+G.~M. Amdahl, ``Validity of the single processor approach to achieving large
+  scale computing capabilities,'' in {\em Proceedings of the April 18-20, 1967,
+  spring joint computer conference}, pp.~483--485, ACM, 1967.
 
 \end{thebibliography}

@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=biblio.bib
+lastDocument=abstract.tex
 masterDocument=master.tex
 name=master
 pkg_extIsRegExp=false
@@ -38,7 +38,7 @@ Indentation Mode=normal
 Mode=BibTeX
 
 [document-settings,item:bioalgorithms.tex]
-Bookmarks=
+Bookmarks=11
 Encoding=UTF-8
 Highlighting=LaTeX
 Indentation Mode=normal
@@ -102,43 +102,43 @@ Mode=LaTeX
 
 [item:abstract.tex]
 archive=true
-column=218
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=2
+line=3
+mode=LaTeX
+open=true
+order=4
+
+[item:appendix.tex]
+archive=true
+column=1
+encoding=UTF-8
+highlight=LaTeX
+line=189
 mode=LaTeX
 open=false
 order=1
 
-[item:appendix.tex]
-archive=true
-column=57
-encoding=UTF-8
-highlight=LaTeX
-line=80
-mode=LaTeX
-open=true
-order=2
-
 [item:biblio.bib]
 archive=true
-column=29
+column=33
 encoding=UTF-8
 highlight=BibTeX
-line=218
+line=127
 mode=BibTeX
-open=true
-order=3
+open=false
+order=2
 
 [item:bioalgorithms.tex]
 archive=true
-column=173
+column=72
 encoding=UTF-8
 highlight=LaTeX
-line=198
+line=96
 mode=LaTeX
-open=false
-order=2
+open=true
+order=3
 
 [item:conclusions.tex]
 archive=true
@@ -162,33 +162,33 @@ order=1
 
 [item:hadoopoozie.tex]
 archive=true
-column=0
+column=37
 encoding=UTF-8
 highlight=LaTeX
-line=82
+line=92
 mode=LaTeX
 open=false
 order=3
 
 [item:implementation.tex]
 archive=true
-column=231
+column=11
 encoding=UTF-8
 highlight=LaTeX
-line=270
+line=283
 mode=LaTeX
 open=false
-order=1
+order=2
 
 [item:introduction.tex]
 archive=true
-column=121
+column=38
 encoding=UTF-8
 highlight=LaTeX
-line=50
+line=3
 mode=LaTeX
-open=false
-order=1
+open=true
+order=2
 
 [item:master.kilepr]
 archive=true
@@ -202,57 +202,57 @@ order=-1
 
 [item:master.tex]
 archive=true
-column=0
+column=8
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=66
 mode=LaTeX
 open=true
 order=0
 
 [item:results.tex]
 archive=true
-column=734
+column=110
 encoding=UTF-8
 highlight=LaTeX
-line=89
+line=257
 mode=LaTeX
 open=true
 order=1
 
 [item:usage.tex]
 archive=true
-column=0
+column=13
 encoding=UTF-8
 highlight=LaTeX
-line=74
+line=0
 mode=LaTeX
 open=false
-order=2
+order=3
 
 [view-settings,view=0,item:abstract.tex]
-CursorColumn=218
-CursorLine=2
+CursorColumn=0
+CursorLine=3
 JumpList=
-ViMarks=.,2,217,[,2,217,],2,217
+ViMarks=.,2,428,[,3,0,],-1,-1
 
 [view-settings,view=0,item:appendix.tex]
-CursorColumn=57
-CursorLine=80
+CursorColumn=1
+CursorLine=189
 JumpList=
-ViMarks=.,170,217,[,170,217,],170,217
+ViMarks=.,117,29,[,117,29,],117,29
 
 [view-settings,view=0,item:biblio.bib]
-CursorColumn=29
-CursorLine=218
+CursorColumn=33
+CursorLine=127
 JumpList=
-ViMarks=.,218,26,[,218,17,],218,26
+ViMarks=.,134,1,[,127,0,],-1,-1
 
 [view-settings,view=0,item:bioalgorithms.tex]
-CursorColumn=173
-CursorLine=198
+CursorColumn=72
+CursorLine=96
 JumpList=
-ViMarks=.,198,172,[,198,172,],198,172
+ViMarks=.,96,71,[,96,66,],96,71,a,11,0
 
 [view-settings,view=0,item:conclusions.tex]
 CursorColumn=74
@@ -267,37 +267,37 @@ JumpList=
 ViMarks=.,187,0,[,187,0,],187,1
 
 [view-settings,view=0,item:hadoopoozie.tex]
-CursorColumn=0
-CursorLine=82
+CursorColumn=37
+CursorLine=92
 JumpList=
-ViMarks=.,79,257,[,79,257,],79,257
+ViMarks=.,92,11,[,92,11,],92,36
 
 [view-settings,view=0,item:implementation.tex]
-CursorColumn=231
-CursorLine=270
+CursorColumn=11
+CursorLine=283
 JumpList=
-ViMarks=.,266,164,[,266,157,],266,164
+ViMarks=.,283,11,[,283,11,],283,11
 
 [view-settings,view=0,item:introduction.tex]
-CursorColumn=121
-CursorLine=50
+CursorColumn=38
+CursorLine=3
 JumpList=
-ViMarks=.,50,479,[,50,479,],50,479
+ViMarks=.,6,454,[,6,454,],6,503
 
 [view-settings,view=0,item:master.tex]
-CursorColumn=0
-CursorLine=0
+CursorColumn=8
+CursorLine=66
 JumpList=
-ViMarks=.,69,0,[,69,0,],69,0
+ViMarks=.,66,0,[,66,0,],66,0
 
 [view-settings,view=0,item:results.tex]
-CursorColumn=734
-CursorLine=89
+CursorColumn=110
+CursorLine=257
 JumpList=
-ViMarks=.,89,667,[,89,668,],89,667
+ViMarks=.,249,11,[,249,11,],249,37
 
 [view-settings,view=0,item:usage.tex]
-CursorColumn=0
-CursorLine=74
+CursorColumn=13
+CursorLine=0
 JumpList=
-ViMarks=.,4,0,[,4,0,],4,1
+ViMarks=.,0,12,[,0,5,],0,12

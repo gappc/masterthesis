@@ -11,45 +11,45 @@ A level-1 auxiliary file: appendix.aux
 The style file: ieeetr.bst
 Database file #1: biblio.bib
 Warning--can't use both volume and number fields in ghemawat2003google
-You've used 32 entries,
+You've used 14 entries,
             1876 wiz_defined-function locations,
-            632 strings with 7532 characters,
-and the built_in function-call counts, 5827 in all, are:
-= -- 588
-> -- 159
+            569 strings with 6002 characters,
+and the built_in function-call counts, 4031 in all, are:
+= -- 396
+> -- 144
 < -- 0
-+ -- 72
-- -- 40
-* -- 316
-:= -- 730
-add.period$ -- 54
-call.type$ -- 32
-change.case$ -- 29
++ -- 55
+- -- 41
+* -- 278
+:= -- 560
+add.period$ -- 17
+call.type$ -- 14
+change.case$ -- 11
 chr.to.int$ -- 0
-cite$ -- 33
-duplicate$ -- 272
-empty$ -- 709
-format.name$ -- 40
-if$ -- 1514
+cite$ -- 15
+duplicate$ -- 217
+empty$ -- 404
+format.name$ -- 41
+if$ -- 991
 int.to.chr$ -- 0
-int.to.str$ -- 32
-missing$ -- 16
-newline$ -- 121
-num.names$ -- 13
-pop$ -- 204
+int.to.str$ -- 14
+missing$ -- 17
+newline$ -- 48
+num.names$ -- 14
+pop$ -- 58
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 179
+skip$ -- 137
 stack$ -- 0
-substring$ -- 236
-swap$ -- 76
+substring$ -- 268
+swap$ -- 85
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 39
-width$ -- 34
-write$ -- 287
+while$ -- 43
+width$ -- 16
+write$ -- 145
 (There was 1 warning)

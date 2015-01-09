@@ -1,47 +1,47 @@
 \BOOKMARK [0][]{chapter.1}{Introduction}{}% 1
-\BOOKMARK [0][]{chapter.2}{Bio-inspired optimization techniques}{}% 2
-\BOOKMARK [1][]{section.2.1}{Single objective optimization}{chapter.2}% 3
-\BOOKMARK [1][]{section.2.2}{Multi objective optimization}{chapter.2}% 4
-\BOOKMARK [1][]{section.2.3}{Complexity considerations}{chapter.2}% 5
-\BOOKMARK [1][]{section.2.4}{Optimization, inspired by nature}{chapter.2}% 6
-\BOOKMARK [2][]{subsection.2.4.1}{Genetic algorithm}{section.2.4}% 7
-\BOOKMARK [2][]{subsection.2.4.2}{Particle swarm optimization}{section.2.4}% 8
-\BOOKMARK [1][]{section.2.5}{Parallelization using the island model}{chapter.2}% 9
+\BOOKMARK [0][]{chapter.2}{Bio-inspired Optimization Techniques}{}% 2
+\BOOKMARK [1][]{section.2.1}{Single Objective Optimization}{chapter.2}% 3
+\BOOKMARK [1][]{section.2.2}{Multi Objective Optimization}{chapter.2}% 4
+\BOOKMARK [1][]{section.2.3}{Complexity Considerations}{chapter.2}% 5
+\BOOKMARK [1][]{section.2.4}{Optimization, Inspired by Nature}{chapter.2}% 6
+\BOOKMARK [2][]{subsection.2.4.1}{Genetic Algorithms}{section.2.4}% 7
+\BOOKMARK [2][]{subsection.2.4.2}{Particle Swarm Optimization}{section.2.4}% 8
+\BOOKMARK [1][]{section.2.5}{Parallelization using the Island Model}{chapter.2}% 9
 \BOOKMARK [0][]{chapter.3}{Hadoop}{}% 10
 \BOOKMARK [1][]{section.3.1}{HDFS}{chapter.3}% 11
 \BOOKMARK [1][]{section.3.2}{YARN}{chapter.3}% 12
 \BOOKMARK [1][]{section.3.3}{Oozie}{chapter.3}% 13
-\BOOKMARK [0][]{chapter.4}{Biohadoop architecture}{}% 14
+\BOOKMARK [0][]{chapter.4}{Biohadoop Architecture}{}% 14
 \BOOKMARK [1][]{section.4.1}{Algorithm}{chapter.4}% 15
-\BOOKMARK [1][]{section.4.2}{Task system}{chapter.4}% 16
+\BOOKMARK [1][]{section.4.2}{Task System}{chapter.4}% 16
 \BOOKMARK [2][]{subsection.4.2.1}{Task Broker}{section.4.2}% 17
 \BOOKMARK [2][]{subsection.4.2.2}{Endpoint}{section.4.2}% 18
 \BOOKMARK [2][]{subsection.4.2.3}{Worker}{section.4.2}% 19
 \BOOKMARK [1][]{section.4.3}{Communication}{chapter.4}% 20
 \BOOKMARK [2][]{subsection.4.3.1}{Protocols}{section.4.3}% 21
-\BOOKMARK [2][]{subsection.4.3.2}{Communication flow}{section.4.3}% 22
-\BOOKMARK [1][]{section.4.4}{Enhancements}{chapter.4}% 23
+\BOOKMARK [2][]{subsection.4.3.2}{Communication Flow}{section.4.3}% 22
+\BOOKMARK [1][]{section.4.4}{Extensions}{chapter.4}% 23
 \BOOKMARK [2][]{subsection.4.4.1}{Persistence}{section.4.4}% 24
-\BOOKMARK [2][]{subsection.4.4.2}{The island model}{section.4.4}% 25
+\BOOKMARK [2][]{subsection.4.4.2}{The Island Model}{section.4.4}% 25
 \BOOKMARK [1][]{section.4.5}{Configuration}{chapter.4}% 26
 \BOOKMARK [1][]{section.4.6}{Biooozie}{chapter.4}% 27
 \BOOKMARK [0][]{chapter.5}{Evaluation}{}% 28
-\BOOKMARK [1][]{section.5.1}{Test problems}{chapter.5}% 29
+\BOOKMARK [1][]{section.5.1}{Test Problems}{chapter.5}% 29
 \BOOKMARK [2][]{subsection.5.1.1}{ZDT-3}{section.5.1}% 30
-\BOOKMARK [2][]{subsection.5.1.2}{Tiled matrix multiplication}{section.5.1}% 31
+\BOOKMARK [2][]{subsection.5.1.2}{Tiled Matrix Multiplication}{section.5.1}% 31
 \BOOKMARK [1][]{section.5.2}{Benchmarks}{chapter.5}% 32
 \BOOKMARK [1][]{section.5.3}{Results}{chapter.5}% 33
-\BOOKMARK [2][]{subsection.5.3.1}{Influence of YARN container placement}{section.5.3}% 34
+\BOOKMARK [2][]{subsection.5.3.1}{Influence of YARN Container Placement}{section.5.3}% 34
 \BOOKMARK [2][]{subsection.5.3.2}{ZDT-3}{section.5.3}% 35
-\BOOKMARK [2][]{subsection.5.3.3}{Tiled matrix multiplication}{section.5.3}% 36
+\BOOKMARK [2][]{subsection.5.3.3}{Tiled Matrix Multiplication}{section.5.3}% 36
 \BOOKMARK [2][]{subsection.5.3.4}{Speedups}{section.5.3}% 37
 \BOOKMARK [0][]{chapter.6}{Conclusions}{}% 38
 \BOOKMARK [0][]{section*.5}{Appendices}{}% 39
-\BOOKMARK [1][]{section.A.1}{How to run Biohadoop}{section*.5}% 40
-\BOOKMARK [2][]{subsection.A.1.1}{Local environment}{section.A.1}% 41
-\BOOKMARK [2][]{subsection.A.1.2}{Hadoop environment}{section.A.1}% 42
-\BOOKMARK [1][]{section.A.2}{Pre-build Hadoop environment using Docker}{section*.5}% 43
-\BOOKMARK [2][]{subsection.A.2.1}{Build the Hadoop environment}{section.A.2}% 44
+\BOOKMARK [1][]{section.A.1}{How to Run Biohadoop}{section*.5}% 40
+\BOOKMARK [2][]{subsection.A.1.1}{Local Environment}{section.A.1}% 41
+\BOOKMARK [2][]{subsection.A.1.2}{Hadoop Environment}{section.A.1}% 42
+\BOOKMARK [1][]{section.A.2}{Pre-build Hadoop Environment using Docker}{section*.5}% 43
+\BOOKMARK [2][]{subsection.A.2.1}{Build the Hadoop Environment}{section.A.2}% 44
 \BOOKMARK [2][]{subsection.A.2.2}{Run Hadoop}{section.A.2}% 45
 \BOOKMARK [2][]{subsection.A.2.3}{Stopping Hadoop}{section.A.2}% 46
 \BOOKMARK [2][]{subsection.A.2.4}{SSH access}{section.A.2}% 47

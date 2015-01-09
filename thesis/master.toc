@@ -3,54 +3,54 @@
 \select@language {english}
 \select@language {english}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}Bio-inspired optimization techniques}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}Single objective optimization}{3}{section.2.1}
-\contentsline {section}{\numberline {2.2}Multi objective optimization}{3}{section.2.2}
-\contentsline {section}{\numberline {2.3}Complexity considerations}{6}{section.2.3}
-\contentsline {section}{\numberline {2.4}Optimization, inspired by nature}{7}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Genetic algorithm}{7}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}Particle swarm optimization}{9}{subsection.2.4.2}
-\contentsline {section}{\numberline {2.5}Parallelization using the island model}{10}{section.2.5}
-\contentsline {chapter}{\numberline {3}Hadoop}{13}{chapter.3}
-\contentsline {section}{\numberline {3.1}HDFS}{15}{section.3.1}
-\contentsline {section}{\numberline {3.2}YARN}{16}{section.3.2}
-\contentsline {section}{\numberline {3.3}Oozie}{18}{section.3.3}
-\contentsline {chapter}{\numberline {4}Biohadoop architecture}{21}{chapter.4}
-\contentsline {section}{\numberline {4.1}Algorithm}{26}{section.4.1}
-\contentsline {section}{\numberline {4.2}Task system}{26}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Task Broker}{27}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Endpoint}{30}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Worker}{30}{subsection.4.2.3}
-\contentsline {section}{\numberline {4.3}Communication}{32}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Protocols}{34}{subsection.4.3.1}
-\contentsline {subsubsection}{\nonumberline Sockets}{34}{section*.3}
-\contentsline {subsubsection}{\nonumberline WebSocket}{34}{section*.4}
-\contentsline {subsection}{\numberline {4.3.2}Communication flow}{35}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Enhancements}{35}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Persistence}{35}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}The island model}{36}{subsection.4.4.2}
-\contentsline {section}{\numberline {4.5}Configuration}{37}{section.4.5}
-\contentsline {section}{\numberline {4.6}Biooozie}{38}{section.4.6}
-\contentsline {chapter}{\numberline {5}Evaluation}{41}{chapter.5}
-\contentsline {section}{\numberline {5.1}Test problems}{41}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}ZDT-3}{41}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Tiled matrix multiplication}{42}{subsection.5.1.2}
-\contentsline {section}{\numberline {5.2}Benchmarks}{43}{section.5.2}
-\contentsline {section}{\numberline {5.3}Results}{45}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Influence of YARN container placement}{46}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}ZDT-3}{46}{subsection.5.3.2}
-\contentsline {subsection}{\numberline {5.3.3}Tiled matrix multiplication}{51}{subsection.5.3.3}
-\contentsline {subsection}{\numberline {5.3.4}Speedups}{52}{subsection.5.3.4}
-\contentsline {chapter}{\numberline {6}Conclusions}{55}{chapter.6}
-\contentsline {chapter}{Appendices}{56}{section*.5}
-\contentsline {section}{\numberline {A.1}How to run Biohadoop}{57}{section.A.1}
-\contentsline {subsection}{\numberline {A.1.1}Local environment}{58}{subsection.A.1.1}
-\contentsline {subsection}{\numberline {A.1.2}Hadoop environment}{59}{subsection.A.1.2}
-\contentsline {section}{\numberline {A.2}Pre-build Hadoop environment using Docker}{60}{section.A.2}
-\contentsline {subsection}{\numberline {A.2.1}Build the Hadoop environment}{60}{subsection.A.2.1}
-\contentsline {subsection}{\numberline {A.2.2}Run Hadoop}{60}{subsection.A.2.2}
-\contentsline {subsection}{\numberline {A.2.3}Stopping Hadoop}{61}{subsection.A.2.3}
-\contentsline {subsection}{\numberline {A.2.4}SSH access}{61}{subsection.A.2.4}
-\contentsline {chapter}{List of Figures}{63}{appendix*.6}
+\contentsline {chapter}{\numberline {2}Bio-inspired Optimization Techniques}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Single Objective Optimization}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}Multi Objective Optimization}{5}{section.2.2}
+\contentsline {section}{\numberline {2.3}Complexity Considerations}{9}{section.2.3}
+\contentsline {section}{\numberline {2.4}Optimization, Inspired by Nature}{9}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Genetic Algorithms}{10}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Particle Swarm Optimization}{12}{subsection.2.4.2}
+\contentsline {section}{\numberline {2.5}Parallelization using the Island Model}{14}{section.2.5}
+\contentsline {chapter}{\numberline {3}Hadoop}{15}{chapter.3}
+\contentsline {section}{\numberline {3.1}HDFS}{17}{section.3.1}
+\contentsline {section}{\numberline {3.2}YARN}{18}{section.3.2}
+\contentsline {section}{\numberline {3.3}Oozie}{20}{section.3.3}
+\contentsline {chapter}{\numberline {4}Biohadoop Architecture}{23}{chapter.4}
+\contentsline {section}{\numberline {4.1}Algorithm}{28}{section.4.1}
+\contentsline {section}{\numberline {4.2}Task System}{29}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Task Broker}{30}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Endpoint}{32}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Worker}{33}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}Communication}{35}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Protocols}{37}{subsection.4.3.1}
+\contentsline {subsubsection}{\nonumberline Sockets}{37}{section*.3}
+\contentsline {subsubsection}{\nonumberline WebSocket}{37}{section*.4}
+\contentsline {subsection}{\numberline {4.3.2}Communication Flow}{38}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Extensions}{38}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Persistence}{38}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}The Island Model}{40}{subsection.4.4.2}
+\contentsline {section}{\numberline {4.5}Configuration}{40}{section.4.5}
+\contentsline {section}{\numberline {4.6}Biooozie}{41}{section.4.6}
+\contentsline {chapter}{\numberline {5}Evaluation}{43}{chapter.5}
+\contentsline {section}{\numberline {5.1}Test Problems}{43}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}ZDT-3}{43}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Tiled Matrix Multiplication}{44}{subsection.5.1.2}
+\contentsline {section}{\numberline {5.2}Benchmarks}{45}{section.5.2}
+\contentsline {section}{\numberline {5.3}Results}{47}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Influence of YARN Container Placement}{48}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}ZDT-3}{48}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}Tiled Matrix Multiplication}{53}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}Speedups}{55}{subsection.5.3.4}
+\contentsline {chapter}{\numberline {6}Conclusions}{57}{chapter.6}
+\contentsline {chapter}{Appendices}{58}{section*.5}
+\contentsline {section}{\numberline {A.1}How to Run Biohadoop}{59}{section.A.1}
+\contentsline {subsection}{\numberline {A.1.1}Local Environment}{60}{subsection.A.1.1}
+\contentsline {subsection}{\numberline {A.1.2}Hadoop Environment}{61}{subsection.A.1.2}
+\contentsline {section}{\numberline {A.2}Pre-build Hadoop Environment using Docker}{62}{section.A.2}
+\contentsline {subsection}{\numberline {A.2.1}Build the Hadoop Environment}{62}{subsection.A.2.1}
+\contentsline {subsection}{\numberline {A.2.2}Run Hadoop}{62}{subsection.A.2.2}
+\contentsline {subsection}{\numberline {A.2.3}Stopping Hadoop}{63}{subsection.A.2.3}
+\contentsline {subsection}{\numberline {A.2.4}SSH access}{63}{subsection.A.2.4}
+\contentsline {chapter}{List of Figures}{65}{appendix*.6}
 \select@language {english}
-\contentsline {chapter}{Bibliography}{65}{appendix*.7}
+\contentsline {chapter}{Bibliography}{67}{appendix*.7}

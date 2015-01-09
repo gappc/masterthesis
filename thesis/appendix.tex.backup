@@ -3,69 +3,127 @@
 
 \chapter{}
 
-\section{JSON Schema for Biohadoops configuration file}
-\lstinputlisting[caption=JSON Schema \cite{json-schema} for the Biohadoop configuration file,label=lst:json-schema]{../listings/appendix-configuration-schema.lst}
+\section{How to run Biohadoop}
+\label{chap:usage:run}
+Although the main purpose of Biohadoop is to be run in a Hadoop environment, it can also be run in a local environment. This is for example useful when new algorithms are developed. In this case, the whole process of compilation, deployment to a Hadoop environment and testing can be abbreviated.
 
-\section{Example algorithm: Sum}
-\lstinputlisting[caption=Source code for the example \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-full]{../listings/appendix-sum-full.lst}
+To run Biohadoop, three components must be available (four if Biohadoop is started in a Hadoop environment):
 
-\section{Example algorithm: Sum - AsyncComputable}
-\lstinputlisting[caption=Source code for the \texttt{AsyncSumComputation} part of the \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-async]{../listings/appendix-sum-async.lst}
+\begin{itemize}
+  \item An installation of Java in version 1.7 or higher. From here on it is assumed, that Java is installed and configured and that the \texttt{JAVA\_HOME} variable points to this installation.
+  \item All necessary libraries must be present and accessible in one or several folders.
+  \item A valid configuration file must be present and accessible.
+  \item The fourth component is only necessary when running Biohadoop in a Hadoop environment. This component is Hadoop itself, which must be available in a version $\geq 2$.
+\end{itemize}
 
-\section{Biohadoop quickstart}
-\label{chap:appendix:biohadoop-quickstart}
-The quickstart uses the pre-configured Hadoop environment, that can be found in appendix \ref{chap:appendix:biohadoop-docker}. The examples can be found at \cite{biohadoop-algorithms}. The requirements for this quickstart are an installed gnome-terminal (provided by default in Ubuntu), Docker $\geq 1.0$ and Maven with MVN\_HOME set to the correct path. The quickstart takes usage of some scripts, all of them are provided by the used sources.
+If those three components are provided (four for running on Hadoop), Biohadoop can be started. In a local environment, this is done by setting the right class paths when launching the program. In a Hadoop environment, the configuration option \texttt{includePaths} must be set, to include the necessary files (see \ref{chap:impl:configuration} on more information about configuring Biohadoop). Those paths have to point to valid locations of an accessible HDFS file system.
 
-\subsection{Build and start the Hadoop environment}
-The first step is to build and start a Hadoop environment with one master and two slave nodes. The master node is started inside a red gnome-terminal window, at the end it prints the password for the root user:
-
-\begin{lstlisting}[language=bash]
-git clone https://github.com/gappc/docker-biohadoop.git
-sudo docker build -t="docker-biohadoop" ./docker-biohadoop
-chmod +x ./docker-biohadoop/scripts/*.sh
-./docker-biohadoop/scripts/docker-run-hadoop.sh 2
-\end{lstlisting}
-
-\subsection{Build Biohadoop and copy it to the Hadoop environment}
-The second step is to build and copy Biohadoop to the Hadoop environment:
+Biohadoop was developed using Maven. \footnote{\url{http://maven.apache.org/} last access: 11.09.2014} Therefor it is rather easy to get all the needed libraries, as they are declared as dependencies. The source code for Biohadoop can be found at \cite{biohadoop}. By invoking the following command on the projects root folder, all dependencies are accumulated and put to the sub folder \texttt{target/dependency}:
 
 \begin{lstlisting}[language=bash]
-git clone https://github.com/gappc/biohadoop.git
-chmod +x ./biohadoop/scripts/*.sh
-./biohadoop/scripts/copy-files.sh
+mvn dependency:copy-dependencies
 \end{lstlisting}
 
-\subsection{Build example algorithms and copy them to the Hadoop environment}
-The third step is to build and copy the example algorithms to the Hadoop environment:
+From there, they can be directly referenced through Javas \texttt{classpath} option when running in a local environment. When running in a Hadoop environment, the libraries need to be copied to an accessible HDFS file system, and this location must be present in the before mentioned \texttt{includePaths} configuration option.
 
-\begin{lstlisting}[language=bash]
-git clone https://github.com/gappc/biohadoop-algorithms.git
-chmod +x ./biohadoop-algorithms/scripts/*.sh
-./biohadoop-algorithms/scripts/copy-algorithms.sh
-\end{lstlisting}
+% For a quick tutorial on how to compile and run Biohadoop from the sources, please refer to appendix \ref{chap:appendix:biohadoop-quickstart}. 
+To use Biohadoop in a Hadoop environment, such an environment must be present. It can be a difficult task to configure such a Hadoop environment, therefor in appendix \ref{chap:appendix:biohadoop-docker} a simple method can be found, to use a pre-build Hadoop environment. The only dependency this environment has, is Docker \cite{docker}, which is a simple and lightweight runtime for virtual containers, available on all major operating systems.
 
-\subsection{Run Biohadoop in the Hadoop environment}
-To run the Echo example in Hadoop , the following command must be issued in the red terminal - if there is no red terminal, please check \cite{biohadoop-docker}. This example assumes that the jar \texttt{biohadoop-0.3.0-SNAPSHOT.jar} is used:
+  \subsection{Local environment}
+  \label{chap:usage:local}
+  To start Biohadoop in a local environment, the class paths need to be set to include the necessary libraries. The necessary libraries can be obtained by invoking the Maven command, outlined above. As an additional parameter, the \texttt{-Dlocal} option must be provided to Java. This is the only way to tell Biohadoop that it is launched in a local environment. If this parameter is missing, Biohadoop will complain that it can't connect to Hadoop.
+  
+  Lets assume, that all of the necessary libraries can be found at the location \path{/home/user/biohadoop/libs}, and the configuration file can be found at \path{/home/user/biohadoop/configs/simple-config-json}. Then, Biohadoop can be started in local mode by running the following command:
+  
+  \begin{lstlisting}[language=bash]
+java -Dlocal -cp /home/user/biohadoop/libs/* at.ac.uibk.dps.biohadoop.hadoop.BiohadoopApplicationMaster /home/user/biohadoop/configs/simple-config-json
+  \end{lstlisting}
 
-\begin{lstlisting}[language=bash]
-yarn jar /tmp/lib/biohadoop-0.3.0-SNAPSHOT.jar at.ac.uibk.dps.biohadoop.hadoop.BiohadoopClient /biohadoop/conf/biohadoop-echo.json
-\end{lstlisting}
+  A little bit hidden in the command we find the main class that starts Biohadoop, \texttt{at.ac.uibk.dps.biohadoop.hadoop.BiohadoopApplicationMaster}. This class takes care of starting the configured algorithms, endpoints and workers. After all of the algorithms have terminated, either because they have finished their computation or because they had errors, Biohadoop shuts down.
+  
+  When running Biohadoop in the local environment, all workers are started as threads in the same JVM as Biohadoop (in contrast to a Hadoop environment, where the workers are started in separate JVMs on perhaps different machines). This leads to the fact, that the workers have full access to all (static) objects of Biohadoop. But when those workers are started in a Hadoop environment, this access is not given anymore. So, one has to take care to rely only on the objects and properties that are provided to the used methods.
 
-Other examples of Biohadoop programs can be found at \cite{biohadoop-algorithms}. You can use them to try out Biohadoop and as a template for your own experiments. Good luck and have fun :)
+  \subsection{Hadoop environment}
+  \label{chap:usage:hadoop}
+  To start Biohadoop in a Hadoop environment (for example in the one provided in appendix \ref{chap:appendix:biohadoop-docker}), all needed libraries and configuration files must be present in the HDFS file system. In addition, Biohadoops jar file must be accessible through the local file system, as it is started directly by Hadoop. The location of the libraries and configuration files in the HDFS file system must be configured in the configuration file that is provided to Biohadoop on startup.
+  
+  Lets assume, that all of the necessary libraries can be found at the HDFS location \path{/biohadoop/libs}, the configuration file can be found at the HDFS location \path{/biohadoop/configs/simple-config-json} and that those paths are part of the configuration file that is provided to Biohadoop at startup. Further more, Biohadoops jar file can be found at \path{/home/user/biohadoop/biohadoop.jar}. Then, Biohadoop can be started in Hadoop mode by running the following command:
+  
+  \begin{lstlisting}[language=bash]
+yarn jar /home/user/biohadoop/biohadoop.jar at.ac.uibk.dps.biohadoop.hadoop.BiohadoopClient /biohadoop/configs/simple-config-json
+  \end{lstlisting}
+
+  As one can see, now the command \texttt{yarn} is used to launch Biohadoop. This command takes care of setting all the needed Hadoop environment variables, after which it starts the provided main class. The \texttt{yarn} command is part of Hadoop since version 2, and should be available if Hadoop is configured in the right way.
+  
+  In contrast to running Biohadoop in local mode, we have now a different main class that is launched. This is due to the fact, that Yarn needs a startup class, from where it loads the main program. By looking at the source code of \texttt{at.ac.uibk.dps.biohadoop.hadoop.BiohadoopClient}, one will notice that it starts the \texttt{BiohadoopApplicationMaster} behind the curtains (\texttt{BiohadoopApplicationMaster} is the class that is directly started in local mode).
+  
+  When running Biohadoop in a Hadoop environment, all workers are started in their own containers, which are under the control of Hadoop. The result is, that the workers can not access the (static) objects of Biohadoop, if one wants to access some properties of Biohadoop, this must be done through the provided communication facilities of Biohadoop. It is nevertheless possible to implement some different communication facilities, if this is needed.
+
+% \section{JSON Schema for Biohadoops configuration file}
+% \lstinputlisting[caption=JSON Schema \cite{json-schema} for the Biohadoop configuration file,label=lst:json-schema]{../listings/appendix-configuration-schema.lst}
+
+% \section{Example algorithm: Sum}
+% \lstinputlisting[caption=Source code for the example \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-full]{../listings/appendix-sum-full.lst}
+% 
+% \section{Example algorithm: Sum - AsyncComputable}
+% \lstinputlisting[caption=Source code for the \texttt{AsyncSumComputation} part of the \texttt{Sum} algorithm\, elaborated in chapter \ref{chap:usage},label=lst:appendix-sum-async]{../listings/appendix-sum-async.lst}
+
+% \section{Biohadoop quickstart}
+% \label{chap:appendix:biohadoop-quickstart}
+% The quickstart uses the pre-configured Hadoop environment, that can be found in appendix \ref{chap:appendix:biohadoop-docker}. This environment is installed during the following steps. In addition, some example algorithms are installed, that can be found at \cite{biohadoop-algorithms}. 
+% 
+% The requirements for this quickstart are Docker $\geq 1.0$, Maven with MVN\_HOME set to the correct path and an installed gnome-terminal (provided by default in Ubuntu). The quickstart takes usage of some scripts, all of them are provided by the used sources.
+% 
+% \subsection{Build and start the Hadoop environment}
+% The first step is to build and start a Hadoop environment with one master and two slave nodes. The master node is started inside a red gnome-terminal window, at the end it prints the password for the root user:
+% 
+% \begin{lstlisting}[language=bash]
+% git clone https://github.com/gappc/docker-biohadoop.git
+% sudo docker build -t="docker-biohadoop" ./docker-biohadoop
+% chmod +x ./docker-biohadoop/scripts/*.sh
+% ./docker-biohadoop/scripts/docker-run-hadoop.sh 2
+% \end{lstlisting}
+% 
+% \subsection{Build Biohadoop and copy it to the Hadoop environment}
+% The second step is to build and copy Biohadoop to the Hadoop environment:
+% 
+% \begin{lstlisting}[language=bash]
+% git clone https://github.com/gappc/biohadoop.git
+% chmod +x ./biohadoop/scripts/*.sh
+% ./biohadoop/scripts/copy-files.sh
+% \end{lstlisting}
+% 
+% \subsection{Build example algorithms and copy them to the Hadoop environment}
+% The third step is to build and copy the example algorithms to the Hadoop environment:
+% 
+% \begin{lstlisting}[language=bash]
+% git clone https://github.com/gappc/biohadoop-algorithms.git
+% chmod +x ./biohadoop-algorithms/scripts/*.sh
+% ./biohadoop-algorithms/scripts/copy-algorithms.sh
+% \end{lstlisting}
+% 
+% \subsection{Run Biohadoop in the Hadoop environment}
+% To run the Echo example in Hadoop , the following command must be issued in the red terminal - if there is no red terminal, please check \cite{biohadoop-docker}. This example assumes that the jar \texttt{biohadoop-0.3.0-SNAPSHOT.jar} is used:
+% 
+% \begin{lstlisting}[language=bash]
+% yarn jar /tmp/lib/biohadoop-0.3.0-SNAPSHOT.jar at.ac.uibk.dps.biohadoop.hadoop.BiohadoopClient /biohadoop/conf/biohadoop-echo.json
+% \end{lstlisting}
+% 
+% Other examples of Biohadoop programs can be found at \cite{biohadoop-algorithms}. You can use them to try out Biohadoop and as a template for your own experiments. Good luck and have fun :)
 
 \section{Pre-build Hadoop environment using Docker}
 \label{chap:appendix:biohadoop-docker}
-This section provides a way to run a pre-configured Haddop environment using Docker \cite{docker}. Docker uses its so called Dockerfiles for its configuration. The here presented solution installs Apache Hadoop 2.5.0, Apache Oozie 4.0.1 and Apache ZooKeeper 3.4.6 as a cluster environment. The solution is based on \texttt{sequenceiq/hadoop-docker} \cite{docker-sequenceiq}.
+This section provides a way to run a pre-configured Haddop environment using Docker \footnote{\url{https://www.docker.com/} last access: 11.09.2014}. Docker uses its so called Dockerfiles for its configuration. The here presented solution installs Apache Hadoop 2.5.0, Apache Oozie 4.0.1 and Apache ZooKeeper 3.4.6 as a cluster environment. The solution is based on \texttt{sequenceiq/hadoop-docker} \cite{docker-sequenceiq}.
 
 \subsection{Build the Hadoop environment}
-The following commands are used to clone the repository to the current local directory and to build the Docker image. Be aware, that only during the cloning process about 400MB of data is transferred. This is due to Oozie, which is delivered in a compiled form.
+The following commands are used to clone the repository to the current local directory and to build the Docker image. Be aware that during the cloning process about 400MB of data is transferred. This is due to Oozie, which is delivered in a precompiled form.
 \begin{lstlisting}[language=bash]
 git clone https://github.com/gappc/docker-biohadoop.git
 cd docker-biohadoop
 sudo docker build -t="docker-biohadoop" .
 \end{lstlisting}
 
-The project docker-biohadoop provides two scripts, located in the scripts directory, that can be used to start and stop docker-biohadoop instances. Those scripts need to be executable:
+The project \texttt{docker-biohadoop} provides two scripts, located in the scripts directory, that can be used to start and stop \texttt{docker-biohadoop} instances. Those scripts need to be executable:
 
 \begin{lstlisting}[language=bash]
 chmod +x scripts/*.sh
@@ -110,4 +168,24 @@ scripts/docker-stop-all.sh
 \end{lstlisting}
 
 \subsection{SSH access}
-The master node is accessible with user root, a password is generated on each startup and printed on the terminal. Consider adding your SSH key to the Dockerfile if you are going to use docker-biohadoop often.
+The master node is accessible with user root, a password is generated on each startup and printed on the master terminal. Consider adding your SSH key to the Dockerfile if you are going to use \texttt{docker-biohadoop} often.
+
+% \section{Biohadoop example workflow.xml}
+% \begin{lstlisting}[label=lst:biooozie, language=XML]
+% <workflow-app xmlns="uri:oozie:workflow:0.2" name="biohadoop-wf">
+%     <start to="biohadoop-node"/>
+%     <action name="biohadoop-node">
+%         <biohadoop xmlns="uri:custom:biohadoop-action:0.1">
+%             <name-node>hdfs://master:54310</name-node>
+%             <config-file>/biohadoop/conf/biohadoop-algorithm-1.json</config-file>
+%             <config-file>/biohadoop/conf/biohadoop-algorithm-2.json</config-file>
+%         </biohadoop>
+%         <ok to="end"/>
+%         <error to="fail"/>
+%     </action>
+%     <kill name="fail">
+%         <message>Biohadoop failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+%     </kill>
+%     <end name="end"/>
+% </workflow-app>
+% \end{lstlisting}

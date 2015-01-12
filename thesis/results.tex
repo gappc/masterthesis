@@ -6,6 +6,17 @@ Two bio-inspired optimization algorithms are used as benchmarks. Both use Biohad
 
 The algorithms are executed on a Hadoop cluster to study the impact on their execution times by varying problem sizes and number of workers. Benchmark details can be found in section \ref{chap:evaluation:benchmarks}. Results are presented in section \ref{chap:evaluation:benchmarks}.
 
+\section{Hardware}
+All experiments were performed on a Hadoop cluster with 6 identical computers. Each machine has the following specifications:
+
+\begin{itemize}
+  \item Intel Core2 Duo CPU E8200 @ \unit[2.66]{GHz} (2$\times$\unit[2.66]{GHz}, no hyperthreading)
+  \item \unit[6]{MB} shared L2 cache, \unit[32]{KB} L1 data cache, \unit[32]{KB} L1 instruction cache
+  \item \unit[4]{GB} (2$\times$\unit[2]{GB}) DDR2 RAM @ \unit[667]{MHz}
+\end{itemize}
+
+The computers are directly connected to the same Switch through a 1Gb (Gigabit) Ethernet network.
+
 \section{Test Problems}
 \label{chap:evaluation:testproblems}
 Both implemented algorithms are part of the GA family. They differ in the number of objectives that they can handle. While NSGA-II is used to solve the MOP in section \ref{chap:evaluation:zdt3}, a simple GA is used to solve the SOP in section \ref{chap:evaluation:tiledmul}.
@@ -46,7 +57,7 @@ for i0 = 1 to n, step blocksize_i
             C(i,j) = C(i,j) + A(i,k) * B(k,j)
 \end{lstlisting}
 
-If the blocks are small enough they fit into the L1 CPU cache which results in a speedup. For example, the average of five consecutive test multiplications for two matrices of size 1024$\times$1024 took 18.245 seconds for the simple matrix multiplication and 2.048 seconds for the tiled multiplication with tile sizes $i=16$, $j=16$ and $k=16$. This numbers show that it is appropriate to use the tiled approach for the matrix multiplication. But the speed of TMM depends heavily on the tile sizes, the same tiled multiplication as above with tile sizes of $i=1$, $j=1$ and $k=1$ took 22.690 seconds to finish, an increase of more than 10 times compared to a good tile size. Because of the number of possible tile size combinations and the time it takes to execute a matrix multiplication (e.g. matrix size=1024, 2 seconds for a matrix multiplication: $1024^3 \times 2 = 2\times{10^9} $ seconds), it is not feasible to do an exhaustive search for the optimal tile sizes.
+If the blocks are small enough they fit into the L1 CPU cache which results in a speedup. For example, the average of ten consecutive test multiplications of two matrices of size 1024$\times$1024 took 11.384 seconds for the simple matrix multiplication and 2.669 seconds for the tiled multiplication with tile sizes $i=32$, $j=32$ and $k=32$, using a single computer of the test system mentioned above. This numbers show that it is appropriate to use the tiled approach for the matrix multiplication. But the speed of TMM depends heavily on the tile sizes, the same tiled multiplication as above with tile sizes of $i=1$, $j=1$ and $k=1$ took 25.683 seconds to finish, an increase of about than 10 times compared to a good tile size. Because of the number of possible tile size combinations and the time it takes to execute a matrix multiplication (e.g. matrix size=1024, 2 seconds for a matrix multiplication: $1024^3 \times 2 = 2\times{10^9} $ seconds), it is not feasible to do an exhaustive search for the optimal tile sizes.
 
 An optimization algorithm can be used to find the (near) optimal tile sizes for the different loops. In this case, the optimization is done using a GA. The implementation uses Biohadoops workers to create and evaluate an offspring. For the offspring creation, Simulated Binary Crossover (SBX) and Parameter based mutation are used. The fitness is computed as the time it takes to multiply two matrices using a given tile size. The selection of the fittest individuals for the next population is performed on the master.
 
@@ -70,16 +81,6 @@ The test problems have also exclusive settings that only apply to them. For ZDT-
 The exclusive setting of TMM is the matrix size. It influences the number of computations that need to be performed for a full matrix multiplication and, therefore, also influences the execution time. In contrast to the first problem, the matrix size has no impact on the amount of data transferred between the master and the workers. The matrices are part of the ``initial data'' (see chapter \ref{chap:impl:worker}) and, hence, transferred exactly once to every worker. The task data consists of two parent individuals that are transferred from the master to the workers to create a new offspring and compute its fitness. The data transferred from a worker to the master contains the offspring and its computed fitness value. Each individual consists of its tile sizes for $i$, $j$ and $k$.
 
 The genome size for different ZDT-3 benchmarks is set to 10, 100, 1000 and 10000. The matrix size for TMM is set to 128$\times$128 and 256$\times$256. The execution time for each setting is measured for a number of workers that range from 1 to 15. Each benchmarks is repeated five times to improve the reliability of the results, making it 300 benchmark runs for ZDT-3 (4 genome sizes $\times$ 15 worker setting $\times$ 5 repetitions) and 150 benchmark runs for TMM (2 tile sizes $\times$ 15 worker settings $\times$ 5 repetitions).
-
-All experiments were performed on a Hadoop cluster with 6 identical computers. Each machine has the following specifications:
-
-\begin{itemize}
-  \item Intel Core2 Duo CPU E8200 @ \unit[2.66]{GHz} (2$\times$\unit[2.66]{GHz}, no hyperthreading)
-  \item \unit[6]{MB} shared L2 cache, \unit[32]{KB} L1 data cache, \unit[32]{KB} L1 instruction cache
-  \item \unit[4]{GB} (2$\times$\unit[2]{GB}) DDR2 RAM @ \unit[667]{MHz}
-\end{itemize}
-
-The computers are directly connected to the same Switch through a 1Gb (Gigabit) Ethernet network.
 
 \section{Results}
 \label{chap:evaluation:result}

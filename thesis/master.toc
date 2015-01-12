@@ -32,15 +32,16 @@
 \contentsline {section}{\numberline {4.5}Configuration}{40}{section.4.5}
 \contentsline {section}{\numberline {4.6}Biooozie}{41}{section.4.6}
 \contentsline {chapter}{\numberline {5}Evaluation}{43}{chapter.5}
-\contentsline {section}{\numberline {5.1}Test Problems}{43}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}ZDT-3}{43}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Tiled Matrix Multiplication}{44}{subsection.5.1.2}
-\contentsline {section}{\numberline {5.2}Benchmarks}{45}{section.5.2}
-\contentsline {section}{\numberline {5.3}Results}{47}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Influence of YARN Container Placement}{48}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}ZDT-3}{48}{subsection.5.3.2}
-\contentsline {subsection}{\numberline {5.3.3}Tiled Matrix Multiplication}{53}{subsection.5.3.3}
-\contentsline {subsection}{\numberline {5.3.4}Speedups}{55}{subsection.5.3.4}
+\contentsline {section}{\numberline {5.1}Hardware}{43}{section.5.1}
+\contentsline {section}{\numberline {5.2}Test Problems}{43}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}ZDT-3}{44}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Tiled Matrix Multiplication}{44}{subsection.5.2.2}
+\contentsline {section}{\numberline {5.3}Benchmarks}{45}{section.5.3}
+\contentsline {section}{\numberline {5.4}Results}{47}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Influence of YARN Container Placement}{47}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}ZDT-3}{49}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Tiled Matrix Multiplication}{53}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}Speedups}{55}{subsection.5.4.4}
 \contentsline {chapter}{\numberline {6}Conclusions}{57}{chapter.6}
 \contentsline {chapter}{Appendices}{58}{section*.5}
 \contentsline {section}{\numberline {A.1}How to Run Biohadoop}{59}{section.A.1}

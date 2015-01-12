@@ -28,9 +28,9 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5.1}{\ignorespaces Optimal Pareto Front for ZDT-3}}{44}{figure.5.1}
 \contentsline {figure}{\numberline {5.2}{\ignorespaces ZDT-3 execution times for a genome size of 10}}{49}{figure.5.2}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces ZDT-3 execution times for a genome size of 100}}{49}{figure.5.3}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces ZDT-3 execution times for a genome size of 100}}{50}{figure.5.3}
 \contentsline {figure}{\numberline {5.4}{\ignorespaces ZDT-3 execution times for a genome size of 1000}}{50}{figure.5.4}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces ZDT-3 execution times for a genome size of 10000}}{50}{figure.5.5}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces ZDT-3 execution times for a genome size of 10000}}{51}{figure.5.5}
 \contentsline {figure}{\numberline {5.6}{\ignorespaces TMM execution times for a matrix size of 128$\times $128}}{54}{figure.5.6}
 \contentsline {figure}{\numberline {5.7}{\ignorespaces TMM execution times for a matrix size of 256$\times $256}}{54}{figure.5.7}
 \contentsline {figure}{\numberline {5.8}{\ignorespaces Speedups for ZDT-3 and TMMs}}{56}{figure.5.8}

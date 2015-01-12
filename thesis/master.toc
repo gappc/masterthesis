@@ -32,7 +32,7 @@
 \contentsline {section}{\numberline {4.5}Configuration}{40}{section.4.5}
 \contentsline {section}{\numberline {4.6}Biooozie}{41}{section.4.6}
 \contentsline {chapter}{\numberline {5}Evaluation}{43}{chapter.5}
-\contentsline {section}{\numberline {5.1}Hardware}{43}{section.5.1}
+\contentsline {section}{\numberline {5.1}Cluster Hardware}{43}{section.5.1}
 \contentsline {section}{\numberline {5.2}Test Problems}{43}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}ZDT-3}{44}{subsection.5.2.1}
 \contentsline {subsection}{\numberline {5.2.2}Tiled Matrix Multiplication}{44}{subsection.5.2.2}

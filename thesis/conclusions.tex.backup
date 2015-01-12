@@ -6,4 +6,10 @@ The results show that Biohadoop has the potential to scale efficiently if the pa
 
 Biohadoop demonstrated during the ZDT-3 benchmark that it is capable of saturating a \unit[1]{Gb} Ethernet network. The achieved data rates peaked at about \unit[900]{Mb/s} which is close to the theoretical limit of the underlying network. However, the achieved data rate depends on the size of exchanged message.
 
-The evaluation results show that Biohadoop is able to both scale up with the number of available computers and to saturate the underlying network. This properties make it suitable for the use by bio-inspired optimization techniques. Further research would be needed to compare the performance of Biohadoop to other Hadoop frameworks like Spark or Storm.
+The evaluation results show that Biohadoop is able to both scale up with the number of available computers and to saturate the underlying network. This properties make it suitable for the use by bio-inspired optimization techniques.
+
+
+- suitable for bio-inspired optimization techniques?
+- suitable for scientific computing?
+- suitable for very large scale computing?
+- split protocol and serialization to make communication more customizable

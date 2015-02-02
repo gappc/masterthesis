@@ -2,14 +2,8 @@
 \label{chap:conclusions}
 This thesis presented Biohadoop, a new framework to build bio-inspired optimization techniques executable on Apache Hadoop. Two different GAs were implemented on top of Biohadoop. Their performance was evaluated on a Hadoop cluster with 6 dual-core computers that were connected to a \unit[1]{Gb} Ethernet network.
 
-The results show that Biohadoop has the potential to scale efficiently if the parallel part of the problem dominates the whole execution time. An example for such a problem is TMM, that scaled up to a factor of 10 for 12 cores. ZDT-3 as the other benchmark exposed a behavior that lead to poor scale factors of about 2 for 12 cores. The problem with this benchmark was that the parallel running parts were very short in terms of computational time. The sequential time and communication overhead dominated the whole runtime.
+The results show that Biohadoop has the potential to scale efficiently if the parallel part of the problem dominates the whole execution time. An example for such a problem is the tiled matrix multiplication, that provided speedups of up to 10 on the used cluster. ZDT-3 as the other benchmark exposed a behavior that lead to poor speedups of about 2. The problem with this benchmark was that the parallel running parts were very short in terms of computational time. The sequential time and communication overhead dominated the whole runtime.
 
-Biohadoop demonstrated during the ZDT-3 benchmark that it is capable of saturating a \unit[1]{Gb} Ethernet network. The achieved data rates peaked at about \unit[900]{Mb/s} which is close to the theoretical limit of the underlying network. However, the achieved data rate depends on the size of exchanged message.
+% Biohadoop demonstrated during the ZDT-3 benchmark that it is capable of saturating a \unit[1]{Gb} Ethernet network. The achieved data rates peaked at about \unit[900]{Mb/s} which is close to the theoretical limit of the underlying network. However, the achieved data rate depends on the size of exchanged message.
 
-The evaluation results show that Biohadoop is able to both scale up with the number of available computers and to saturate the underlying network. This properties make it suitable for the use by bio-inspired optimization techniques.
-
-
-- suitable for bio-inspired optimization techniques?
-- suitable for scientific computing?
-- suitable for very large scale computing?
-- split protocol and serialization to make communication more customizable
+The conclusion is that Biohadoop is able to scale up with the number of available computers. Execution time comparison with standalone, sequential implementations demonstrated the advantages of Biohadoop. This properties make Biohadoop suitable for the implementation of parallelized bio-inspired optimization techniques.

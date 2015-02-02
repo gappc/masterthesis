@@ -1,0 +1,60 @@
+\documentclass{beamer}
+\graphicspath{{../images/}}
+
+\usetheme{Darmstadt}
+
+% overview of themes http://deic.uab.es/~iblanes/beamer_gallery/
+
+%     Antibes
+%     Bergen
+%     Berkeley !!
+%     Berlin
+%     Copenhagen
+%     Darmstadt !!
+%     Dresden
+%     Frankfurt
+%     Goettingen
+%     Hannover !!
+%     Ilmenau
+%     JuanLesPins
+%     Luebeck !!
+%     Madrid
+%     Malmoe !!
+%     Marburg !!
+%     Montpellier
+%     PaloAlto
+%     Pittsburgh !!
+%     Rochester
+%     Singapore
+%     Szeged
+%     Warsaw
+%     boxes
+%     default
+
+\AtBeginSection[]
+{
+\begin{frame}
+  \frametitle{Table of Contents}
+  \tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\begin{document}
+\include{title}
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Table of Contents}
+  \tableofcontents[]
+\end{frame}
+
+\include{introduction}
+\include{bioalgorithms}
+\include{hadoopoozie}
+\include{implementation}
+\include{results}
+\include{conclusion}
+\include{references}
+
+\end{document}

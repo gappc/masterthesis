@@ -113,9 +113,7 @@ Recombination is performed by selecting two or more individuals out of the whole
 
 % Typically, in each iteration, a population of size $n$ generates $n$ child individuals, but there are also other strategies, e.g. a steady state reproduction strategy \cite{durillo2008study}.
 
-At the end of each iteration, the fitness of all individuals (parents and children) is computed and the fittest individuals are selected to form the base population of the next iteration. This process is known as natural selection or survival of the fittest and leads intuitively towards fitter and better results. 
-
-Algorithm \ref{algorithm:ga-pseudo} shows the pseudo code for a GA.
+At the end of each iteration, the fitness of all individuals (parents and children) is computed and the fittest individuals are selected to form the base population of the next iteration. This process is known as natural selection or survival of the fittest and leads intuitively towards fitter and better results. Algorithm \ref{algorithm:ga-pseudo} shows the pseudo code for a GA.
 
 \begin{algorithm}
   \caption{Genetic algorithm}\label{algorithm:ga-pseudo}
@@ -138,9 +136,9 @@ The GA algorithm can be used to solve SOPs and MOPs. In the case of MOPs, the GA
 
 The ranks of the individuals are computed by iteratively finding the non-dominated solutions in the set of not yet ranked individuals, and assigning the current rank to them. The rank starts at 0 and after each iteration it increases by one. The iteration stops after all individuals are ranked.
 
-The crowding distance is used to sort the best individuals of a given rank. This happens when $p$ out of $q$ individuals of a given rank need to be selected (with $q > p$). The crowding distance measures how close neighboring solutions are to a given individual. Higher crowding distances are preferred, since this leads to better diversity in the final solution.
+The crowding distance is used to sort the best individuals of a given rank. This happens when $p$ out of $q$ individuals of a given rank need to be selected (with $p < q$). The crowding distance measures how close neighboring solutions are to a given individual. Higher crowding distances are preferred, since this leads to better diversity in the final solution.
 
-For an example see at figure \ref{fig:rank-crowdingdist}. In figure \ref{fig:rank-crowdingdist}(a) we have a population of three individuals, namely A, B and C. It can immediately be seen that A is non-dominated but dominates B and C. Therefore, if we want to apply the ranking algorithm rank 0 is assigned to A (because A is non-dominated). Then, the rank is increased by one. Now we have two individuals that are not yet ranked: B and C. Those individuals are again non-dominated, because we don't consider A anymore, which is already ranked. The rank of 1 is applied to B and C. After this iteration the ranking algorithm stops, since all individuals have been ranked.
+An example can be found at figure \ref{fig:rank-crowdingdist}. In figure \ref{fig:rank-crowdingdist}(a) we have a population of three individuals, namely A, B and C. It can immediately be seen that A is non-dominated but dominates B and C. Therefore, if we want to apply the ranking algorithm rank 0 is assigned to A (because A is non-dominated). Then, the rank is increased by one. Now we have two individuals that are not yet ranked: B and C. Those individuals are again non-dominated, because we don't consider A anymore, which is already ranked. The rank of 1 is applied to B and C. After this iteration the ranking algorithm stops, since all individuals have been ranked.
 
 Figure \ref{fig:rank-crowdingdist}(b) gives a graphical representation of crowding distance that is used to select the $p$ out of $q$ best solutions for individuals with the same rank.
 

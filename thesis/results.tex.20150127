@@ -1,8 +1,10 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
-Biohadoops purpose is to facilitate the implementation of parallel algorithms on Hadoop. It is expected that the execution time of an algorithm reduces if it is parallelized (assuming the algorithm is suitable for parallelization). That means the speedup increases when computational resources are added. To verify this assumption, two bio-inspired optimization algorithms are parallelized using Biohadoop. Their parallel parts are executed on Biohadoop workers. The execution times of the algorithms are measured on a Hadoop cluster. Then, the speedups are calculated based on those execution times. The speedups demonstrate if the algorithm execution times benefit from the parallelization.
+Biohadoops purpose is to facilitate the implementation of parallel algorithms on Hadoop. It is expected that the execution time of an algorithm reduces if it is parallelized (assuming the algorithm is suitable for parallelization). That means the speedup increases when computational resources are added.
 
-The rest of this chapter is structured as follows: section \ref{chap:evaluation:cluster} provides information about the cluster used for the benchmarks. Section \ref{chap:evaluation:testproblems} describes the benchmarked test problems. The benchmark results are presented in section \ref{chap:evaluation:benchmarks} together with a check for their correctness. Section \ref{chap:evaluation:influence} gives a discussion of the most notable factors that influence the execution time. The speedup calculations can be found in section \ref{chap:evaluation:speedup}. Finally, section \ref{chap:evaluation:comparison} compares the execution times of Biohadoop parallelellized algorithms to their standalone implementations.
+To verify this assumption, two bio-inspired optimization algorithms are parallelized using Biohadoop. Their parallel parts are executed on Biohadoop workers. The execution times of the algorithms are measured on a Hadoop cluster. Then, the speedups are calculated based on those execution times. The speedups demonstrate if the parallelization was successful.
+
+The rest of this chapter is structured as follows: section \ref{chap:evaluation:cluster} provides information about the cluster used for the benchmarks. Section \ref{chap:evaluation:testproblems} describes the benchmarked test problems. The benchmark results are presented in section \ref{chap:evaluation:benchmarks}. The speedups are presented in section \ref{chap:evaluation:speedup}. Section \ref{chap:evaluation:comparison} compares the execution times of parallel to standalone implementations. The standalone implementations run sequentially without Hadoop and Biohadoop. Finally, section \ref{chap:evaluation:correctness} provide information about the correctness of the results produced during the benchmarks.
 
 \section{Cluster Hardware}
 \label{chap:evaluation:cluster}
@@ -19,7 +21,7 @@ The computers are directly connected to the same Switch through a 1Gb (Gigabit) 
 
 \section{Test Problems}
 \label{chap:evaluation:testproblems}
-NSGA-II and a simple GA are the implemented bio-inspired optimization algorithms used for the benchmarks. They can handle different numbers objectives. While NSGA-II is used to solve the MOP in section \ref{chap:evaluation:zdt3}, a simple GA is used to solve the SOP in section \ref{chap:evaluation:tiledmul}.
+NSGA-II (see section \ref{}) and a simple GA (see section. \ref{}) are the implemented bio-inspired optimization algorithms used for the benchmarks. They can handle different numbers objectives. While NSGA-II is used to solve the MOP in section \ref{chap:evaluation:zdt3}, a simple GA is used to solve the SOP in section \ref{chap:evaluation:tiledmul}.
 
 \subsection{ZDT-3}
 \label{chap:evaluation:zdt3}
@@ -59,7 +61,7 @@ for i0 = 1 to n, step blocksize_i
             C(i,j) = C(i,j) + A(i,k) * B(k,j)
 \end{lstlisting}
 
-If the blocks are small enough they fit into the L1 CPU cache which results in a speedup. Tests with a matrix size of 1024$\times$1024 were performed on a single computer of the test cluster to demonstrate the advantages of TMM. Table \ref{table:mm_comparison} shows that suitable tile sizes can reduce the execution times for a tiled matrix multiplication. The results show also that bad tile sizes increase the execution time drastically. Therefore, one needs to find good tile sizes to profit from TMM.
+If the blocks are small enough they fit into the L1 CPU cache which results in a speedup. Tests with a matrix size of 1024$\times$1024 were performed on a single computer of the test cluster (section \ref{chap:evaluation:cluster}) to demonstrate the advantages of TMM. Table \ref{table:mm_comparison} shows that suitable tile sizes can reduce the execution times for a tiled matrix multiplication. The results show also that bad tile sizes increase the execution time drastically. Therefore, one needs to find good tile sizes to profit from TMM.
 
 \begin{table}
   \centering
@@ -95,13 +97,11 @@ Parallel benchmarks are executed with different problem sizes and different numb
 
 \section{Biohadoop Benchmarks}
 \label{chap:evaluation:benchmarks}
-The benchmark results presented in this section show the algorithm execution times (AETs) for the test problems that were parallelized using Biohadoop. It is expected that the AET of a test problem reduces when the number of parallel workers increases.
+The purpose of the benchmarks is to determine if the parallelization of the test problems given in section \ref{chap:evaluation:testproblems} is beneficial. The parallelization is beneficial if the algorithm execution time (AET) reduces with increased numbers of parallel workers. This is reflected by the speedup. It is desirable that the speedup of an algorithm increases when adding resources for its computation. In the case of the benchmarks this means that the speedup should increase with the number of workers.
 
-Before the presentation of the benchmark results, a definition of AET is given for clarification. Then, the benchmark results are presented. Afterwards, the output of the benchmarks, i.e., the optimization results, are checked for correctness.
-
-\subsection{Definition of Algorithm Execution Time}
+\subsection{Definition of Algorithm Execution Time for Biohadoop}
 \label{chap:evaluation:exec-definition}
-The full execution time of an algorithm running on top of Biohadoop is composed of the time Biohadoop needs to start up as a Hadoop application and the time spent in the algorithms \texttt{run} method. The time spent in the algorithms \texttt{run} method is from here on defined as AET. Figure \ref{fig:execution-times} demonstrates this concept.
+Full execution time of an algorithm running on top of Biohadoop is composed of the time Biohadoop needs to start up as a Hadoop application and the AET. Figure \ref{fig:execution-times} demonstrates this concept. The start up begins with the submission of Biohadoop and the algorithm to Hadoop and ends when the algorithms \texttt{run} method is invoked. AET is the time spent in the algorithms \texttt{run} method.
 
 \begin{figure}
   \centering
@@ -112,12 +112,12 @@ The full execution time of an algorithm running on top of Biohadoop is composed 
 
 The distinction between start up time and AET is made because the main part of the start up time is spent between the application submission to Hadoop and the beginning of its execution. It is not possible to predict when an application is executed by Hadoop as it depends on different factors like the available cluster resources. To minimize the impact of this uncertainty, the following benchmark measurements are based on AET, without the application start up time.
 
-In contrast, the definition of AET for a program that doesn't use Biohadoop is given as the execution time of the Java program. This definition applies to the standalone sequential implementations in section \ref{chap:evaluation:comparison}, which have no Hadoop startup time.
+In contrast, AET for a program that doesn't use Biohadoop is straightforward and defined as the execution time of the Java program. This definition applies to the standalone sequential implementations in section \ref{chap:evaluation:comparison}.
 
 \subsection{Benchmark results}
-The results presented in this section reflect the AET for the test problems of section \ref{chap:evaluation:testproblems}. The test problems are parallelized using Biohadoop and its task system. The parallel parts are executed on Biohadoop workers.
+This section presents the benchmark results. A discussion about the two most notable effects observed in the results is given in sections \ref{chap:evaluation:influence-cpu} and \ref{chap:evaluation:influence-yarn}.
 
-The benchmarks are performed with worker sizes ranging from 1 to 15. Each benchmark is repeated five times to improve the reliability of the results. This gives a total of 300 benchmark runs for ZDT-3 (4 genome sizes $\times$ 15 worker setting $\times$ 5 repetitions) and 150 benchmark runs for TMM (2 tile sizes $\times$ 15 worker settings $\times$ 5 repetitions). The AET for the benchmarks are presented in fig. \ref{fig:nsga_250_100_10} to \ref{fig:nsga_250_100_10000} for the ZDT-3 test problem. Fig. \ref{fig:tiledmul_250_100_128x128} and \ref{fig:tiledmul_250_100_256x256} show the results for the TMM benchmarks.
+All benchmarks were performed with worker sizes ranging from 1 to 15. Each benchmark is repeated five times to improve the reliability of the results. This gives a total of 300 benchmark runs for ZDT-3 (4 genome sizes $\times$ 15 worker setting $\times$ 5 repetitions) and 150 benchmark runs for TMM (2 tile sizes $\times$ 15 worker settings $\times$ 5 repetitions). The AET for the benchmarks are presented in fig. \ref{fig:nsga_250_100_10} to \ref{fig:nsga_250_100_10000} for the ZDT-3 test problem. Fig. \ref{fig:tiledmul_250_100_128x128} and \ref{fig:tiledmul_250_100_256x256} show the results for the TMM benchmarks.
 
 \begin{figure}
   \centering
@@ -157,12 +157,13 @@ The benchmarks are performed with worker sizes ranging from 1 to 15. Each benchm
   \label{fig:tiledmul_250_100_256x256}
 \end{figure}
 
-All benchmark results demonstrate reduced AETs when the number of workers is increased. The biggest performance gains can be found when stepping from 1 to 2 workers. Further increases of parallel workers show varying success. ZDT-3 benchmarks with 10 and 100 genomes don't seem to profit from more than 2 workers. The performance for genome sizes of 1000 and 10000 increases in the best case until 8 - 9 workers, although, the performance gains are very small. The TMM benchmarks on the other hand show remarkable AET decreases when the number of workers is increased up to 12 workers.
+% \section{Correctness of the obtained results}
+% \label{chap:evaluation:correctness}
+It is important to check if the results received through optimization are correct. Otherwise, the test problems could execute arbitrary computations and the benchmarks would be meaningless.
 
-At this point a more in-depth discussion of the benchmark results is put back on purpose, it can be found in section \ref{chap:evaluation:influence} and \ref{chap:evaluation:speedup}. The correctness of the optimization results must be verified first, otherwise, the test problems could execute arbitrary computations and the benchmarks would be meaningless.
 
 \subsection{Correctness of ZDT-3 results}
-In the case of ZDT-3 the task was to find an approximation to the optimal Pareto Front (OPF). The computed Pareto Fronts (CPF) are compared to the OPF using the Hypervolume (HV) indicator \cite{zitzler1999multiobjective}. Table \ref{table:hypervolume} gives the results for the indicator, where the HV is computed as the median over all benchmarks for a given genome size. Higher HV values indicate a better CPF.
+In the case of ZDT-3 the task was to find an approximation to the optimal Pareto Front. The computed Pareto Fronts (PF) are compared to the optimal PF using the Hypervolume (HV) indicator \cite{zitzler1999multiobjective}. Table \ref{table:hypervolume} gives the results for the indicator, where the HV is computed as the median over all benchmarks for a given genome size. Higher HV values mean better PF.
 
 \begin{table}
   \centering
@@ -177,7 +178,7 @@ In the case of ZDT-3 the task was to find an approximation to the optimal Pareto
   \label{table:hypervolume}
 \end{table}
 
-One can see that HV decreases with the number of genomes. It is well known that ZDT-3 optimization is harder the larger the genome is. 10 genomes produce the best results with HV = 0.515. Manual comparison of a CPF (randomly chosen from the results with 10 genomes) show high similarities with OPF, as can be seen in fig. \ref{fig:pf-comparison}. It is therefore concluded that the ZDT-3 optimization results are correct.
+One can see, that HV decreases with the number of genomes. This comes at no surprise as it is a well known property of the ZDT-3 benchmark. 10 genomes produce the best results with HV = 0.515. Manual comparison of the computed PF show high similarities with the optimal Pareto Front, as can be seen in fig. \ref{fig:pf-comparison}.
 
 \begin{figure}
   \centering
@@ -187,100 +188,96 @@ One can see that HV decreases with the number of genomes. It is well known that 
 \end{figure}
 
 \subsection{Correctness of TMM results}
-The goal of TMM optimization was to find tile sizes that reduce the computation time for a tiled matrix multiplication. Other than expected, the found tile sizes follow no recognizable pattern. The explanation is that the solution space is shallow which makes most solutions almost equally well suited. The exception are very small tile sizes with values less than 4.
+The goal of TMM optimization was to find tile sizes that reduce the computation time for a tiled matrix multiplication. Other than expected, the tile sizes found follow no recognizable pattern. The explanation is that the solution space is shallow which makes most solutions almost equally well suited. The exception are very small tile sizes with values less than 4.
 
-The TMM optimization results were checked by executing a matrix multiplication with the optimized tile sizes and comparing the results to the execution time of the simple matrix multiplication (SMM). The results were twofold.
+The TMM results were checked by executing a matrix multiplication with the optimized tile sizes and comparing the results to the execution time of the simple matrix multiplication (SMM). The results were twofold.
 
-For 128$\times$128 matrix sizes, SMMs were faster by \unit[10]{\%} to \unit[15]{\%}. The reason is, that the additional nested loops of TMM and the consequent increased overhead is higher than the performance gain. Another reason is that 128$\times$128 matrices are small enough that sufficient parts of it fit into the L1 CPU caches to profit from the fast access rates.
+For 128$\times$128 matrix sizes, SMMs were faster by \unit[10]{\%} to \unit[15]{\%}. The reason for this is, that the additional nested loops of TMM and the consequent increased overhead is higher than the performance gain. Another reason is that 128$\times$128 matrices are small enough that sufficient parts of it fit into the L1 CPU caches and profit from the fast access rates.
 
-In the case of 256$\times$256 benchmarks, all TMM executions were faster compared to the SMM by \unit[20]{\%} to \unit[30]{\%}. Additional experiments with larger matrices show that the performance gap between SMM and TMM increases with the matrix size. For example, 512$\times$512 matrix sizes provided about \unit[50]{\%} better performance for TMM. 1024$\times$1024 matrix sizes have about \unit[400]{\%} better performance. Again, the conclusion is that TMM benchmarks produce correct outputs.
+In the case of 256$\times$256 benchmarks, all TMM executions were faster compared to the SMM by \unit[20]{\%} to \unit[30]{\%}. Additional experiments with larger matrices show that the performance gap between SMM and TMM increases with the matrix size. For example, 512$\times$512 matrix sizes provided about \unit[50]{\%} better performance for TMM. 1024$\times$1024 matrix sizes have about \unit[400]{\%} better performance.
 
-\section{Performance Influencing Factors}
-\label{chap:evaluation:influence}
-Looking at the details of the benchmark results (presented in fig. \ref{fig:nsga_250_100_10} to \ref{fig:tiledmul_250_100_256x256}) two strange behaviours can be observed that need explanation. First, the AET for a benchmark with given setting (e.g. ZDT-3, 100 genomes, one worker) varies by a large amount. This is due to the influence of YARN, discussed in section \ref{chap:evaluation:influence-yarn}. Second, ZDT-3 benchmarks for genome sizes of 10 and 100 experience AET reductions only up to 2 parallel workers, although the cluster provides more resources. The reason for this has been found to be the CPU saturation on Biohadoops master, discussed in section \ref{chap:evaluation:influence-cpu}. Other hard- and software influences on the benchmark results are summarized in section \ref{chap:evaluation:influence-other}. Their impact was not quantified.
+% The benchmark results are mixed. ZDT-3 shows only slight decreases of AET, with uncommon behaviour for genome sizes of 10 and 100. The reason for this behaviour is CPU saturation on the ApplicationMaster.
+% The benchmark results are discussed in the following sections.
 
-It is difficult and a lot of work to find the reasons for performance degradations and strange phenomenas. This is especially true for a distributed environment like Hadoop. Further research could therefore focus on the development of distributed tracing and profiling tools, perhaps adapted to Hadoop. This would greatly simplify performance and bottleneck evaluations. Since Hadoop gains a lot of attraction also in business, it would be a good chance to bridge the gap between science and business.
+\subsection{CPU utilization}
+\label{chap:evaluation:influence-cpu}
+The first interesting result is the uncommon behaviour of ZDT-3 benchmarks with genome sizes of 10 and 100 (see fig. \ref{fig:nsga_250_100_10} and \ref{fig:nsga_250_100_100}). The benchmark results for those test problems show no significant AET reduction (and therefore performance gain) for more than two workers. 
+
+The reason for this odd behaviour is that the CPU running Biohadoops master is fully utilized when two ore more parallel workers are used. Since the master executes the sequential parts of the algorithms and in addition has to communicate with all workers, it is clear that a saturation of the master CPU prevents further performance gains. The same argument applies to ZDT-3 with genome sizes of 1000 and 10000, although in this cases the CPU saturation is only reached with four or more workers.
+
+The high CPU utilization is caused by two effects: the first one is the object serialization/deserialization overhead that ranges between \unit[30]{\%} to \unit[40]{\%} for genome sizes of 10 and goes up to \unit[60]{\%} to \unit[70]{\%} for a genome size of 10000. Small genome sizes mean a high rate of both exchanged messages and serializations/deserializations. Large genome sizes reduce the rate of exchanged messages but increase the amount of work for a single serialization/deserialization.
+
+The second effect is a direct consequence of computationally small worker tasks like in the case of 10 to 100 genomes: the master performs (beside the communication aspects) the algorithms for ranking and crowding distance. The workers return their results fast as the computation is not intense. Therefore, the master has to compute the ranking and crowding distance at short intervals. This results in a CPU utilization of about \unit[25]{\%} to \unit[30]{\%} only for this computations.
+
+TMMs behave very differently. The workers execute compute intense matrix multiplications, communication between the master and its workers occurs seldom. In addition, the amount of data sent between the master and the workers consists only of tile sizes for $i$, $j$ and $k$ (see TMM description in section \ref{chap:evaluation:tiledmul}). The result is an execution pattern that poses high CPU loads onto the worker, the master CPU instead is has less work to do. Message are exchanged on a rarely basis and the size of exchanged messages is small.
+
+In conclusion, the ZDT-3 benchmarks are CPU bound by the master due to the small computational effort on the workers and the resulting fast exchange of many small messages. Increased genome sizes provide better speedup results, but are again limited by the CPU of the master, as they have higher demands for object serialization/deserialization. TMM in contrast has more favorable properties: compute intense fitness evaluations on the workers and small message sizes. Those properties result in significantly decreased AETs and better parallel performance.
 
 \subsection{Influence of YARN}
 \label{chap:evaluation:influence-yarn}
-An interesting benchmark result is that the AETs for a given benchmark and setting vary by a large degree, e.g., ZDT-3 with 100 genomes and one worker. YARNs container placement and startup time was identified as the source of this variations.
+The second interesting benchmark result is that the AETs for a given benchmark and setting vary by a large degree, e.g., NSGA-II with 100 genomes and one worker. YARNs container placement and startup time was identified as the source of this variations.
 
 The container placement of YARN has a big impact on AET. It defines on which machine a YARN container is allocated. If a worker container is executed on the same machine as the master container, they communicate without using the physical network. This effect brings a huge performance gain, as can be seen for example in figure \ref{fig:nsga_250_100_100}. In the single worker benchmarks, 4 out of 5 benchmarks executed with both the master and worker container running on the same machine. The result was a \unit[50]{\%} better performance (\unit[9.761]{s} average) compared to the fifth benchmark (\unit[14.164]{s}) where the master and worker were executed on different machines. Potential research projects could focus on a Hadoop scheduler that tries to put a YARN ApplicationMaster and its containers on the same machine to reliably produce similar results.
 
 The number of worker containers running on the same machine as the master can also have a negative effect on AET. This is especially true if the master is already at the limit of the machines resources and must share them with the workers. An example for this can be found in figure \ref{fig:nsga_250_100_10} for 8 workers. Two worker containers were executed on the same machine as the master during 2 out of 5 benchmarks. The execution time results were \unit[87.977]{s} and \unit[88.014]{s}. In the remaining 3 benchmarks, only one worker container was executed on the same machine as the master, leaving more resources to the master. This results in execution times of \unit[68.423]{s} on average, a difference of more than \unit[20]{\%}.
 
-Beside container placement, YARN influences AET through the container startup delay. Biohadoop can not use all of its configured workers until they are started by YARN (this is true for all YARN applications that use additional containers). An example of this phenomena can be found in the ZDT-3 benchmarks with settings of 10 genomes and a single worker. In all five benchmarks for this setting, the master and worker container executed on different computers. Therefore, the results are comparable regarding the container placements. Nevertheless, the execution times vary from \unit[10.690]{s} to \unit[12.560]{s}, a difference of about \unit[15]{\%} due to delayed container allocations.
-
-\subsection{CPU utilization}
-\label{chap:evaluation:influence-cpu}
-The results for ZDT-3 benchmarks with genome sizes of 10 and 100 show no significant AET reductions for more than two workers (see fig. \ref{fig:nsga_250_100_10} and \ref{fig:nsga_250_100_100}). The reason for this odd behaviour is that the CPU running Biohadoops master is fully utilized when two ore more parallel workers are used.
-
-This was established by measuring the CPU usage of the master during the execution of the benchmarks using Javas \texttt{OperatingSystemMXBean}\footnote{\url{http://docs.oracle.com/javase/7/docs/jre/api/management/extension/com/sun/management/OperatingSystemMXBean.html} last access: 27.01.2015}. The measurement was performed at an interval of \unit[1]{s}. Figure \ref{fig:cpu_10_100} shows the example CPU loads for ZDT-3 with 10 and 100 genomes executing with 3 workers.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=90mm,natwidth=640,natheight=384]{cpu_10_100.png}
-  \caption[CPU usage for ZDT-3, 10 and 100 genomes, 3 workers]{CPU usage for ZDT-3, 10 and 100 genomes, 3 workers - 250 iterations}
-  \label{fig:cpu_10_100}
-\end{figure}
-
-It is arguable that the AET of ZDT-3 with 10 and 100 genomes is to short to get correct informations about the CPU usage. Therefore, the ZDT-3 benchmarks for 3 workers with 10 and 100 genomes were performed for 1000 iterations (original benchmarks iterate only 250 times). The results can be seen in fig. \ref{fig:cpu_10_100-1000-iter}. They confirm the CPU saturation for ZDT-3 with 10 and 100 genomes and three and more workers.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=90mm,natwidth=640,natheight=384]{cpu_10_100-1000-iter.png}
-  \caption[CPU usage for ZDT-3, 10 and 100 genomes, 3 workers]{CPU usage for ZDT-3, 10 and 100 genomes, 3 workers - 1000 iterations}
-  \label{fig:cpu_10_100-1000-iter}
-\end{figure}
-
-Since the master executes the sequential parts of the algorithms and in addition has to communicate with all workers, it is clear that a saturation of the master CPU prevents further performance gains. The problem worsens when additional YARN containers run on the computer that executes the master.
-
-% The high CPU utilization is caused by two effects. The first one is the object serialization/deserialization and communication overhead performed on the master that ranges from about \unit[30]{\%} to \unit[50]{\%} for genome sizes of 10 and 100. This numbers were established by profiling Biohadoops master with the honest-profiler\footnote{\url{https://github.com/RichardWarburton/honest-profiler} last access: 27.01.2015}. The profile results were used to generate a flame graph 
-% 
-% goes up to \unit[60]{\%} to \unit[70]{\%} for a genome size of 10000. Small genome sizes mean a high rate of both exchanged messages and serializations/deserializations. Large genome sizes reduce the rate of exchanged messages but increase the amount of work for a single serialization/deserialization.
-% 
-% The second effect is a direct consequence of computationally small worker tasks like in the case of 10 to 100 genomes: the master performs (beside the communication aspects) the algorithms for ranking and crowding distance. The workers return their results fast as the computation is not intense. Therefore, the master has to compute the ranking and crowding distance at short intervals. This results in a CPU utilization of about \unit[25]{\%} to \unit[30]{\%} only for this computations.
-% 
-% TMMs behave very differently. The workers execute compute intense matrix multiplications, communication between the master and its workers occurs seldom. In addition, the amount of data sent between the master and the workers consists only of tile sizes for $i$, $j$ and $k$ (see TMM description in section \ref{chap:evaluation:tiledmul}). The result is an execution pattern that poses high CPU loads onto the worker, the master CPU instead is has less work to do. Message are exchanged on a rarely basis and the size of exchanged messages is small.
-% 
-% In conclusion, the ZDT-3 benchmarks are CPU bound by the master due to the small computational effort on the workers and the resulting fast exchange of many small messages. Increased genome sizes provide better speedup results, but are again limited by the CPU of the master, as they have higher demands for object serialization/deserialization. TMM in contrast has more favorable properties: compute intense fitness evaluations on the workers and small message sizes. Those properties result in significantly decreased AETs and better parallel performance.
+Beside container placement, YARN influences AET through the container startup delay. Biohadoop can not use all of its configured workers, until they are started by YARN. An example for this phenomena can be found in the NSGA-II benchmarks with settings of 10 genomes and a single worker. In all five benchmarks for this setting, the master and worker container executed on different computers. Therefore, the results are comparable regarding the container placements. Nevertheless, the execution times vary from \unit[10.690]{s} to \unit[12.560]{s}, a difference of about \unit[15]{\%}.
 
 \subsection{Other influences}
 \label{chap:evaluation:influence-other}
-YARN and the CPU had the biggest effects on the benchmark results. In the following, other possible influencing factors are summarized. Their impact on the benchmark results is not quantified, as their correct evaluation is not trivial but very work intensive. As already mentioned, further research projects could develop tools to simplify this process.
+The CPU and YARN had the biggest effect on the benchmark results, but they are not the only observed factors. In the following, a short overview of other minor influences is given. Their impact is usually not quantified, as their correct evaluation is labor-intensive and would have changed the focus of the master thesis.
 
 \begin{description}
-  \item [Network]: The network influences the benchmark results, as the master and its workers exchange messages through it. This influence is apparent in cases where YARN places its containers on the same computer, which can result in greatly reduced AETs. Nevertheless, the network influence is consistent: throughput and latency don't change over the time on the used test cluster.
-  \item [RAM]: All benchmarks start with \unit[256]{MB} of Java heap memory which is enough for the containers to execute without causing excessive garbage collections. This was established by using the tool jvisualvm\footnote{\url{http://visualvm.java.net/} last access: 26.01.2015} (delivered with Java) for the ZDT-3 benchmark with 10000 genomes and the TMM with a matrix size of 256$\times$256. The memory usage for the master container is at about \unit[100]{MB} to \unit[150]{MB}. The memory usage for a worker is even lower and lies in the range of \unit[5]{MB} to \unit[30]{MB}. The conclusion is, that enough RAM was available during the benchmarks. To few RAM would have had significant impact on the performance.
-  \item [CPU caches]: The CPU caches show their biggest influence during the TMM benchmarks. The workers execute matrix multiplications using provided tile sizes. If the tiles are small enough they fit into the L1 CPU cache which is the fastest memory available to a processor. Increased performance is the result. If the tiles don't fit into L1 cache, they need to be retrieved from L2 cache or even worse from main memory, which introduces latencies. Since TMM executes matrix multiplications to evaluate the fitness of an individual, the tile sizes affect the fitness evaluation of a single individual, and the whole runtime of the benchmark.
-  \item [Java Java Just in Time Compiler (JIT)]: JIT\footnote{\url{http://en.wikipedia.org/wiki/Just-in-time_compilation} last access: 26.01.2015} compiles Java byte code into machine executable code that can be executed faster. During the benchmarks, JIT was set to optimize code parts that are executed more than 10000 times (this is the standard setting for the used Java Server runtime\footnote{\url{http://en.wikipedia.org/wiki/HotSpot} last access: 26.01.2015}). Small benchmarks, like ZDT-3 with 10 genomes, hit this threshold later in their execution. Therefore, the share of executed un-optimized code is larger compared to large benchmarks, e.g., ZDT-3 with 10000 genomes. This problem worsens with increasing numbers of workers.
-  \item [Operating system (OS)]: The OS provides the basis for application execution. It provides also the interfaces for hardware usage, e.g. network communication. Therefore, it has large influence on executed applications. Using the right drivers and OS settings, e.g., for buffers, influence the performance of running applications significantly.
-  \item [Building blocks]: Biohadoop uses Netty and Kryo for the communication between the master and its workers. Those libraries can be configured in many different ways. Again, the right configuration can provide performance increases or degradations.
+  \item [Network]: The network influences the benchmark results, as the master and its workers exchange messages through it. This influence is apparent in cases where YARN places its containers on the same computer, which can result in greatly reduced AETs (a more in-depth discussion about this topic is given in section \ref{chap:evaluation:influence-yarn}). Nevertheless, the network influence is consistent: throughput and latency don't change over the time for the used cluster.
+  
+%   Something that needs to be considered is the amount of data transmitted between the master and the workers. If the amount is to big for a given AET, the network would become a bottleneck. Calculations show that the data can be transmitted between the master and its workers during the fastest AET. The computation of the data amount is carried out based on the following example: for ZDT-3, each individual consists of its genome, where each value in the genome is of type \texttt{double} (8 bytes). For a genome size of 10, this makes 2 (parents) $\times$ 10 (genomes) $\times$ 8 (bytes) $\times$ 25000 (tasks) = 4000000 bytes (\unit[4]{MB}) or \unit[32]{Mb} of data that needs to be transferred from the master to the workers during the benchmark.
+%   
+%   The calculation results can be found in table \ref{table:network}. The theoretical calculations were confirmed through manual observations of the network traffic.
+  \item [RAM]: All benchmarks start with \unit[256]{MB} of Java heap memory, which is enough for the containers to execute without causing excessive garbage collections. This was established by using the tool jvisualvm\footnote{\url{http://visualvm.java.net/} last access: 26.01.2015} (delivered with Java) for the ZDT-3 benchmark with 10000 genomes and the TMM with a matrix size of 256x256. The memory usage for the master container is at about \unit[100]{MB} to \unit[150]{MB}. The activity of Java's garbage collector at the master takes about \unit[5]{\%} of the CPU time. This value would be significantly higher in case of a memory problem. The memory usage for a worker is even lower and lies in the range of \unit[5]{MB} to \unit[30]{MB}. This numbers show no significant memory problems. Therefore, it can be concluded that the RAM has only small impact on the benchmarks. This could be different for other benchmarks.
+  \item [CPU caches]: The CPU caches show their biggest influence during the TMM benchmarks. The workers execute matrix multiplications using provided tile sizes. If the tiles are small enough they fit into the L1 CPU cache which is the fastest memory available to a processor. Increased performance is the result. If the tiles don't fit into L1 cache, they need to be retrieved from L2 cache or even worse from main memory, which introduces latencies. Since TMM executes matrix multiplications to evaluate the fitness of an individual, the tile sizes affect a) the fitness evaluation of a single individual, and b) the whole runtime of the benchmark.
+  
+  For example, lets suppose two TMM benchmark runs with the same settings. The first benchmark finds optimal tile sizes from the beginning on, the second benchmark isn't able to find good tile sizes at all. Therefore, the first benchmark executes faster than the second one. The benchmarks produce different AETs and therefore different speedup results. This is one reason why lower and upper boundaries are established for the speedup computations in section \ref{chap:evaluation:speedup}.
+  \item [Java Java Just in Time Compiler (JIT)]: JIT\footnote{\url{http://en.wikipedia.org/wiki/Just-in-time_compilation} last access: 26.01.2015} compiles Java byte code into machine executable code that can be executed faster. This results in increased performance.
+  
+  In the carried out benchmarks JIT was set to optimize code parts that are executed more than 10000 times (this is the standard setting for the used Java Server runtime\footnote{\url{http://en.wikipedia.org/wiki/HotSpot} last access: 26.01.2015}). Small benchmarks, like ZDT-3 with 10 genomes, hit this threshold later in their execution. Therefore, the share of executed un-optimized code is larger compared to large benchmarks, e.g., ZDT-3 with 10000 genomes. This problem worsens with increasing numbers of workers.
 \end{description}
 
-\section{Speedup}
-\label{chap:evaluation:speedup}
-Speedup is a metric that tells how many times a parallel version of an algorithm (or system) runs faster compared to the sequential version. In the following, the maximum achievable speedups and the experimental speedup, i.e., the speedup achieved in the benchmarks, are presented in section \ref{chap:evaluation:max_speedup} and \ref{chap:evaluation:exp_speedup}, respectively.
+% \begin{table}
+%   \centering
+%   \begin{tabular}{r|r|r|r}
+%     genomes & data [Mb] & \parbox[t]{3cm}{theoretical\\transfer time [s]} & \parbox[t]{3cm}{fastest algorithm\\execution time [s]}\\ \hline
+%     10 & 32 & 0.032 & 7.072 \\
+%     100 & 320 & 0.32 & 7.031 \\
+%     1000 & 3200 & 3.2 & 8.910 \\
+%     10000 & 32000 & 32 & 55.475 \\
+%   \end{tabular}
+%   \caption{Amount of network data sent from master to workers, theoretical transfer time and fastest algorithm execution}
+%   \label{table:network}
+% \end{table}
+
+% \section{Speedup}
+% \label{chap:evaluation:speedup}
+% Speedup is a metric that tells how many times a parallel version of an algorithm (or system) runs faster compared to the sequential version. In the following, the maximum achievable speedups and the experimental speedup are presented in section \ref{chap:evaluation:max_speedup} and \ref{chap:evaluation:exp_speedup}, respectively.
 
 \subsection{Maximum achievable Speedup}
 \label{chap:evaluation:max_speedup}
-The max. achievable speedup ($S_{max}$) for a given problem is the best-case result achievable through parallelization. It is computed using Amdahl's law \cite{amdahl1967validity}:
+The max. achievable speedup $S_{max}$ for a given problem is the best-case result achievable through parallelization. It is computed using Amdahl's law \cite{amdahl1967validity}:
 
 \begin{equation}
 S_{max} = T / (T - t_p)
 \end{equation}
 
-In this formula, $T$ is the sequential execution time of an algorithm. During this sequential execution it is also measured how much time is spent in code parts that could be executed in parallel. This amount of time is defined as $t_p$.
+In this formula, $T$ is the sequential execution time of an algorithm. During this sequential execution it is in addition measured how much time is spent in code parts that can be executed in parallel. This amount of time is defined as $t_p$.
 
-The values for $T$ and $t_p$ are taken from the benchmark executions with a single worker. Since the measured AET for a given benchmark and one worker differs largely (e.g. ZDT-3 with 100 genomes), lower and upper max. achievable speedup boundaries are computed. The lower bound is computed using the worst sequential-to-parallel execution time ratio of a sequential benchmark run. The upper bound reflects the best sequential-to-parallel ratio. This proceeding gives more details over the achievable speedups.
+The values for $T$ and $t_p$ are taken from the benchmark executions with a single worker. Since the measured AET for a given benchmark and one worker differs largely (e.g. ZDT-3 with 100 genomes), lower and upper max. achievable speedups boundaries are computed. The lower bound is computed using the worst sequential-to-parallel execution time ratio of a single benchmark run. The upper bound reflects the best sequential-to-parallel ratio. This proceeding gives more details over the achievable speedups.
 
-Table \ref{table:achievable_speedups} presents the lower and upper bounds for the max. achievable speedups based on the benchmark results. The calculations show that ZDT-3 is generally not well suited for parallelization. In the best case with 1000 workers its performance can be increased by a factor of about 20 (upper bound). In the worst case with 10 genomes the performance can be increased by a factor of 5 (lower bound). The reason for the small achievable speedups is the bad sequential-to-parallel execution time ratio. ZDT-3 as fitness function is barely compute intense. As the fitness function is usually (but not in this case) the most compute intense part of an optimization, this leads to the mentioned bad sequential-to-parallel execution time ratio.
+Table \ref{table:achievable_speedups} presents the lower and upper bounds for the max. achievable speedups, based on the benchmark results. The achievable speedup computations show that ZDT-3 is generally not well suited for parallelization. In the best case with 1000 workers its performance can be increased by a factor of about 20 (upper bound). In the worst case with 10 genomes the performance can be increased by a factor of 5 (lower bound). The reason for the small achievable speedups is the bad sequential-to-parallel execution time ratio. ZDT-3 as fitness function is barely compute intense. As the fitness function is usually (but not in this case) the most compute intense part of an optimization, this leads to the mentioned bad sequential-to-parallel execution time ratio.
 
 \begin{table}
   \centering
   \caption{Lower and upper bounds for max. achievable speedups}
   \begin{tabular}{lrrrr}\toprule[2pt]
-    Test Problem & \parbox[r]{3.5cm}{Lower Achievable Speedup Boundary}& \parbox[r]{3.5cm}{Upper Achievable Speedup Boundary}\\ \midrule
+    Test Problem & Min. Achievable Speedup & Max. Achievable Speedup \\ \midrule
     NSGA-II, 10 genomes & 4.816 & 11.046 \\
     NSGA-II, 100 genomes & 5.228 & 9.398 \\
     NSGA-II, 1000 genomes & 9.438 & 20.275 \\
@@ -318,11 +315,9 @@ Fig. \ref{fig:speedup_min} shows the lower speedup bounds for all benchmarks, fi
   \label{fig:speedup_max}
 \end{figure}
 
-In contrast, the TMM results show good speedup behaviours. The benchmarks with a matrix size of 128$\times$128 demonstrate almost linear performance increases, which tend to be super-linear for the upper bound speedups. Super-linear speedups are usually suspicious. In this case they can be explained by the way the boundaries of the experimental speedups are computed. Nevertheless, also the lower bounds for TMM benchmarks with a matrix size of 128$\times$128 show almost linear increases. All speedups of all TMM benchmarks reach their maximum when 10 to 12 workers are used. This observation matches with the fact, that the whole cluster provides 12 cores.
+In contrast, the TMM results show good speedup behaviours. The benchmarks with a matrix size of 128x128 demonstrate almost linear performance increases, which tend to be super-linear for the upper bound speedups. Super-linear speedups are usually suspicious. In this case they can be explained by the way the boundaries of the experimental speedups are computed. Nevertheless, also the lower bounds for TMM benchmarks with a matrix size of 128x128 show almost linear increases. All speedups of all TMM benchmarks reach their maximum when 10 to 12 workers are used. This observation matches with the fact, that the whole cluster provides 12 cores.
 
-The reason for the worse speedup of 256$\times$256 TMM compared to the 128$\times$128 version lies in the bigger solution space of 256$\times$256 TMM. It is more likely to find bad performing tile sizes for bigger matrices. The L1 cache sizes are limited and to big tile sizes affect the performance negatively.
-
-The conclusion of the speedup results is that the optimization of the ZDT-3 function is not well suited for Biohadoop --- at least for the used implementation. More advanced implementations may influence the sequential-to-parallel ratio and achieve better results. TMM on the other side provide good speedups and decrease the AET by a large amount. The parallelized search for optimal tile sizes using Biohadoop is favorable.
+The conclusion of the speedup results is that ZDT-3 benchmarks are not well suited for the parallelization --- at least for the used implementation. More advanced implementations may influence the sequential-to-parallel ratio and achieve better results. TMM on the other side provide good speedups and decrease the AET by a large amount. The parallelization of TMM using Biohadoop and the execution on Hadoop is favorable.
 
 
 % \subsection{Network Influence}
@@ -358,9 +353,9 @@ The conclusion of the speedup results is that the optimization of the ZDT-3 func
 
 \section{Comparison to Standalone Implementations}
 \label{chap:evaluation:comparison}
-Standalone, sequential benchmarks ($SB$) of the test problems in section \ref{chap:evaluation:testproblems} are executed to determine if the algorithm parallelization using Biohadoop is advantageous. $SB$ are written in Java and executed on a single cluster machine. They use the same algorithm implementations and settings as the parallel versions, but run without Biohadoop and its task system. This entails that they perform no network communication at all.
+Sequential benchmarks ($SB$) of the test problems in section \ref{chap:evaluation:testproblems} are executed to determine if the algorithm parallelization using Biohadoop is advantageous. $SB$ are written in Java and executed on a single cluster machine. They use the same algorithm implementations and settings as the parallel versions, but run without Biohadoop and its task system. This entails that they perform no network communication at all.
 
-Table \ref{table:sequential-runtimes} shows the fastest standalone sequential execution times ($T_S$), together with the fastest execution times achieved with parallel implementations ($T_P$). It provides also information about the speedup gained through parallelization. This speedup is computed the same way as in section \ref{chap:evaluation:exp_speedup}. The speedup is abbreviated with letter $G$ (gain) for better distinction to the previous results:
+Table \ref{table:sequential-runtimes} shows the the fastest sequential execution times ($T_S$), together with the fastest execution times achieved with parallel implementations ($T_P$). It provides also information about the performance gained through parallelization. The gain $G$ is computed as
 
 \begin{equation}
 G = T_S / T_P 

@@ -87,7 +87,7 @@ Indentation Mode=normal
 Mode=LaTeX
 
 [document-settings,item:results.tex]
-Bookmarks=
+Bookmarks=496
 Encoding=UTF-8
 Highlighting=LaTeX
 Indentation Mode=normal
@@ -102,10 +102,10 @@ Mode=LaTeX
 
 [item:abstract.tex]
 archive=true
-column=400
+column=119
 encoding=UTF-8
 highlight=LaTeX
-line=4
+line=2
 mode=LaTeX
 open=false
 order=4
@@ -122,27 +122,27 @@ order=1
 
 [item:biblio.bib]
 archive=true
-column=33
+column=0
 encoding=UTF-8
 highlight=BibTeX
-line=127
+line=119
 mode=BibTeX
 open=false
 order=2
 
 [item:bioalgorithms.tex]
 archive=true
-column=72
+column=9
 encoding=UTF-8
 highlight=LaTeX
-line=96
+line=0
 mode=LaTeX
 open=false
 order=3
 
 [item:conclusions.tex]
 archive=true
-column=144
+column=276
 encoding=UTF-8
 highlight=LaTeX
 line=6
@@ -162,30 +162,30 @@ order=1
 
 [item:hadoopoozie.tex]
 archive=true
-column=37
+column=15
 encoding=UTF-8
 highlight=LaTeX
-line=92
+line=0
 mode=LaTeX
 open=false
 order=3
 
 [item:implementation.tex]
 archive=true
-column=11
+column=18
 encoding=UTF-8
 highlight=LaTeX
-line=283
+line=0
 mode=LaTeX
 open=false
 order=2
 
 [item:introduction.tex]
 archive=true
-column=38
+column=132
 encoding=UTF-8
 highlight=LaTeX
-line=3
+line=20
 mode=LaTeX
 open=false
 order=2
@@ -202,22 +202,22 @@ order=-1
 
 [item:master.tex]
 archive=true
-column=8
+column=29
 encoding=UTF-8
 highlight=LaTeX
-line=66
+line=44
 mode=LaTeX
 open=false
 order=0
 
 [item:results.tex]
 archive=true
-column=501
+column=539
 encoding=UTF-8
 highlight=LaTeX
-line=179
+line=2
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [item:usage.tex]
@@ -231,10 +231,10 @@ open=false
 order=3
 
 [view-settings,view=0,item:abstract.tex]
-CursorColumn=400
-CursorLine=4
+CursorColumn=119
+CursorLine=2
 JumpList=
-ViMarks=.,2,428,[,3,0,],-1,-1
+ViMarks=.,2,118,[,2,106,],2,118
 
 [view-settings,view=0,item:appendix.tex]
 CursorColumn=1
@@ -243,22 +243,22 @@ JumpList=
 ViMarks=.,117,29,[,117,29,],117,29
 
 [view-settings,view=0,item:biblio.bib]
-CursorColumn=33
-CursorLine=127
+CursorColumn=0
+CursorLine=119
 JumpList=
-ViMarks=.,134,1,[,127,0,],-1,-1
+ViMarks=.,144,1,[,144,1,],144,1
 
 [view-settings,view=0,item:bioalgorithms.tex]
-CursorColumn=72
-CursorLine=96
+CursorColumn=9
+CursorLine=0
 JumpList=
-ViMarks=.,96,71,[,96,66,],96,71,a,11,0
+ViMarks=.,140,22,[,140,11,],140,22,a,11,0
 
 [view-settings,view=0,item:conclusions.tex]
-CursorColumn=144
+CursorColumn=276
 CursorLine=6
 JumpList=
-ViMarks=.,0,0,[,0,0,],8,352
+ViMarks=.,6,145,[,6,133,],6,145
 
 [view-settings,view=0,item:dpsmthesis.cls]
 CursorColumn=19
@@ -267,34 +267,34 @@ JumpList=
 ViMarks=.,187,0,[,187,0,],187,1
 
 [view-settings,view=0,item:hadoopoozie.tex]
-CursorColumn=37
-CursorLine=92
+CursorColumn=15
+CursorLine=0
 JumpList=
-ViMarks=.,92,11,[,92,11,],92,36
+ViMarks=.,33,343,[,33,343,],33,343
 
 [view-settings,view=0,item:implementation.tex]
-CursorColumn=11
-CursorLine=283
+CursorColumn=18
+CursorLine=0
 JumpList=
-ViMarks=.,283,11,[,283,11,],283,11
+ViMarks=.,177,226,[,177,226,],177,226
 
 [view-settings,view=0,item:introduction.tex]
-CursorColumn=38
-CursorLine=3
+CursorColumn=132
+CursorLine=20
 JumpList=
-ViMarks=.,6,454,[,6,454,],6,503
+ViMarks=.,20,131,[,20,122,],20,131
 
 [view-settings,view=0,item:master.tex]
-CursorColumn=8
-CursorLine=66
+CursorColumn=29
+CursorLine=44
 JumpList=
-ViMarks=.,66,0,[,66,0,],66,0
+ViMarks=.,60,0,[,60,0,],60,0
 
 [view-settings,view=0,item:results.tex]
-CursorColumn=501
-CursorLine=179
+CursorColumn=539
+CursorLine=2
 JumpList=
-ViMarks=.,179,944,[,179,944,],179,944
+ViMarks=.,385,283,[,385,283,],385,283,a,496,0
 
 [view-settings,view=0,item:usage.tex]
 CursorColumn=13

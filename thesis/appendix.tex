@@ -60,10 +60,10 @@ When running Biohadoop in a Hadoop environment, all workers are started in their
 
 \section{Pre-build Hadoop Environment using Docker}
 \label{chap:appendix:biohadoop-docker}
-This section provides a method to run a pre-configured Hadoop environment using Docker. Docker uses its so called Dockerfiles for its configuration. The solution presented here installs Apache Hadoop 2.5.0, Apache Oozie 4.0.1 and Apache ZooKeeper 3.4.6 as a cluster environment.
+This section provides a method to run a pre-configured Hadoop environment using Docker. Docker uses its so called Dockerfiles for its configuration. The solution presented here installs Apache Hadoop 2.5.0 and Apache ZooKeeper 3.4.6 as a cluster environment.
 
 \subsection{Build the Hadoop Environment}
-The following commands are used to clone the repository to the current local directory and to build the Docker image. Be aware that during the cloning process about \unit[400]{MB} of data is transferred. This is due to Oozie, which is delivered in a pre-compiled form.
+The following commands are used to clone the repository to the current local directory and to build the Docker image. Be aware that during the cloning process about \unit[400]{MB} of data is transferred.
 \begin{lstlisting}[language=bash]
 git clone https://github.com/gappc/docker-biohadoop.git
 cd docker-biohadoop

@@ -24,7 +24,6 @@ Biohadoop is written to run as a YARN application and supports features that are
   \item Asynchronous communication between master and workers using Biohadoops task system (section \ref{chap:impl:task-system}). YARN doesn't provide a default communication facility between its containers.
   \item Storage and load of arbitrary data sets to and from a file system (section \ref{chap:impl:persistence}).
   \item Support for the island model, a high level parallelization that can be used to improve the optimization performance of bio-inspired optimization techniques by exchanging results between multiple instances of an algorithm (section \ref{chap:impl:island-model}).
-  \item Support for Apache Oozie through a custom action (section \ref{chap:impl:oozie}). This custom action can be used to schedule one or many Biohadoop instances. It also allows the usage of Biohadoop in a larger workflow.
 \end{itemize}
 
 Every YARN application needs a client that submits the application to YARN. The YARN client in Biohadoop is implemented in the class \texttt{BiohadoopClient}. It is the main entrance point to run Biohadoop in a Hadoop environment and responsible to start the ApplicationMaster under the control of Hadoop.
@@ -38,7 +37,7 @@ Figure \ref{fig:architecture} shows how Biohadoops architecture maps to the arch
 \begin{figure}
   \centering
   \includegraphics[width=80mm,natwidth=1534,natheight=2076]{architecture.png}
-  \caption[Mapping of Biohadoops architecture to the architecture of a typical YARN application]{Mapping of Biohadoops architecture to the architecture of a typical YARN application}
+  \caption[Mapping of Biohadoops architecture to YARN]{Mapping of Biohadoops architecture to the architecture of a typical YARN application}
   \label{fig:architecture}
 \end{figure}
 
@@ -63,11 +62,7 @@ Biohadoop is capable of running several algorithms at the same time in a single 
 
 But Biohadoop doesn't restrict the usage of the island model to algorithms that run in the same JVM. Algorithms that register to ZooKeeper\footnote{\url{https://zookeeper.apache.org/} last access: 05.09.2014} find each other also across the boundaries of different Biohadoop instances. The registration and data exchange is hidden behind Biohadoops island model API (see section \ref{chap:impl:island-model}). The execution of algorithms in different Biohadoop instances can lead to higher scalability, since each instance gets its own resources. However, it entails the aforementioned problem that YARN doesn't guarantee the order of execution, so a compromise has to be made.
 
-Biooozie (section \ref{chap:impl:oozie}) implements a custom action for Apache Oozie and is used to run Biohadoop as part of a larger workflow. As an example, a workflow imports data from a set of sensors into HDFS, performs a MapReduce task on this data to extract the relevant information and executes Biohadoop to find a solution for a given problem.
-% The action schedules a single Biohadoop instance or several instances in parallel, depending on its configuration.
-
-In the following sections of this chapter Biohadoop is described in more detail, starting with the notion of Algorithm in section \ref{chap:impl:algorithm}. Section \ref{chap:impl:task-system} presents the task system and its components, followed by the description of the communication mechanisms in section \ref{chap:impl:communication}. The extensions section \ref{chap:impl:extensions} provides information about Biohadoops support for persistence and the island model. Section \ref{chap:impl:configuration} explains how to configure Biohadoop. Finally, Biooozie is presented in the section \ref{chap:impl:oozie}.
-% Information on how to use Biohadoop can be found in chapter \ref{chap:usage}.
+In the following sections of this chapter Biohadoop is described in more detail, starting with the notion of Algorithm in section \ref{chap:impl:algorithm}. Section \ref{chap:impl:task-system} presents the task system and its components, followed by the description of the communication mechanisms in section \ref{chap:impl:communication}. The extensions section \ref{chap:impl:extensions} provides information about Biohadoops support for persistence and the island model. Section \ref{chap:impl:configuration} explains how to configure Biohadoop.
 
 \section{Algorithm}
 \label{chap:impl:algorithm}
@@ -273,22 +268,3 @@ The configuration file itself consists of the following four top-level objects:
 \end{description}
 
 Although possible, it is not always convenient to write a configuration by hand. Biohadoop provides two builder classes to simplify the generation of configuration files. The builder in \texttt{BiohadoopConfiguration} offers methods to configure the top level elements of a configuration file. Algorithm configuration is simplified by the builder in \texttt{AlgorithmConfiguration}. The result of this algorithm configuration can then be handed over to the \texttt{BiohadoopConfiguration} builder.
-
-\section{Biooozie}
-\label{chap:impl:oozie}
-Biooozie implements a custom action for Apache Oozie (see section \ref{chap:hadoop:oozie}) that schedules one or several instances of Biohadoop. The action can be part of a workflow of arbitrary size. The outcome of the custom action is ``ok'' if no error happened during the execution of the action. This is also true for the case that several Biohadoop instances are defined in one action. If any Biohadoop instance fails, the outcome of the action is ``error''.
-
-A short example workflow with three stages copies data sets to a HDFS file system, on which some MapReduce action is performed that produces new data sets. Those data sets in turn are the basis for a GA computation, performed by Biohadoop (see figure \ref{fig:biooozie}).
-
-\begin{figure}
-  \centering
-  \includegraphics[width=100mm,natwidth=1330,natheight=566]{biooozie.png}
-  \caption[Oozie workflow, including Biooozie action]{Example Oozie workflow, including Biooozie action}
-  \label{fig:biooozie}
-\end{figure}
-
-The action is configured in an Oozie workflow as an XML element named \texttt{biohadoop}. It contains one \texttt{name-node} element that defines the URL of the HDFS NameNode, and one or several \texttt{config-file} elements. Each \texttt{config-file} element represents a Biohadoop instance that starts with the given configuration file. This way it is possible to schedule several Biohadoop instances in parallel, using a single action. The parallel instances are for example useful for running an island model.
-
-The term ``schedule'' is used here on purpose, because Hadoop doesn't guarantee that the instances also run in parallel, this depends on the available Hadoop resources, i.e., on the available YARN containers. It is for example possible that a custom action schedules three instances of Biohadoop, but due to a lack of Hadoop resources, the instances run sequentially.
-
-Biohadoop could also be invoked using Oozies \texttt{java} action, the advantage of Biooozie is that its tailored to Biohadoop and there is no need to provide all the parameters that a simple \texttt{java} action needs. 

@@ -74,24 +74,3 @@ YARN runs applications simultaneously, as long as there are enough cluster resou
   \caption[Occupation of a Hadoop cluster for two applications]{Occupation of a Hadoop cluster for two applications. The NameNode (HDFS) and ResourceManager (YARN) run on the master node. DataNodes (HDFS) and NodeManagers (YARN) run on the slave nodes and communicate with the corresponding services on the master node. The applications, including the ApplicationMasters (AM container), run on the slave nodes inside containers.}
   \label{fig:hadoop-app}
 \end{figure}
-
-\section{Oozie}
-\label{chap:hadoop:oozie}
-Apache Oozie is a workflow tool, that runs on Hadoop. The workflow jobs are Directed Acyclic Graphs (DAGs) of actions, written in XML.\footnote{\url{https://www.w3.org/TR/xml/} last access: 09.01.2015} Oozie uses an internal scheduler to make decisions about the submitted workflows and their progress, the action execution is delegated to Hadoop.
-
-Each Oozie action has two possible outcomes: ``ok'' if the action completed successfully, and ``error'' in the case of an error. The action outcome influences the next transition in the DAG. 
-
-An Oozie workflow consists of two types of nodes, the control flow nodes and the action nodes. Control flow nodes define the sequence of actions in a workflow (start, end, failure, decision, fork, join). Action nodes are used to execute a program or computation.
-
-Oozie provides a number of default actions, like the Java action, that can be used to start a YARN application. Other actions include MapReduce actions, HDFS file system actions (move, delete and mkdir), Email, etc. Oozie allows also to implement new custom actions, that expose different behaviors. In the course of this work a custom action was implemented to invoke Biohadoop from Oozie. More details about this custom action and its configuration can be found in chapter \ref{chap:impl:oozie}.
-
-Figure \ref{fig:oozie-example} shows a workflow example. It is started at the control flow node labeled ``Start'' followed by  the ``FS action''. The transition to the next step is depending on the result of this action. Actions ``Failed'' and ``Fork'' are invoked in case of an error or success, respectively. The ``Fork'' action starts two Java actions in parallel. Actions performed inside a ``Fork'' action have a special error semantic. If an error occurs in any of the parallel actions inside a fork node, all parallel actions are considered as failed. If no error happened, the ``Join'' node waits for two (or possibly more) parallel actions to finish. Then, a ``Decision'' action is invoked, that transitions to the ``MapReduce'' action if the needed conditions are given. If the whole workflow has no errors it terminates at the ``End'' node.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=100mm,natwidth=631,natheight=512]{oozie-example.png}
-  \caption[Oozie workflow transitions]{Oozie workflow transitions. If any action returns with an error, the workflow transitions to the final state ``Failed'', else the workflow advances according to the defined sequence.}
-  \label{fig:oozie-example}
-\end{figure}
-
-It can be difficult and error prone to manually write a workflow XML. Graphical tools like Hue \footnote{\url{https://gethue.com/category/oozie/} last access: 26.12.2014} can simplify this process.

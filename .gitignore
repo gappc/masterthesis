@@ -1,0 +1,13 @@
+*.aux
+*.backup
+*.bbl
+*.blg
+*.dvi
+*.glo
+*.lof
+*.log
+*.lol
+*.lot
+*.out
+*.synctex.gz
+*.toc

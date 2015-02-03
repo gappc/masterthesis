@@ -63,7 +63,7 @@ When running Biohadoop in a Hadoop environment, all workers are started in their
 This section provides a method to run a pre-configured Hadoop environment using Docker. Docker uses its so called Dockerfiles for its configuration. The solution presented here installs Apache Hadoop 2.5.0, Apache Oozie 4.0.1 and Apache ZooKeeper 3.4.6 as a cluster environment.
 
 \subsection{Build the Hadoop Environment}
-The following commands are used to clone the repository to the current local directory and to build the Docker image. Be aware that during the cloning process about 400MB of data is transferred. This is due to Oozie, which is delivered in a precompiled form.
+The following commands are used to clone the repository to the current local directory and to build the Docker image. Be aware that during the cloning process about \unit[400]{MB} of data is transferred. This is due to Oozie, which is delivered in a pre-compiled form.
 \begin{lstlisting}[language=bash]
 git clone https://github.com/gappc/docker-biohadoop.git
 cd docker-biohadoop
@@ -76,7 +76,7 @@ The project \texttt{docker-biohadoop} provides two scripts, located in the scrip
 chmod +x scripts/*.sh
 \end{lstlisting}
 
-\subsection{Run Hadoop}
+\subsection{Running Hadoop}
 After that we are able to start Hadoop instances by using the first script: \texttt{docker-run-hadoop.sh}. This script starts a number of Hadoop instances. It takes the number of slaves (nr-of-slaves) as argument. The script starts one Docker container as Hadoop master and additional nr-of-slaves Docker containers as Hadoop slaves. For example, one Hadoop master instance and two slaves are started by the following command:
 
 \begin{lstlisting}[language=bash]

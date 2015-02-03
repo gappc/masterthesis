@@ -31,7 +31,7 @@ HDFS is the distributed, scalable and reliable file system of Hadoop, written in
 
 The files in HDFS are stored in blocks of a configurable maximum size (default 128MB). Reliability arises from the replication of blocks to other available DataNodes. The decision where to store data replicas is made by the NameNode, the exchange of replicas is performed directly between the DataNodes. The number of replicas is configurable and has a default value of 3, which means that each block is stored three times in HDFS. If a node goes down, for example because of a hardware failure, HDFS automatically replicates this node's data blocks to other nodes by using the remaining copies, such that the replication factor is satisfied again. Files that are bigger than the maximum block size are split into several smaller blocks. The resulting blocks are handled as described above.
 
-The restriction of a single NameNode instance makes the NameNode effectively a single point of failure, but there exist solutions for high availability that make use of a Quorum Journal manager\footnote{\url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html} last access: 12.11.2014} or NFS.\footnote{\url{http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithNFS.html} last access: 12.11.2014}
+The restriction of a single NameNode instance makes the NameNode effectively a single point of failure, but there exist solutions for high availability that make use of a Quorum Journal manager\footnote{\url{https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html} last access: 12.11.2014} or NFS.\footnote{\url{https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithNFS.html} last access: 12.11.2014}
 
 Figure \ref{fig:hadoop-hdfs} shows how HDFS organizes the data. Here, each file is replicated twice (replication factor of 2). Note how HDFS tries to store block replicas on different nodes. For the sake of simplicity, all files in this example are smaller than the HDFS maximum block size, thus fitting in a single block.
 
@@ -48,7 +48,7 @@ HDFS provides rack awareness, which allows applications to consider the physical
 \label{chap:hadoop:yarn}
 YARN is the resource manager of Hadoop. It schedules and satisfies resource requests of applications. It also monitors running applications. Resources are granted in form of resource containers, that consist of CPU, RAM, storage etc.
 
-The functionality of YARN is provided by one ResourceManager and several NodeManagers (similar to HDFS). This architecture offers the needed scalability. Like in HDFS, the ResourceManager is a single point of failure, but solutions for high availability do also exist here in the form of standby ResourceManagers.\footnote{\url{http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/ResourceManagerHA.html} last access: 13.11.2014}
+The functionality of YARN is provided by one ResourceManager and several NodeManagers (similar to HDFS). This architecture offers the needed scalability. Like in HDFS, the ResourceManager is a single point of failure, but solutions for high availability do also exist here in the form of standby ResourceManagers.\footnote{\url{https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/ResourceManagerHA.html} last access: 13.11.2014}
 
 The ResourceManager has two components, the Scheduler and the ApplicationsManager. The Scheduler allocates resources for running applications but performs no monitoring of running applications. This is the job of the ApplicationsManager. The ApplicationsManager is responsible for accepting new application submissions, negotiating the first container of an application and monitoring of running applications. The monitoring aspect allows the ApplicationsManager to automatically restart failed applications.
 
@@ -77,7 +77,7 @@ YARN runs applications simultaneously, as long as there are enough cluster resou
 
 \section{Oozie}
 \label{chap:hadoop:oozie}
-Apache Oozie is a workflow tool, that runs on Hadoop. The workflow jobs are Directed Acyclic Graphs (DAGs) of actions, written in XML.\footnote{\url{http://www.w3.org/TR/xml/} last access: 09.01.2015} Oozie uses an internal scheduler to make decisions about the submitted workflows and their progress, the action execution is delegated to Hadoop.
+Apache Oozie is a workflow tool, that runs on Hadoop. The workflow jobs are Directed Acyclic Graphs (DAGs) of actions, written in XML.\footnote{\url{https://www.w3.org/TR/xml/} last access: 09.01.2015} Oozie uses an internal scheduler to make decisions about the submitted workflows and their progress, the action execution is delegated to Hadoop.
 
 Each Oozie action has two possible outcomes: ``ok'' if the action completed successfully, and ``error'' in the case of an error. The action outcome influences the next transition in the DAG. 
 
@@ -94,4 +94,4 @@ Figure \ref{fig:oozie-example} shows a workflow example. It is started at the co
   \label{fig:oozie-example}
 \end{figure}
 
-It can be difficult and error prone to manually write a workflow XML. Graphical tools like Hue \footnote{\url{http://gethue.com/category/oozie/} last access: 26.12.2014} can simplify this process.
+It can be difficult and error prone to manually write a workflow XML. Graphical tools like Hue \footnote{\url{https://gethue.com/category/oozie/} last access: 26.12.2014} can simplify this process.

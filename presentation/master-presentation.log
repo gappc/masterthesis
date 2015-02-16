@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.22)  30 JAN 2015 18:21
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.22)  3 FEB 2015 18:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -979,23 +979,20 @@ LaTeX Font Warning: Size substitutions with differences
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 60.
  ) 
 Here is how much of TeX's memory you used:
- 15899 strings out of 494976
- 295927 string characters out of 6179137
- 383683 words of memory out of 5000000
- 18631 multiletter control sequences out of 15000+600000
+ 15896 strings out of 494976
+ 295899 string characters out of 6179137
+ 383028 words of memory out of 5000000
+ 18629 multiletter control sequences out of 15000+600000
  5452 words of font info for 20 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  49i,20n,67p,435b,744s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Navigation26} has been referenced but does not ex
-ist, replaced by a fixed one
-
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
-Output written on master-presentation.pdf (25 pages, 110586 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
+Output written on master-presentation.pdf (25 pages, 109527 bytes).
 PDF statistics:
- 1461 PDF objects out of 1728 (max. 8388607)
- 1379 compressed objects within 14 object streams
- 68 named destinations out of 1000 (max. 500000)
+ 1434 PDF objects out of 1440 (max. 8388607)
+ 1353 compressed objects within 14 object streams
+ 67 named destinations out of 1000 (max. 500000)
  223 words of extra memory for PDF output out of 10000 (max. 10000000)
 

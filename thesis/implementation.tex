@@ -156,7 +156,7 @@ For most applications embedded workers are just fine. There are, however, some g
 
 \begin{itemize}
   \item External worker don't necessarily depend on the Hadoop ecosystem, they may run wherever they want, as long as they are able to communicate to at least one endpoint. It is possible to develop external workers that run in completely different environments, for example on mobile phones.
-  \item There is no restriction on the programming language for an external worker, as long as it knows how to talk to an endpoint. For example it is possible to implement a worker in JavaScript \footnote{\url{https://github.com/gappc/bioworker-browser} last access: 07.01.2015} or Python.\footnote{\url{https://github.com/gappc/bioworker-python} last access: 07.01.2015} In contrast, embedded workers have to be written in Java.
+  \item There is no restriction on the programming language for an external worker, as long as it knows how to talk to an endpoint. For example it is possible to implement a worker in JavaScript\footnote{\url{https://github.com/gappc/bioworker-browser} last access: 07.01.2015} or Python. \footnote{\url{https://github.com/gappc/bioworker-python} last access: 07.01.2015} In contrast, embedded workers have to be written in Java.
   \item There is no limit to the number of external workers that may run. On the other side, the number of embedded workers is limited by the Hadoop environment on which Biohadoop runs.
 \end{itemize}
 

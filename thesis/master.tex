@@ -14,6 +14,14 @@
 \usepackage{units}
 \usepackage{booktabs}
 
+\pagestyle{scrheadings}
+\ifoot[]{}
+\ofoot[]{}
+\cfoot[]{}
+\refoot[\pagemark]{\pagemark}
+\rofoot[\pagemark]{\pagemark}
+
+
 % \usepackage{refcheck}
 
 % \setlength{\parskip}{2em}
@@ -52,6 +60,9 @@
 \maketitle
 
 \abstract{\input{abstract}}
+
+\include{acknowledgements}
+
 
 \tableofcontents
 

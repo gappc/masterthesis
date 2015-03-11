@@ -8,6 +8,9 @@
 *.log
 *.lol
 *.lot
+*.nav
 *.out
+*.snm
 *.synctex.gz
 *.toc
+*.vrb

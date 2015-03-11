@@ -1,4 +1,10 @@
 \documentclass{beamer}
+\usepackage{units}
+\usepackage{booktabs}
+\usepackage{xcolor,colortbl}
+\usepackage{listing}
+\usepackage{listings}
+
 \graphicspath{{../images/}}
 
 \usetheme{Darmstadt}
@@ -31,6 +37,8 @@
 %     boxes
 %     default
 
+\definecolor{Gray}{gray}{0.9}
+
 \AtBeginSection[]
 {
 \begin{frame}
@@ -50,11 +58,12 @@
 \end{frame}
 
 \include{introduction}
-\include{bioalgorithms}
-\include{hadoopoozie}
+% \include{bioalgorithms}
+% \include{hadoopoozie}
 \include{implementation}
 \include{results}
 \include{conclusion}
 \include{references}
+\include{appendix}
 
 \end{document}

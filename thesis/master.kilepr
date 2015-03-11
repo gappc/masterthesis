@@ -129,30 +129,30 @@ order=-1
 
 [item:appendix.tex]
 archive=true
-column=225
+column=33
 encoding=UTF-8
 highlight=LaTeX
-line=117
+line=22
 mode=LaTeX
 open=false
 order=1
 
 [item:biblio.bib]
 archive=true
-column=21
+column=18
 encoding=UTF-8
 highlight=BibTeX
-line=26
+line=61
 mode=BibTeX
 open=false
 order=2
 
 [item:bioalgorithms.tex]
 archive=true
-column=0
+column=87
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=10
 mode=LaTeX
 open=false
 order=3
@@ -169,10 +169,10 @@ order=0
 
 [item:dpsmthesis.cls]
 archive=true
-column=35
+column=24
 encoding=UTF-8
 highlight=LaTeX
-line=25
+line=31
 mode=LaTeX
 open=false
 order=1
@@ -194,7 +194,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=164
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [item:introduction.tex]
@@ -219,20 +219,20 @@ order=-1
 
 [item:master.tex]
 archive=true
-column=0
+column=51
 encoding=UTF-8
 highlight=LaTeX
-line=25
+line=44
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [item:results.tex]
 archive=true
-column=604
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=240
+line=255
 mode=LaTeX
 open=false
 order=0
@@ -260,20 +260,20 @@ JumpList=
 ViMarks=.,1,80,[,1,80,],1,80
 
 [view-settings,view=0,item:appendix.tex]
-CursorColumn=225
-CursorLine=117
+CursorColumn=33
+CursorLine=22
 JumpList=
 ViMarks=.,65,203,[,65,203,],65,203
 
 [view-settings,view=0,item:biblio.bib]
-CursorColumn=21
-CursorLine=26
+CursorColumn=18
+CursorLine=61
 JumpList=
 ViMarks=.,35,1,[,35,1,],35,1
 
 [view-settings,view=0,item:bioalgorithms.tex]
-CursorColumn=0
-CursorLine=0
+CursorColumn=87
+CursorLine=10
 JumpList=
 ViMarks=.,140,22,[,140,11,],140,22,a,11,0
 
@@ -284,8 +284,8 @@ JumpList=
 ViMarks=.,8,636,[,8,636,],8,636
 
 [view-settings,view=0,item:dpsmthesis.cls]
-CursorColumn=35
-CursorLine=25
+CursorColumn=24
+CursorLine=31
 JumpList=
 ViMarks=.,13,0,[,13,0,],13,0
 
@@ -308,14 +308,14 @@ JumpList=
 ViMarks=.,19,704,[,19,704,],19,704
 
 [view-settings,view=0,item:master.tex]
-CursorColumn=0
-CursorLine=25
+CursorColumn=51
+CursorLine=44
 JumpList=
-ViMarks=.,16,0,[,16,0,],16,1
+ViMarks=.,21,0,[,16,0,],22,0
 
 [view-settings,view=0,item:results.tex]
-CursorColumn=604
-CursorLine=240
+CursorColumn=0
+CursorLine=255
 JumpList=
 ViMarks=.,240,604,[,240,604,],240,604,a,341,150
 
